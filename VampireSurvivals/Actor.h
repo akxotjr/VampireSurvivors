@@ -1,5 +1,7 @@
 #pragma once
 
+class Component;
+
 class Actor
 {
 public:
@@ -23,6 +25,6 @@ protected:
 	Vec2 _destPos = { 0, 0 };
 	LAYER_TYPE _layer = LAYER_OBJECT;
 	
-
+	vector<Component*> _components;
 };
 
