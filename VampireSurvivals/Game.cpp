@@ -3,6 +3,7 @@
 #include "TimeManager.h"
 #include "InputManager.h"
 #include "SceneManager.h"
+#include "ResourceManager.h"
 
 Game::Game()
 {
@@ -28,8 +29,8 @@ void Game::Init(HWND hwnd)
 	TimeManager::GetInstance()->Init();
 	InputManager::GetInstance()->Init(hwnd);
 	SceneManager::GetInstance()->Init();
-
-	//GET_SINGLE(ResourceManager)->Init(hwnd, fs::path(L"C:\\Users\\Rookiss\\Desktop\\GameCoding\\Resources"));
+//C:\Users\UserK\Desktop\Project_VampireSurvivors\VampireSurvivors\Resources
+	ResourceManager::GetInstance()->Init(hwnd, fs::path(L"C:\\Users\\UserK\\Desktop\\Project_VampireSurvivors\\VampireSurvivors\\Resources"));
 
 	SceneManager::GetInstance()->ChangeScene(SceneType::DevScene);
 }

@@ -4,7 +4,7 @@
 #include "pch.h"
 #include "Game.h"
 #include "framework.h"
-#include "VampireSurvivals.h"
+#include "VampireSurvivors.h"
 
 #define MAX_LOADSTRING 100
 
