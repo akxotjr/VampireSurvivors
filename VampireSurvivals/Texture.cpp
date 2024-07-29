@@ -47,14 +47,14 @@ Texture* Texture::LoadPng(HWND hwnd, const wstring& path)
         return nullptr;
     }
 
-    Color color(255, 255, 255); // Optional: Background color for transparency
+    Color color(255, 0, 255); // Optional: Background color for transparency
 
-    if (_gdiBitmap->GetHBITMAP(color, &_bitmap) != Ok) {
-        delete _gdiBitmap;
-        ::MessageBox(hwnd, L"Failed to get HBITMAP from Bitmap", L"Error", NULL);
-       // GdiplusShutdown(gdiplusToken);
-        return nullptr;
-    }
+    //if (_gdiBitmap->GetHBITMAP(color, &_bitmap) != Ok) {
+    //    delete _gdiBitmap;
+    //    ::MessageBox(hwnd, L"Failed to get HBITMAP from Bitmap", L"Error", NULL);
+    //   // GdiplusShutdown(gdiplusToken);
+    //    return nullptr;
+    //}
 
     _size.x = _gdiBitmap->GetWidth();
     _size.y = _gdiBitmap->GetHeight();
@@ -63,3 +63,17 @@ Texture* Texture::LoadPng(HWND hwnd, const wstring& path)
     //delete bitmap;
 	return this;
 }
+
+void Texture::RotateBitmap(Vec2 t)
+{
+    _gdiRotateBitmap = new Bitmap(_size.x, _size.y, _gdiBitmap->GetPixelFormat());
+
+    Graphics graphics(_gdiRotateBitmap);
+    graphics.ScaleTransform(t.x, t.y);
+    graphics.TranslateTransform((float)_size.x, 0); 
+
+    graphics.DrawImage(_gdiBitmap, 0, 0, _size.x, _size.y);
+}
+
+
+

@@ -11,21 +11,9 @@
 Player::Player()
 {
 	_flipbookIdle = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierIdle");
-	//_flipbookIdle[DIR_UP] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierIdle");
-	//_flipbookIdle[DIR_DOWN] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierIdle");
-	//_flipbookIdle[DIR_LEFT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierIdle");
-	//_flipbookIdle[DIR_RIGHT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierIdle");
-
-	_flipbookMove[DIR_UP] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierMove");
-	_flipbookMove[DIR_DOWN] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierMove");
-	_flipbookMove[DIR_LEFT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierMove");
-	_flipbookMove[DIR_RIGHT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierMove");
-
-	_flipbookAttack[DIR_UP] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierAttack");
-	_flipbookAttack[DIR_DOWN] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierAttack");
-	_flipbookAttack[DIR_LEFT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierAttack");
-	_flipbookAttack[DIR_RIGHT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierAttack");
-
+	_flipbookMove = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierMove");
+	_flipbookAttack = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierAttack");
+	
 	CameraComponent* camera = new CameraComponent();
 	AddComponent(camera);
 }
@@ -55,7 +43,8 @@ void Player::Update()
 	case PlayerState::Move:
 		UpdateMove();
 		break;
-	case PlayerState::Skill:
+	case PlayerState::Attack:
+		UpdateAttack();
 		break;
 	}
 }
@@ -63,7 +52,6 @@ void Player::Update()
 void Player::Render(HDC hdc)
 {
 	Super::Render(hdc);
-
 }
 
 void Player::UpdateAnimation()
@@ -71,17 +59,16 @@ void Player::UpdateAnimation()
 	switch (_state)
 	{
 	case PlayerState::Idle:
-		//if (_keyPressed)
-		//	SetFlipbook(_flipbookMove[_dir]);
-		//else
-		//	SetFlipbook(_flipbookIdle[_dir]);
-		SetFlipbook(_flipbookIdle);
+		if (_keyPressed)
+			SetFlipbook(_flipbookMove);
+		else
+			SetFlipbook(_flipbookIdle);
 		break;
 	case PlayerState::Move:
-		SetFlipbook(_flipbookMove[_dir]);
+		SetFlipbook(_flipbookMove);
 		break;
-	case PlayerState::Skill:
-		SetFlipbook(_flipbookAttack[_dir]);
+	case PlayerState::Attack:
+		SetFlipbook(_flipbookAttack);
 		break;
 	}
 }
@@ -90,58 +77,47 @@ void Player::UpdateIdle()
 {
 	//float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
 
-	//_keyPressed = true;
-	//Vec2Int deltaXY[4] = { {0, -1}, {0, 1}, {-1, 0}, {1, 0} };
+	_keyPressed = true;
+	Vec2Int deltaXY[4] = { {0, -1}, {0, 1}, {-1, 0}, {1, 0} };
 
-	//if (InputManager::GetInstance()->GetButton(KeyType::W))
-	//{
-	//	SetDir(DIR_UP);
+	if (InputManager::GetInstance()->GetButton(KeyType::W))
+	{
+		SetDir(DIR_UP);
 
-	//	//Vec2Int nextPos = _cellPos + deltaXY[_dir];
-	//	//if (CanGo(nextPos))
-	//	//{
-	//	//	//SetCellPos(nextPos);
-	//	//	SetState(PlayerState::Move);
-	//	//}
-	//}
-	//else  if (InputManager::GetInstance()->GetButton(KeyType::S))
-	//{
-	//	SetDir(DIR_DOWN);
-
-	//	//Vec2Int nextPos = _cellPos + deltaXY[_dir];
-	//	//if (CanGo(nextPos))
-	//	//{
-	//	//	//SetCellPos(nextPos);
-	//	//	SetState(PlayerState::Move);
-	//	//}
-	//}
-	//else if (InputManager::GetInstance()->GetButton(KeyType::A))
-	//{
-	//	SetDir(DIR_LEFT);
-	//	//Vec2Int nextPos = _cellPos + deltaXY[_dir];
-	//	//if (CanGo(nextPos))
-	//	//{
-	//	//	//SetCellPos(nextPos);
-	//	//	SetState(PlayerState::Move);
-	//	//}
-	//}
-	//else if (InputManager::GetInstance()->GetButton(KeyType::D))
-	//{
-	//	SetDir(DIR_RIGHT);
-	//	//Vec2Int nextPos = _cellPos + deltaXY[_dir];
-	//	//if (CanGo(nextPos))
-	//	//{
-	//	//	//SetCellPos(nextPos);
-	//	//	SetState(PlayerState::Move);
-	//	//}
-	//}
-	//else
-	//{
-	//	_keyPressed = false;
-	//	if (_state == PlayerState::Idle)
-	//		UpdateAnimation();
-	//}
-	UpdateAnimation();
+		Vec2Int nextPos = _cellPos + deltaXY[_dir];
+		//if (CanGo(nextPos))
+		//{
+		//	//SetCellPos(nextPos);
+		//	SetState(PlayerState::Move);
+		//}
+		SetState(PlayerState::Move);
+	}
+	else  if (InputManager::GetInstance()->GetButton(KeyType::S))
+	{
+		SetDir(DIR_DOWN);
+		SetState(PlayerState::Move);
+	}
+	else if (InputManager::GetInstance()->GetButton(KeyType::A))
+	{
+		SetDir(DIR_LEFT);
+		SetState(PlayerState::Move);
+	}
+	else if (InputManager::GetInstance()->GetButton(KeyType::D))
+	{
+		SetDir(DIR_RIGHT);
+		SetState(PlayerState::Move);
+	}
+	else if (InputManager::GetInstance()->GetButton(KeyType::Q))
+	{
+		SetDir(_dir);
+		SetState(PlayerState::Attack);
+	}
+	else
+	{
+		_keyPressed = false;
+		if (_state == PlayerState::Idle)
+			UpdateAnimation();
+	}
 }
 
 void Player::UpdateMove()
@@ -171,6 +147,11 @@ void Player::UpdateMove()
 			break;
 		}
 	}
+}
+
+void Player::UpdateAttack()
+{
+	UpdateAnimation();
 }
 
 //void Player::SetCellPos(Vec2Int cellPos, bool teleport)

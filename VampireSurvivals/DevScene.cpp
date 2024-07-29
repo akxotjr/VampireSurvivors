@@ -17,25 +17,27 @@ DevScene::~DevScene()
 
 void DevScene::Init()
 {
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierIdle", L"Soldier\\PlayerDown.bmp");
-	//ResourceManager::GetInstance()->LoadTexture(L"SoldierMove", L"Soldier\\Soldier-Walk.png");
-	//ResourceManager::GetInstance()->LoadTexture(L"SoldierAttack", L"Soldier\\Soldier-Attack03.png");
-	//ResourceManager::GetInstance()->LoadTexture(L"P")
+	// Load Soldier Texture
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierIdle", L"Soldier\\Soldier-Idle.png");
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierMove", L"Soldier\\Soldier-Walk.png");
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierAttack", L"Soldier\\Soldier-Attack03.png");
+
+	// Create Soldier Flipbook
 	{
 		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierIdle");
 		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierIdle");
 		fb->SetInfo({ texture, L"FB_SoldierIdle", {100, 100}, 0, 5, 0, 0.5f });
 	}
-	//{
-	//	Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierMove");
-	//	Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierMove");
-	//	fb->SetInfo({ texture, L"FB_SoldierMove", {100, 100}, 0, 6, 0, 0.5f });
-	//}
-	//{
-	//	Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierAttack");
-	//	Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierAttack");
-	//	fb->SetInfo({ texture, L"FB_SoldierAttack", {100, 100}, 0, 8, 0, 0.5f });
-	//}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierMove");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierMove");
+		fb->SetInfo({ texture, L"FB_SoldierMove", {100, 100}, 0, 6, 0, 0.5f, true, true });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierAttack");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierAttack");
+		fb->SetInfo({ texture, L"FB_SoldierAttack", {100, 100}, 0, 8, 0, 0.5f, true, true });
+	}
 
 	{
 		Player* player = new Player();
@@ -56,32 +58,32 @@ void DevScene::Render(HDC hdc)
 
 }
 
-bool DevScene::CanGo(Vec2Int cellpos)
-{
-	return true;
-}
-
-Vec2 DevScene::ConvertPos(Vec2Int cellPos)
-{
-	Vec2 ret = {};
-
-	//if (_tilemapActor == nullptr)
-	//	return ret;
-
-	//Tilemap* tm = _tilemapActor->GetTilemap();
-	//if (tm == nullptr)
-	//	return ret;
-
-	//int32 size = tm->GetTileSize();
-	//Vec2 pos = _tilemapActor->GetPos();
-	// 
-	//int32 size = 16;
-	//ret.x = pos.x + cellPos.x * size + (size / 2);
-	//ret.y = pos.y + cellPos.y * size + (size / 2);
-
-
-	//ret.x = cellPos.x * size + (size / 2);
-	//ret.y = cellPos.y * size + (size / 2);
-
-	return ret;
-}
+//bool DevScene::CanGo(Vec2Int cellpos)
+//{
+//	return true;
+//}
+//
+//Vec2 DevScene::ConvertPos(Vec2Int cellPos)
+//{
+//	Vec2 ret = {};
+//
+//	//if (_tilemapActor == nullptr)
+//	//	return ret;
+//
+//	//Tilemap* tm = _tilemapActor->GetTilemap();
+//	//if (tm == nullptr)
+//	//	return ret;
+//
+//	//int32 size = tm->GetTileSize();
+//	//Vec2 pos = _tilemapActor->GetPos();
+//	// 
+//	//int32 size = 16;
+//	//ret.x = pos.x + cellPos.x * size + (size / 2);
+//	//ret.y = pos.y + cellPos.y * size + (size / 2);
+//
+//
+//	//ret.x = cellPos.x * size + (size / 2);
+//	//ret.y = cellPos.y * size + (size / 2);
+//
+//	return ret;
+//}

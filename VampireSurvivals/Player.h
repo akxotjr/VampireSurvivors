@@ -7,7 +7,7 @@ enum class PlayerState
 {
 	Idle,
 	Move,
-	Skill
+	Attack
 };
 
 class Player : public FlipbookActor
@@ -37,6 +37,7 @@ public:
 
 	void UpdateIdle();
 	void UpdateMove();
+	void UpdateAttack();
 
 	//void SetCellPos(Vec2Int cellPos, bool teleport = false);
 	//bool HasReachedDest();
@@ -50,8 +51,7 @@ private:
 	Vec2Int		_cellPos = {};
 
 	Flipbook*	_flipbookIdle = nullptr;
-	//Flipbook*	_flipbookIdle[4] = {};
-	Flipbook*	_flipbookMove[4] = {};
-	Flipbook*	_flipbookAttack[4] = {};
+	Flipbook*	_flipbookMove = nullptr;
+	Flipbook*	_flipbookAttack = nullptr;
 };
 

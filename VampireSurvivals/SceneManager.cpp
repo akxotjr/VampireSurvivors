@@ -30,19 +30,21 @@ void SceneManager::ChangeScene(SceneType sceneType)
 {
 	if (_sceneType == sceneType) return;
 
-	unique_ptr<Scene> newScene = nullptr;
+	//unique_ptr<Scene> newScene = nullptr;
+	Scene* newScene = nullptr;
 
 	switch (sceneType)
 	{
 	case SceneType::DevScene:
-		newScene = make_unique<DevScene>();
+		//newScene = make_unique<DevScene>();
+		newScene = new DevScene();
 		break;
 		//case SceneType::EditScene:
 		//	newScene = new EditScene();
 		//	break;
 	}
 
-	_scene = ::move(newScene);
+	_scene = newScene;
 	_sceneType = sceneType;
 
 	_scene->Init();
