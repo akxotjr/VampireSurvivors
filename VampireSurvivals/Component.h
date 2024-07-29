@@ -8,14 +8,17 @@ public:
 	Component();
 	virtual ~Component();
 
-	virtual void Init();
-	virtual void Update();
-	virtual void Render(HDC hdc);
+	virtual void Init() {}
+	virtual void Update() {}
+	virtual void Render(HDC hdc) {}
 
-	weak_ptr<Actor> GetOwner() { return _owner; }
-	void SetOwner(weak_ptr<Actor> owner) { _owner = owner; }
+	//weak_ptr<Actor> GetOwner() { return _owner; }
+	//void SetOwner(weak_ptr<Actor> owner) { _owner = owner; }
+	void SetOwner(Actor* owner) { _owner = owner; }
+	Actor* GetOwner() { return _owner; }
 
 protected:
-	weak_ptr<Actor> _owner;
+	//weak_ptr<Actor> _owner;
+	Actor* _owner;
 };
 

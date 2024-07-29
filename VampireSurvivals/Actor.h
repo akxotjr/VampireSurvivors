@@ -18,7 +18,8 @@ public:
 	LAYER_TYPE GetLayer() { return _layer; }
 	void SetLayer(LAYER_TYPE layer) { _layer = layer; }
 
-
+	void AddComponent(Component* component);
+	void RemoveComponent(Component* component);
 
 protected:
 	Vec2 _pos = { 0, 0 };

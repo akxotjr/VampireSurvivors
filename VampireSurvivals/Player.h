@@ -1,5 +1,7 @@
 #pragma once
-#include "Actor.h"
+#include "FlipbookActor.h"
+
+class Flipbook;
 
 enum class PlayerState
 {
@@ -8,9 +10,9 @@ enum class PlayerState
 	Skill
 };
 
-class Player : public Actor
+class Player : public FlipbookActor
 {
-	using Super = Actor;
+	using Super = FlipbookActor;
 
 public:
 	Player();
@@ -20,11 +22,25 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 
-	void SetState(PlayerState state) { _state = state; }
-	void SetDir(Dir dir) { _dir = dir; }
+	void SetState(PlayerState state) 
+	{ 
+		_state = state; 
+		UpdateAnimation();
+	}
+	void SetDir(Dir dir) 
+	{ 
+		_dir = dir; 
+		UpdateAnimation();
+	}
+
+	void UpdateAnimation();
 
 	void UpdateIdle();
 	void UpdateMove();
+
+	//void SetCellPos(Vec2Int cellPos, bool teleport = false);
+	//bool HasReachedDest();
+	//bool CanGo(Vec2Int cellPos);
 
 private:
 	PlayerState	_state = PlayerState::Idle;
@@ -33,5 +49,9 @@ private:
 	bool		_keyPressed = false;
 	Vec2Int		_cellPos = {};
 
+	Flipbook*	_flipbookIdle = nullptr;
+	//Flipbook*	_flipbookIdle[4] = {};
+	Flipbook*	_flipbookMove[4] = {};
+	Flipbook*	_flipbookAttack[4] = {};
 };
 

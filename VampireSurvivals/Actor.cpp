@@ -33,3 +33,21 @@ void Actor::Render(HDC hdc)
 		component->Render(hdc);
 	}
 }
+
+void Actor::AddComponent(Component* component)
+{
+	if (component == nullptr)
+		return;
+
+	component->SetOwner(this);
+	_components.push_back(component);
+}
+
+void Actor::RemoveComponent(Component* component)
+{
+	auto findIt = std::find(_components.begin(), _components.end(), component);
+	if (findIt == _components.end())
+		return;
+
+	_components.erase(findIt);
+}

@@ -23,6 +23,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
+    ULONG_PTR gpToken;
+    GdiplusStartupInput gpsi;
+    if (GdiplusStartup(&gpToken, &gpsi, NULL) != Ok) return 0;
+
     MyRegisterClass(hInstance);
 
     // 애플리케이션 초기화를 수행합니다:
@@ -55,6 +59,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             }
         }
     }
+
+    GdiplusShutdown(gpToken);
 
     return (int) msg.wParam;
 }

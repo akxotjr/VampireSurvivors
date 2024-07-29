@@ -9,6 +9,7 @@ public:
 	virtual ~Texture();
 
 	Texture*	LoadBmp(HWND hwnd, const wstring& path);
+	Texture*	LoadPng(HWND hwnd, const wstring& path);
 	HDC			GetDC() { return _hdc; }
 
 	void		SetSize(Vec2Int size) { _size = size; }	
@@ -22,6 +23,7 @@ private:
 	HDC			_hdc = {};
 	HBITMAP		_bitmap = {};
 	Vec2Int		_size = {};
-	uint32		_transparent = RGB(255, 0, 255);
+	uint32		_transparent = RGB(255, 255, 255);
+	Bitmap*		_gdiBitmap = nullptr;
 };
 

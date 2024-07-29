@@ -39,6 +39,9 @@
     <Filter Include="소스 파일\04. Resources\Paper2D">
       <UniqueIdentifier>{e1a8a1a5-abb8-422e-a8cf-c53a8c1f2ae8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\05. Component\Camera">
+      <UniqueIdentifier>{b08e5bdb-c3bf-4ddd-8942-cc91b158457f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -122,6 +125,12 @@
     <ClInclude Include="ResourceManager.h">
       <Filter>소스 파일\01. Manager</Filter>
     </ClInclude>
+    <ClInclude Include="FlipbookActor.h">
+      <Filter>소스 파일\03. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraComponent.h">
+      <Filter>소스 파일\05. Component\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="VampireSurvivals.rc">
@@ -196,6 +205,12 @@
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>소스 파일\01. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="FlipbookActor.cpp">
+      <Filter>소스 파일\03. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>소스 파일\05. Component\Camera</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

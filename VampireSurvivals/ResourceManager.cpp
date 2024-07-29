@@ -15,6 +15,7 @@ Texture* ResourceManager::LoadTexture(const wstring& key, const wstring& path, u
 
 	Texture* texture = new Texture();
 	texture->LoadBmp(_hwnd, fullPath.c_str());
+	//texture->LoadPng(_hwnd, fullPath.c_str());
 	texture->SetTransparent(transparent);
 	_textures[key] = texture;
 

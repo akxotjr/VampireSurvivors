@@ -1,7 +1,5 @@
 #pragma once
 
-#pragma once
-
 #include "Types.h"
 #include "Defines.h"
 #include "Enums.h"
@@ -18,7 +16,6 @@
 #include <algorithm>
 #include <functional>
 //#include <memory>
-using namespace std;
 
 // C++20
 #include <format>
@@ -29,9 +26,14 @@ namespace fs = std::filesystem;
 #include <cstdlib>
 #include <crtdbg.h>
 
-#ifdef _DEBUG
-#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
-#endif
+//#ifdef _DEBUG
+//#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
+//#endif
 
 #pragma comment(lib, "msimg32.lib")
 
+#include <gdiplus.h>
+#pragma comment(lib, "gdiplus")
+
+using namespace Gdiplus;
+using namespace std;
