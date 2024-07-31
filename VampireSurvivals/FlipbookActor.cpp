@@ -51,24 +51,9 @@ void FlipbookActor::Render(HDC hdc)
 	const FlipbookInfo& info = _flipbook->GetInfo();
 	Vec2 cameraPos = SceneManager::GetInstance()->GetCameraPos();
 
-
-	//::TransparentBlt(hdc,
-	//	//(int32)_pos.x - info.size.x / 2 - ((int32)cameraPos.x - GWinSizeX / 2),
-	//	//(int32)_pos.y - info.size.y / 2 - ((int32)cameraPos.y - GWinSizeY / 2),
-	//	100,100,
-	//	info.size.x,
-	//	info.size.y,
-	//	info.texture->GetDC(),
-	//	(info.start + _idx) * info.size.x,
-	//	info.line * info.size.y,
-	//	info.size.x,
-	//	info.size.y,
-	//	info.texture->GetTransparent());
-	//int k = 0;
-
 	RectF destRect = {
-		GetPos().x - info.size.x / 2,
-		GetPos().y - info.size.y / 2,
+		_pos.x - info.size.x / 2,
+		_pos.y - info.size.y / 2,
 		static_cast<REAL>(info.size.x),
 		static_cast<REAL>(info.size.y)
 	};

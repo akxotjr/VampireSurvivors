@@ -31,7 +31,7 @@ void SpriteActor::Render(HDC hdc)
 	Vec2Int size = _sprite->GetSize();
 	Vec2 cameraPos = SceneManager::GetInstance()->GetCameraPos();
 
-	RectF destRect = {0, 0, (float)GWinSizeX, (float)GWinSizeY};
+	RectF destRect = {_pos.x - size.x / 2, _pos.y - size.y / 2, (float)size.x, (float)size.y};
 
 	Graphics graphics(hdc);
 	graphics.DrawImage(

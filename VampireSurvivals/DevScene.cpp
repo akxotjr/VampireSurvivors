@@ -23,7 +23,8 @@ void DevScene::Init()
 	// Load Soldier Texture
 	ResourceManager::GetInstance()->LoadTexture(L"SoldierIdleRight", L"Soldier\\Soldier-Idle-Right.png");
 	ResourceManager::GetInstance()->LoadTexture(L"SoldierIdleLeft", L"Soldier\\Soldier-Idle-Left.png");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierMove", L"Soldier\\Soldier-Walk.png");
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierMoveRight", L"Soldier\\Soldier-Walk-Right.png");
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierMoveLeft", L"Soldier\\Soldier-Walk-Left.png");
 	ResourceManager::GetInstance()->LoadTexture(L"SoldierAttack", L"Soldier\\Soldier-Attack03.png");
 
 	// Create Soldier Flipbook
@@ -38,9 +39,14 @@ void DevScene::Init()
 		fb->SetInfo({ texture, L"FB_SoldierIdleLeft", {100, 100}, 0, 5, 0, 0.5f });
 	}
 	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierMove");
-		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierMove");
-		fb->SetInfo({ texture, L"FB_SoldierMove", {100, 100}, 0, 6, 0, 0.5f });
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierMoveRight");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierMoveRight");
+		fb->SetInfo({ texture, L"FB_SoldierMoveRight", {100, 100}, 0, 6, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierMoveLeft");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierMoveLeft");
+		fb->SetInfo({ texture, L"FB_SoldierMoveLeft", {100, 100}, 0, 6, 0, 0.5f });
 	}
 	{
 		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierAttack");
@@ -108,29 +114,18 @@ void DevScene::Render(HDC hdc)
 	Super::Render(hdc);
 
 	//test
-	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"TilemapTest");
-		RectF destRect = {
-			0,
-			0,
-			320,
-			320
-		};
-
-		Graphics graphics(hdc);
-		graphics.DrawImage(texture->GetGdiBitmap(), destRect);
-		Pen      pen(Color(255, 0, 0, 255));
-		for (int32 i = 0; i <= 800 ; i += 32)
-		{
-			graphics.DrawLine(&pen, i, 0, i, 600);
-		}
-		for (int32 i = 0; i <= 600; i+=32)
-		{
-			graphics.DrawLine(&pen, 0, i, 800, i);
-		}
-
-		
-	}
+	//{
+	//	Graphics graphics(hdc);
+	//	Pen      pen(Color(255, 0, 0, 255));
+	//	for (int32 i = 0; i <= 800 ; i += 16)
+	//	{
+	//		graphics.DrawLine(&pen, i, 0, i, 600);
+	//	}
+	//	for (int32 i = 0; i <= 600; i+=16)
+	//	{
+	//		graphics.DrawLine(&pen, 0, i, 800, i);
+	//	}
+	//}
 }
 
 //bool DevScene::CanGo(Vec2Int cellpos)

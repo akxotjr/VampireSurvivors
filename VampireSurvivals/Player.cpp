@@ -10,10 +10,12 @@
 
 Player::Player()
 {
-	_flipbookIdle[0] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierIdleRight");
-	_flipbookIdle[1] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierIdleLeft");
+	_flipbookIdle[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierIdleRight");
+	_flipbookIdle[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierIdleLeft");
 
-	_flipbookMove = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierMove");
+	_flipbookMove[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierMoveRight");
+	_flipbookMove[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierMoveLeft");
+
 	_flipbookAttack = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierAttack");
 	
 	CameraComponent* camera = new CameraComponent();
@@ -28,27 +30,43 @@ Player::~Player()
 void Player::Init()
 {
 	Super::Init();
-	//SetState(PlayerState::Move);
 	SetState(PlayerState::Idle);
-	//SetCellPos({ 5, 5 }, true);
 }
 
 void Player::Update()
 {
 	Super::Update();
+	
+	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
 
-	switch (_state)
+	UpdateDir();
+	//if (deltaTime < 10.f)
+	//{
+	//	SetState(PlayerState::Idle);
+	//}
+	//else
 	{
-	case PlayerState::Idle:
-		UpdateIdle();
-		break;
-	case PlayerState::Move:
-		UpdateMove();
-		break;
-	case PlayerState::Attack:
-		UpdateAttack();
-		break;
+		SetState(PlayerState::Move);
+		if (_dir & (1 << 1))
+		{
+			_pos.y -= 100 * deltaTime;
+		}
+		if (_dir & (1 << 2))
+		{
+			_pos.x -= 100 * deltaTime;
+			_sight = Sight::Left;
+		}
+		if (_dir & (1 << 3))
+		{
+			_pos.y += 100 * deltaTime;
+		}
+		if (_dir & (1 << 4))
+		{
+			_pos.x += 100 * deltaTime;
+			_sight = Sight::Right;
+		}
 	}
+	UpdateAnimation();
 }
 
 void Player::Render(HDC hdc)
@@ -56,18 +74,46 @@ void Player::Render(HDC hdc)
 	Super::Render(hdc);
 }
 
+void Player::UpdateDir()
+{
+	uint8 dir = 0;
+	if (InputManager::GetInstance()->GetButton(KeyType::W))
+	{
+		dir |= (1<<1);
+	}
+	if (InputManager::GetInstance()->GetButton(KeyType::A))
+	{
+		dir |= (1<<2);
+	}
+	if (InputManager::GetInstance()->GetButton(KeyType::S))
+	{
+		dir |= (1<<3);
+	}
+	if (InputManager::GetInstance()->GetButton(KeyType::D))
+	{
+		dir |= (1<<4);
+	}
+
+	if ((dir & (1<<1) && dir & (1<<2)) || (dir & (1<<3) && (dir & (1<<4))))
+	{
+		return;
+	}
+	_dir = (Dir)dir;
+}
+
 void Player::UpdateAnimation()
 {
+	
 	switch (_state)
 	{
 	case PlayerState::Idle:
 		if (_keyPressed)
-			SetFlipbook(_flipbookMove);
+			SetFlipbook(_flipbookMove[_sight]);
 		else
-			SetFlipbook(_flipbookIdle[_dir%2]);
+			SetFlipbook(_flipbookIdle[_sight]);
 		break;
 	case PlayerState::Move:
-		SetFlipbook(_flipbookMove);
+		SetFlipbook(_flipbookMove[_sight]);
 		break;
 	case PlayerState::Attack:
 		SetFlipbook(_flipbookAttack);
@@ -75,86 +121,6 @@ void Player::UpdateAnimation()
 	}
 }
 
-void Player::UpdateIdle()
-{
-	//float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
-
-	_keyPressed = true;
-	Vec2Int deltaXY[4] = { {0, -1}, {0, 1}, {-1, 0}, {1, 0} };
-
-	if (InputManager::GetInstance()->GetButton(KeyType::W))
-	{
-		SetDir(DIR_UP);
-
-		Vec2Int nextPos = _cellPos + deltaXY[_dir];
-		//if (CanGo(nextPos))
-		//{
-		//	//SetCellPos(nextPos);
-		//	SetState(PlayerState::Move);
-		//}
-		SetState(PlayerState::Move);
-	}
-	else  if (InputManager::GetInstance()->GetButton(KeyType::S))
-	{
-		SetDir(DIR_DOWN);
-		SetState(PlayerState::Move);
-	}
-	else if (InputManager::GetInstance()->GetButton(KeyType::A))
-	{
-		SetDir(DIR_LEFT);
-		SetState(PlayerState::Move);
-	}
-	else if (InputManager::GetInstance()->GetButton(KeyType::D))
-	{
-		SetDir(DIR_RIGHT);
-		SetState(PlayerState::Move);
-	}
-	else if (InputManager::GetInstance()->GetButton(KeyType::Q))
-	{
-		SetDir(_dir);
-		SetState(PlayerState::Attack);
-	}
-	else
-	{
-		_keyPressed = false;
-		if (_state == PlayerState::Idle)
-			UpdateAnimation();
-	}
-}
-
-void Player::UpdateMove()
-{
-	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
-	if (deltaTime < 10.f)
-	{
-		Vec2 dir = (_destPos - _pos);
-		SetState(PlayerState::Idle);
-		//_pos = _destPos;
-	}
-	else
-	{
-		switch (_dir)
-		{
-		case DIR_UP:
-			_pos.y -= 200 * deltaTime;
-			break;
-		case DIR_DOWN:
-			_pos.y += 200 * deltaTime;
-			break;
-		case DIR_LEFT:
-			_pos.x -= 200 * deltaTime;
-			break;
-		case DIR_RIGHT:
-			_pos.x += 200 * deltaTime;
-			break;
-		}
-	}
-}
-
-void Player::UpdateAttack()
-{
-	UpdateAnimation();
-}
 
 //void Player::SetCellPos(Vec2Int cellPos, bool teleport)
 //{

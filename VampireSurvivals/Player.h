@@ -10,6 +10,11 @@ enum class PlayerState
 	Attack
 };
 
+enum Sight
+{
+	Right,
+	Left
+};
 
 
 class Player : public FlipbookActor
@@ -35,11 +40,8 @@ public:
 		UpdateAnimation();
 	}
 
-	void UpdateAnimation();
-
-	void UpdateIdle();
-	void UpdateMove();
-	void UpdateAttack();
+	void	UpdateDir();
+	void	UpdateAnimation();
 
 	//void SetCellPos(Vec2Int cellPos, bool teleport = false);
 	//bool HasReachedDest();
@@ -47,13 +49,14 @@ public:
 
 private:
 	PlayerState	_state = PlayerState::Idle;
-	Dir			_dir = Dir::DIR_DOWN;
+	Dir			_dir = Dir::DIR_RIGHT;
+	Sight		_sight = Sight::Right;
 	Vec2		_speed = {};
 	bool		_keyPressed = false;
 	Vec2Int		_cellPos = {};
 
 	Flipbook*	_flipbookIdle[2] = {};
-	Flipbook*	_flipbookMove = nullptr;
+	Flipbook*	_flipbookMove[2] = {};
 	Flipbook*	_flipbookAttack = nullptr;
 };
 

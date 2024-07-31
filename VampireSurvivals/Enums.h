@@ -31,10 +31,14 @@ enum COLLISION_LAYER_TYPE : uint8
 	// ...
 };
 
-enum Dir
+enum Dir : uint8
 {
-	DIR_UP,
-	DIR_DOWN,
-	DIR_RIGHT,
-	DIR_LEFT,
+	DIR_RIGHT		= 1,
+	DIR_LEFT		= 2,
+	DIR_UP			= 4,
+	DIR_UPnRIGHT	= 5,
+	DIR_UPnLEFT		= 6,
+	DIR_DOWN		= 8,
+	DIR_DOWNnRIGHT	= 9,
+	DIR_DOWNnLEFT	= 10,
 };
