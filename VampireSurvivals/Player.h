@@ -10,6 +10,8 @@ enum class PlayerState
 	Attack
 };
 
+
+
 class Player : public FlipbookActor
 {
 	using Super = FlipbookActor;
@@ -50,7 +52,7 @@ private:
 	bool		_keyPressed = false;
 	Vec2Int		_cellPos = {};
 
-	Flipbook*	_flipbookIdle = nullptr;
+	Flipbook*	_flipbookIdle[2] = {};
 	Flipbook*	_flipbookMove = nullptr;
 	Flipbook*	_flipbookAttack = nullptr;
 };
