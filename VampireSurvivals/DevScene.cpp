@@ -43,6 +43,8 @@ void DevScene::Init()
 		Player* player = new Player();
 		AddActor(player);
 	}
+	//test
+	ResourceManager::GetInstance()->LoadTexture(L"TilemapTest", L"Tilemaptest2.png");
 
 	Super::Init();
 }
@@ -56,6 +58,30 @@ void DevScene::Render(HDC hdc)
 {
 	Super::Render(hdc);
 
+	//test
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"TilemapTest");
+		RectF destRect = {
+			0,
+			0,
+			320,
+			320
+		};
+
+		Graphics graphics(hdc);
+		graphics.DrawImage(texture->GetGdiBitmap(), destRect);
+		Pen      pen(Color(255, 0, 0, 255));
+		for (int32 i = 0; i <= 800 ; i += 32)
+		{
+			graphics.DrawLine(&pen, i, 0, i, 600);
+		}
+		for (int32 i = 0; i <= 600; i+=32)
+		{
+			graphics.DrawLine(&pen, 0, i, 800, i);
+		}
+
+		
+	}
 }
 
 //bool DevScene::CanGo(Vec2Int cellpos)
