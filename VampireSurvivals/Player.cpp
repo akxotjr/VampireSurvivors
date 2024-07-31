@@ -10,11 +10,14 @@
 
 Player::Player()
 {
-	_flipbookIdle = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierIdle");
+	_flipbookIdle[0] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierIdleRight");
+	_flipbookIdle[1] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierIdleLeft");
+
 	_flipbookMove = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierMove");
 	_flipbookAttack = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierAttack");
 	
 	CameraComponent* camera = new CameraComponent();
+	
 	AddComponent(camera);
 }
 
@@ -27,7 +30,6 @@ void Player::Init()
 	Super::Init();
 	//SetState(PlayerState::Move);
 	SetState(PlayerState::Idle);
-
 	//SetCellPos({ 5, 5 }, true);
 }
 
@@ -62,7 +64,7 @@ void Player::UpdateAnimation()
 		if (_keyPressed)
 			SetFlipbook(_flipbookMove);
 		else
-			SetFlipbook(_flipbookIdle);
+			SetFlipbook(_flipbookIdle[_dir%2]);
 		break;
 	case PlayerState::Move:
 		SetFlipbook(_flipbookMove);
@@ -127,7 +129,7 @@ void Player::UpdateMove()
 	{
 		Vec2 dir = (_destPos - _pos);
 		SetState(PlayerState::Idle);
-		_pos = _destPos;
+		//_pos = _destPos;
 	}
 	else
 	{

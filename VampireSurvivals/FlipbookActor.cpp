@@ -67,11 +67,12 @@ void FlipbookActor::Render(HDC hdc)
 	//int k = 0;
 
 	RectF destRect = {
-		(float)GWinSizeX / 2 - (float)info.size.x / 2,
-		(float)GWinSizeY / 2 - (float)info.size.y / 2,
+		GetPos().x - info.size.x / 2,
+		GetPos().y - info.size.y / 2,
 		static_cast<REAL>(info.size.x),
 		static_cast<REAL>(info.size.y)
 	};
+ 
 
 	Graphics graphics(hdc);
 	graphics.DrawImage(

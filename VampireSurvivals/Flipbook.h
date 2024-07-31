@@ -13,7 +13,6 @@ struct FlipbookInfo
 	int32 line = 0;
 	float duration = 1.f;
 	bool loop = true;
-	bool Rotation = false;
 };
 
 class Flipbook : public ResourceBase

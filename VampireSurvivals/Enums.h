@@ -35,6 +35,6 @@ enum Dir
 {
 	DIR_UP,
 	DIR_DOWN,
-	DIR_LEFT,
 	DIR_RIGHT,
+	DIR_LEFT,
 };
