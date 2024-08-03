@@ -23,5 +23,7 @@ public:
 	vector<Actor*> _actors[LAYER_MAXCOUNT];
 	// 
 	//vector<UI*>		_uis;
+
+
 };
 

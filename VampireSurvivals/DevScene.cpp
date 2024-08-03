@@ -4,10 +4,12 @@
 #include "Player.h"
 #include "Orc.h"
 #include "ResourceManager.h"
+#include "SceneManager.h"
 #include "Texture.h"
 #include "Sprite.h"
 #include "Flipbook.h"
 #include "SpriteActor.h"
+#include "Projectile.h"
 
 
 DevScene::DevScene()
@@ -25,7 +27,8 @@ void DevScene::Init()
 	ResourceManager::GetInstance()->LoadTexture(L"SoldierIdleLeft", L"Soldier\\Soldier-Idle-Left.png");
 	ResourceManager::GetInstance()->LoadTexture(L"SoldierMoveRight", L"Soldier\\Soldier-Walk-Right.png");
 	ResourceManager::GetInstance()->LoadTexture(L"SoldierMoveLeft", L"Soldier\\Soldier-Walk-Left.png");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierAttack", L"Soldier\\Soldier-Attack03.png");
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierAttackRight", L"Soldier\\Soldier-Attack03-Right.png");
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierAttackLeft", L"Soldier\\Soldier-Attack03-Left.png");
 
 	// Create Soldier Flipbook
 	{
@@ -49,17 +52,20 @@ void DevScene::Init()
 		fb->SetInfo({ texture, L"FB_SoldierMoveLeft", {100, 100}, 0, 6, 0, 0.5f });
 	}
 	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierAttack");
-		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierAttack");
-		fb->SetInfo({ texture, L"FB_SoldierAttack", {100, 100}, 0, 8, 0, 0.5f });
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierAttackRight");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierAttackRight");
+		fb->SetInfo({ texture, L"FB_SoldierAttackRight", {100, 100}, 0, 8, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierAttackLeft");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierAttackLeft");
+		fb->SetInfo({ texture, L"FB_SoldierAttackLeft", {100, 100}, 0, 8, 0, 0.5f });
 	}
 	{
 		Player* player = new Player();
-		player->SetPos({ 400,300 });
+		player->SetPos({ 300,300 });
 		AddActor(player);
 	}
-	//test
-	ResourceManager::GetInstance()->LoadTexture(L"TilemapTest", L"Tilemaptest2.png");
 
 
 	// Load Orc Texture
@@ -86,26 +92,29 @@ void DevScene::Init()
 		AddActor(orc);
 	}
 
+	// BackGround
+	//ResourceManager::GetInstance()->LoadTexture(L"Tilemap01", L"Tilemap\\Tilemap03.png");
+	//ResourceManager::GetInstance()->CreateSprite(L"Tilemap01", ResourceManager::GetInstance()->GetTexture(L"Tilemap01"));
+	//{
+	//	Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"Tilemap01");
 
-	ResourceManager::GetInstance()->LoadTexture(L"Tilemap01", L"Tilemap\\Tilemap01.png");
-	ResourceManager::GetInstance()->CreateSprite(L"Tilemap01", ResourceManager::GetInstance()->GetTexture(L"Tilemap01"));
-	{
-		Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"Tilemap01");
+	//	SpriteActor* background = new SpriteActor();
+	//	background->SetSprite(sprite);
+	//	background->SetLayer(LAYER_BACKGROUND);
+	//	const Vec2Int size = sprite->GetSize();
+	//	background->SetPos(Vec2(size.x / 2, size.y / 2));
 
-		SpriteActor* background = new SpriteActor();
-		background->SetSprite(sprite);
-		background->SetLayer(LAYER_BACKGROUND);
-		const Vec2Int size = sprite->GetSize();
-		background->SetPos(Vec2(size.x / 2, size.y / 2));
+	//	AddActor(background);
+	//}
 
-		AddActor(background);
-	}
+	ResourceManager::GetInstance()->LoadTexture(L"Arrow", L"Projectile\\Arrow01(32x32).png");
+	ResourceManager::GetInstance()->CreateSprite(L"Arrow", ResourceManager::GetInstance()->GetTexture(L"Arrow"));
 
 	Super::Init();
 }
 
 void DevScene::Update()
-{
+{	
 	Super::Update();
 }
 
@@ -113,7 +122,6 @@ void DevScene::Render(HDC hdc)
 {
 	Super::Render(hdc);
 
-	//test
 	//{
 	//	Graphics graphics(hdc);
 	//	Pen      pen(Color(255, 0, 0, 255));
@@ -127,6 +135,8 @@ void DevScene::Render(HDC hdc)
 	//	}
 	//}
 }
+
+
 
 //bool DevScene::CanGo(Vec2Int cellpos)
 //{

@@ -7,6 +7,7 @@
 #include "SceneManager.h"
 #include "DevScene.h"
 #include "CameraComponent.h"
+#include "Projectile.h"
 
 Player::Player()
 {
@@ -16,8 +17,10 @@ Player::Player()
 	_flipbookMove[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierMoveRight");
 	_flipbookMove[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierMoveLeft");
 
-	_flipbookAttack = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierAttack");
-	
+	_flipbookAttack[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierAttackRight");
+	_flipbookAttack[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierAttackLeft");
+
+
 	CameraComponent* camera = new CameraComponent();
 	
 	AddComponent(camera);
@@ -39,31 +42,44 @@ void Player::Update()
 	
 	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
 
-	UpdateDir();
-	//if (deltaTime < 10.f)
-	//{
-	//	SetState(PlayerState::Idle);
-	//}
-	//else
+	_sumTime += deltaTime;
+	if (_sumTime > _coolTime)
 	{
-		SetState(PlayerState::Move);
-		if (_dir & (1 << 1))
+		SetState(PlayerState::Attack);
+		if (_sumTime > _coolTime + 0.5f)
 		{
-			_pos.y -= 100 * deltaTime;
+			ShootArrow();
+			_sumTime = 0.f;
 		}
-		if (_dir & (1 << 2))
+	}
+	else
+	{
+		UpdateDir();
+		if (!_keyPressed)
 		{
-			_pos.x -= 100 * deltaTime;
-			_sight = Sight::Left;
+			SetState(PlayerState::Idle);
 		}
-		if (_dir & (1 << 3))
+		else
 		{
-			_pos.y += 100 * deltaTime;
-		}
-		if (_dir & (1 << 4))
-		{
-			_pos.x += 100 * deltaTime;
-			_sight = Sight::Right;
+			SetState(PlayerState::Move);
+			if (_dir & (1 << 1))
+			{
+				_pos.x += 100 * deltaTime;
+				_sight = Sight::Right;
+			}
+			if (_dir & (1 << 2))
+			{
+				_pos.x -= 100 * deltaTime;
+				_sight = Sight::Left;
+			}
+			if (_dir & (1 << 3))
+			{
+				_pos.y -= 100 * deltaTime;
+			}
+			if (_dir & (1 << 4))
+			{
+				_pos.y += 100 * deltaTime;
+			}
 		}
 	}
 	UpdateAnimation();
@@ -77,7 +93,7 @@ void Player::Render(HDC hdc)
 void Player::UpdateDir()
 {
 	uint8 dir = 0;
-	if (InputManager::GetInstance()->GetButton(KeyType::W))
+	if (InputManager::GetInstance()->GetButton(KeyType::D))
 	{
 		dir |= (1<<1);
 	}
@@ -85,19 +101,21 @@ void Player::UpdateDir()
 	{
 		dir |= (1<<2);
 	}
-	if (InputManager::GetInstance()->GetButton(KeyType::S))
+	if (InputManager::GetInstance()->GetButton(KeyType::W))
 	{
 		dir |= (1<<3);
 	}
-	if (InputManager::GetInstance()->GetButton(KeyType::D))
+	if (InputManager::GetInstance()->GetButton(KeyType::S))
 	{
 		dir |= (1<<4);
 	}
 
-	if ((dir & (1<<1) && dir & (1<<2)) || (dir & (1<<3) && (dir & (1<<4))))
+	if ((dir & (1<<1) && dir & (1<<2)) || (dir & (1<<3) && (dir & (1<<4))) || dir == 0)
 	{
+		_keyPressed = false;
 		return;
 	}
+	_keyPressed = true;
 	_dir = (Dir)dir;
 }
 
@@ -116,8 +134,36 @@ void Player::UpdateAnimation()
 		SetFlipbook(_flipbookMove[_sight]);
 		break;
 	case PlayerState::Attack:
-		SetFlipbook(_flipbookAttack);
+		SetFlipbook(_flipbookAttack[_sight]);
 		break;
+	}
+}
+
+void Player::ShootArrow()
+{
+	Vec2 mousePos = {};
+	mousePos.x = InputManager::GetInstance()->GetMousePos().x;
+	mousePos.y = InputManager::GetInstance()->GetMousePos().y;
+	Vec2 attackDir = mousePos - Vec2(400,300);
+
+	if (mousePos.x >= _pos.x)
+		_sight = Sight::Right;
+	else
+		_sight = Sight::Left;
+
+	{
+		Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"Arrow");
+
+		Projectile* arrow = new Projectile();
+		arrow->SetSprite(sprite);
+		arrow->SetLayer(LAYER_PROJECTILE);
+		arrow->SetPos(_pos);
+		arrow->SetDestPos(mousePos);
+		arrow->SetAttackDir(attackDir);
+		arrow->SetRotate(arrow->GetAttackDir());
+
+		Scene* scene = SceneManager::GetInstance()->GetCurrentScene();
+		scene->AddActor(arrow);
 	}
 }
 

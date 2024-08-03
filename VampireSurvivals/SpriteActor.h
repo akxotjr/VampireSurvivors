@@ -14,7 +14,7 @@ public:
 	virtual void Update() override;
 	virtual void Render(HDC hdc) override;
 
-	void SetSprite(Sprite* sprite) { _sprite = sprite; }
+	virtual void SetSprite(Sprite* sprite) { _sprite = sprite; }
 
 protected:
 	Sprite* _sprite = nullptr;

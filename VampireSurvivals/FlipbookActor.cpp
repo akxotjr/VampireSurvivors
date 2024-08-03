@@ -52,8 +52,8 @@ void FlipbookActor::Render(HDC hdc)
 	Vec2 cameraPos = SceneManager::GetInstance()->GetCameraPos();
 
 	RectF destRect = {
-		_pos.x - info.size.x / 2,
-		_pos.y - info.size.y / 2,
+		_pos.x - info.size.x / 2 - (cameraPos.x - GWinSizeX / 2),
+		_pos.y - info.size.y / 2 - (cameraPos.y - GWinSizeY / 2),
 		static_cast<REAL>(info.size.x),
 		static_cast<REAL>(info.size.y)
 	};

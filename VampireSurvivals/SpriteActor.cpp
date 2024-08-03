@@ -31,9 +31,19 @@ void SpriteActor::Render(HDC hdc)
 	Vec2Int size = _sprite->GetSize();
 	Vec2 cameraPos = SceneManager::GetInstance()->GetCameraPos();
 
-	RectF destRect = {_pos.x - size.x / 2, _pos.y - size.y / 2, (float)size.x, (float)size.y};
+	RectF destRect = {
+		_pos.x - size.x / 2 - (cameraPos.x - GWinSizeX / 2),
+		_pos.y - size.y / 2 - (cameraPos.y - GWinSizeY / 2),
+		(float)size.x, 
+		(float)size.y};
 
 	Graphics graphics(hdc);
+
+	//graphics.TranslateTransform(destRect.X + destRect.Width / 2, destRect.Y + destRect.Height / 2);
+	//graphics.RotateTransform(atan2(_rotate.y, _rotate.x) * 180 / PI);
+	//graphics.TranslateTransform(-(destRect.X + destRect.Width / 2), -(destRect.Y + destRect.Height / 2));
+
+
 	graphics.DrawImage(
 		_sprite->GetTexture()->GetGdiBitmap(),
 		destRect,
@@ -43,4 +53,5 @@ void SpriteActor::Render(HDC hdc)
 		_sprite->GetSize().y,
 		UnitPixel
 	);
+
 }

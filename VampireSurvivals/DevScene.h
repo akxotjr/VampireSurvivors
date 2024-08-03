@@ -14,4 +14,5 @@ public:
 
 	//bool CanGo(Vec2Int cellpos);
 	//Vec2 ConvertPos(Vec2Int cellPos);
+
 };

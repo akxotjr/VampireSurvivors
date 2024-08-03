@@ -2,6 +2,7 @@
 #include "FlipbookActor.h"
 
 class Flipbook;
+class Sprite;
 
 enum class PlayerState
 {
@@ -43,6 +44,8 @@ public:
 	void	UpdateDir();
 	void	UpdateAnimation();
 
+	void	ShootArrow();
+
 	//void SetCellPos(Vec2Int cellPos, bool teleport = false);
 	//bool HasReachedDest();
 	//bool CanGo(Vec2Int cellPos);
@@ -54,9 +57,13 @@ private:
 	Vec2		_speed = {};
 	bool		_keyPressed = false;
 	Vec2Int		_cellPos = {};
+	float		_coolTime = 2.f;
+	float		_sumTime = 0.f;
 
 	Flipbook*	_flipbookIdle[2] = {};
 	Flipbook*	_flipbookMove[2] = {};
-	Flipbook*	_flipbookAttack = nullptr;
+	Flipbook*	_flipbookAttack[2] = {};
+
+	
 };
 

@@ -42,6 +42,9 @@
     <Filter Include="소스 파일\05. Component\Camera">
       <UniqueIdentifier>{b08e5bdb-c3bf-4ddd-8942-cc91b158457f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\03. Object\Engine">
+      <UniqueIdentifier>{c6911e16-57ea-429f-a31e-dbd6713df910}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -89,12 +92,6 @@
     <ClInclude Include="DevScene.h">
       <Filter>소스 파일\02. Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>소스 파일\03. Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor.h">
-      <Filter>소스 파일\03. Object</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>소스 파일\03. Object\Contents</Filter>
     </ClInclude>
@@ -125,20 +122,29 @@
     <ClInclude Include="ResourceManager.h">
       <Filter>소스 파일\01. Manager</Filter>
     </ClInclude>
-    <ClInclude Include="FlipbookActor.h">
-      <Filter>소스 파일\03. Object</Filter>
-    </ClInclude>
     <ClInclude Include="CameraComponent.h">
       <Filter>소스 파일\05. Component\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Orc.h">
       <Filter>소스 파일\03. Object\Contents</Filter>
     </ClInclude>
-    <ClInclude Include="TilemapActor.h">
-      <Filter>소스 파일\03. Object</Filter>
+    <ClInclude Include="Actor.h">
+      <Filter>소스 파일\03. Object\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="FlipbookActor.h">
+      <Filter>소스 파일\03. Object\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>소스 파일\03. Object\Engine</Filter>
     </ClInclude>
     <ClInclude Include="SpriteActor.h">
-      <Filter>소스 파일\03. Object</Filter>
+      <Filter>소스 파일\03. Object\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="TilemapActor.h">
+      <Filter>소스 파일\03. Object\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>소스 파일\03. Object\Contents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -179,12 +185,6 @@
     <ClCompile Include="DevScene.cpp">
       <Filter>소스 파일\02. Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>소스 파일\03. Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Actor.cpp">
-      <Filter>소스 파일\03. Object</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>소스 파일\03. Object\Contents</Filter>
     </ClCompile>
@@ -215,9 +215,6 @@
     <ClCompile Include="ResourceManager.cpp">
       <Filter>소스 파일\01. Manager</Filter>
     </ClCompile>
-    <ClCompile Include="FlipbookActor.cpp">
-      <Filter>소스 파일\03. Object</Filter>
-    </ClCompile>
     <ClCompile Include="CameraComponent.cpp">
       <Filter>소스 파일\05. Component\Camera</Filter>
     </ClCompile>
@@ -225,10 +222,22 @@
       <Filter>소스 파일\03. Object\Contents</Filter>
     </ClCompile>
     <ClCompile Include="TilemapActor.cpp">
-      <Filter>소스 파일\03. Object</Filter>
+      <Filter>소스 파일\03. Object\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>소스 파일\03. Object\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="FlipbookActor.cpp">
+      <Filter>소스 파일\03. Object\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>소스 파일\03. Object\Engine</Filter>
     </ClCompile>
     <ClCompile Include="SpriteActor.cpp">
-      <Filter>소스 파일\03. Object</Filter>
+      <Filter>소스 파일\03. Object\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>소스 파일\03. Object\Contents</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
