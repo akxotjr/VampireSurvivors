@@ -18,6 +18,8 @@ public:
 	void AddActor(Actor* actor);
 	void RemoveActor(Actor* actor);
 
+	Vec2 GetPlayerPos();
+
 public:
 	//vector<shared_ptr<Actor>> _actors[LAYER_MAXCOUNT];
 	vector<Actor*> _actors[LAYER_MAXCOUNT];

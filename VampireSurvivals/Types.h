@@ -59,6 +59,11 @@ struct Vec2
 		y *= ratio;
 	}
 
+	bool operator==(const Vec2& other)
+	{
+		return x == other.x && y == other.y;
+	}
+
 	float LengthSquared()
 	{
 		return x * x + y * y;
@@ -133,6 +138,11 @@ struct Vec2Int
 	{
 		x -= other.x;
 		y -= other.y;
+	}
+
+	bool operator==(const Vec2& other)
+	{
+		return x == other.x && y == other.y;
 	}
 
 	int32 LengthSquared()

@@ -18,8 +18,8 @@ public:
 	Vec2 GetDestPos() { return _destPos; }
 	void SetDestPos(Vec2 pos) { _destPos = pos; }
 
-	Vec2 GetRotate() { return _rotate; }
-	void SetRotate(Vec2 rotate) { _rotate = rotate; }
+	Vec2 GetDir() { return _dir; }
+	void SetDir(Vec2 rotate) { _dir = rotate; }
 
 	LAYER_TYPE GetLayer() { return _layer; }
 	void SetLayer(LAYER_TYPE layer) { _layer = layer; }
@@ -28,10 +28,10 @@ public:
 	void RemoveComponent(Component* component);
 
 protected:
-	Vec2	_pos = { 0, 0 };
-	Vec2	_destPos = { 0, 0 };
-	Vec2	_rotate = { 0,0 };
-	LAYER_TYPE _layer = LAYER_OBJECT;
+	Vec2			_pos = { 0, 0 };
+	Vec2			_destPos = { 0, 0 };
+	Vec2			_dir = { 0,0 };
+	LAYER_TYPE		_layer = LAYER_BACKGROUND;
 	
 	vector<Component*> _components;
 };

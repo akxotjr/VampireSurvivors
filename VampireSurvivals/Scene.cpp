@@ -74,3 +74,11 @@ void Scene::RemoveActor(Actor* actor)
 	vector<Actor*>& v = _actors[actor->GetLayer()];
 	v.erase(std::remove(v.begin(), v.end(), actor), v.end());
 }
+
+Vec2 Scene::GetPlayerPos()
+{
+	if (_actors[LAYER_PLAYER].size() == 0)
+		return { 0,0 };
+	else
+		return _actors[LAYER_PLAYER].front()->GetPos();
+}

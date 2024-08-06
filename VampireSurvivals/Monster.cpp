@@ -6,9 +6,12 @@
 #include "TimeManager.h"
 #include "Scene.h"
 #include "DevScene.h"
+#include "GameScene.h"
 
 Monster::Monster()
 {
+	SetLayer(LAYER_MONSTER);
+
 	_flipbookIdle = ResourceManager::GetInstance()->GetFlipbook(L"FB_OrcIdle");
 	//_flipbookIdle[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_OrcIdleLeft");
 
@@ -36,7 +39,7 @@ void Monster::Update()
 
 	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
 
-	DevScene* scene = dynamic_cast<DevScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 	Vec2 playerPos = scene->GetPlayerPos();
 
 	_destPos = playerPos;

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SceneManager.h"
 #include "DevScene.h"
+#include "GameScene.h"
 
 unique_ptr<SceneManager> SceneManager::instance = nullptr;
 
@@ -39,9 +40,9 @@ void SceneManager::ChangeScene(SceneType sceneType)
 		//newScene = make_unique<DevScene>();
 		newScene = new DevScene();
 		break;
-		//case SceneType::EditScene:
-		//	newScene = new EditScene();
-		//	break;
+	case SceneType::GameScene:
+		newScene = new GameScene();
+		break;
 	}
 
 	_scene = newScene;

@@ -39,9 +39,13 @@ void SpriteActor::Render(HDC hdc)
 
 	Graphics graphics(hdc);
 
-	graphics.TranslateTransform(destRect.X + destRect.Width / 2, destRect.Y + destRect.Height / 2);
-	graphics.RotateTransform(atan2(_rotate.y, _rotate.x) * 180 / PI);
-	graphics.TranslateTransform(-(destRect.X + destRect.Width / 2), -(destRect.Y + destRect.Height / 2));
+	if (_dir.x != 0 && _dir.y != 0)
+	{
+		graphics.TranslateTransform(destRect.X + destRect.Width / 2, destRect.Y + destRect.Height / 2);
+		graphics.RotateTransform(atan2(_dir.y, _dir.x) * 180 / PI);
+		graphics.TranslateTransform(-(destRect.X + destRect.Width / 2), -(destRect.Y + destRect.Height / 2));
+	}
+
 
 	graphics.SetClip(destRect);
 

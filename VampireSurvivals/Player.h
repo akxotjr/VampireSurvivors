@@ -3,6 +3,7 @@
 
 class Flipbook;
 class Sprite;
+class Actor;
 
 enum class PlayerState
 {
@@ -10,8 +11,6 @@ enum class PlayerState
 	Move,
 	Attack
 };
-
-
 
 
 class Player : public FlipbookActor
@@ -42,10 +41,6 @@ public:
 
 	void	ShootArrow();
 
-	//void SetCellPos(Vec2Int cellPos, bool teleport = false);
-	//bool HasReachedDest();
-	//bool CanGo(Vec2Int cellPos);
-
 private:
 	PlayerState	_state = PlayerState::Idle;
 	Dir			_dir = Dir::DIR_RIGHT;
@@ -60,6 +55,6 @@ private:
 	Flipbook*	_flipbookMove[2] = {};
 	Flipbook*	_flipbookAttack[2] = {};
 
-	
+	vector<Actor*>	_skills;
 };
 

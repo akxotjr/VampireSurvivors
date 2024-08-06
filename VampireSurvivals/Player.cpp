@@ -11,6 +11,8 @@
 
 Player::Player()
 {
+	SetLayer(LAYER_PLAYER);
+
 	_flipbookIdle[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierIdleRight");
 	_flipbookIdle[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierIdleLeft");
 
@@ -22,7 +24,6 @@ Player::Player()
 
 
 	CameraComponent* camera = new CameraComponent();
-	
 	AddComponent(camera);
 }
 
@@ -82,14 +83,19 @@ void Player::Update()
 			}
 		}
 	}
-
-	DevScene* scene = dynamic_cast<DevScene*>(SceneManager::GetInstance()->GetCurrentScene());
-	scene->SetPlayerPos(_pos);
+	for (auto skill : _skills)
+	{
+		skill->Update();
+	}
 	UpdateAnimation();
 }
 
 void Player::Render(HDC hdc)
 {
+	for (auto skill : _skills)
+	{
+		skill->Render(hdc);
+	}
 	Super::Render(hdc);
 }
 
@@ -148,25 +154,36 @@ void Player::ShootArrow()
 	mousePos.x = InputManager::GetInstance()->GetMousePos().x;
 	mousePos.y = InputManager::GetInstance()->GetMousePos().y;
 	Vec2 attackDir = mousePos - Vec2(400,300);
+	attackDir.Normalize();
 
 	if (mousePos.x >= _pos.x)
 		_sight = Sight::Right;
 	else
 		_sight = Sight::Left;
 
+	//{
+	//	Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"Arrow");
+	//	Projectile* arrow = new Projectile();
+	//	arrow->SetSprite(sprite);
+	//	arrow->SetLayer(LAYER_PLAYER);
+	//	arrow->SetPos(_pos);
+	//	arrow->SetDestPos(mousePos);
+	//	arrow->SetAttackDir(attackDir);
+	//	arrow->SetRotate(arrow->GetAttackDir());
+	//	Scene* scene = SceneManager::GetInstance()->GetCurrentScene();
+	//	scene->AddActor(arrow);
+	//}
+
 	{
 		Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"Arrow");
 
 		Projectile* arrow = new Projectile();
 		arrow->SetSprite(sprite);
-		arrow->SetLayer(LAYER_PROJECTILE);
 		arrow->SetPos(_pos);
 		arrow->SetDestPos(mousePos);
-		arrow->SetAttackDir(attackDir);
-		arrow->SetRotate(arrow->GetAttackDir());
-
-		Scene* scene = SceneManager::GetInstance()->GetCurrentScene();
-		scene->AddActor(arrow);
+		arrow->SetDir(attackDir);
+		
+		_skills.push_back(arrow);
 	}
 }
 
