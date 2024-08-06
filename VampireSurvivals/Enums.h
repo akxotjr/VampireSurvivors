@@ -18,11 +18,18 @@ enum LAYER_TYPE
 	LAYER_MAXCOUNT
 };
 
+enum Sight
+{
+	Right,
+	Left
+};
+
 enum class ColliderType
 {
 	Box,
 	Sphere,
 };
+
 
 enum COLLISION_LAYER_TYPE : uint8
 {

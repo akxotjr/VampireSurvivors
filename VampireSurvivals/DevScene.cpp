@@ -2,7 +2,7 @@
 #include "DevScene.h"
 #include "Actor.h"
 #include "Player.h"
-#include "Orc.h"
+#include "Monster.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
 #include "Texture.h"
@@ -70,42 +70,61 @@ void DevScene::Init()
 
 	// Load Orc Texture
 	ResourceManager::GetInstance()->LoadTexture(L"OrcIdle", L"Orc\\Orc-Idle.png");
-	ResourceManager::GetInstance()->LoadTexture(L"OrcMove", L"Orc\\Orc-Walk.png");
-	ResourceManager::GetInstance()->LoadTexture(L"OrcAttack", L"Orc\\Orc-Attack01.png");
+	//ResourceManager::GetInstance()->LoadTexture(L"OrcIdleLeft", L"Orc\\Orc-Idle-Left.png");
+	ResourceManager::GetInstance()->LoadTexture(L"OrcMoveRight", L"Orc\\Orc-Walk-Right.png");
+	ResourceManager::GetInstance()->LoadTexture(L"OrcMoveLeft", L"Orc\\Orc-Walk-Left.png");
+	ResourceManager::GetInstance()->LoadTexture(L"OrcAttackRight", L"Orc\\Orc-Attack01-Right.png");
+	ResourceManager::GetInstance()->LoadTexture(L"OrcAttackLeft", L"Orc\\Orc-Attack01-Left.png");
 	{
 		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcIdle");
 		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OrcIdle");
 		fb->SetInfo({ texture, L"FB_OrcIdle", {100, 100}, 0, 5, 0, 0.5f });
 	}
-	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcMove");
-		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OrcMove");
-		fb->SetInfo({ texture, L"FB_OrcMove", {100, 100}, 0, 7, 0, 0.5f});
-	}
-	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcAttack");
-		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OrcAttack");
-		fb->SetInfo({ texture, L"FB_OrcAttack", {100, 100}, 0, 5, 0, 1.f});
-	}
-	{
-		Orc* orc = new Orc();
-		AddActor(orc);
-	}
-
-	// BackGround
-	//ResourceManager::GetInstance()->LoadTexture(L"Tilemap01", L"Tilemap\\Tilemap03.png");
-	//ResourceManager::GetInstance()->CreateSprite(L"Tilemap01", ResourceManager::GetInstance()->GetTexture(L"Tilemap01"));
 	//{
-	//	Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"Tilemap01");
-
-	//	SpriteActor* background = new SpriteActor();
-	//	background->SetSprite(sprite);
-	//	background->SetLayer(LAYER_BACKGROUND);
-	//	const Vec2Int size = sprite->GetSize();
-	//	background->SetPos(Vec2(size.x / 2, size.y / 2));
-
-	//	AddActor(background);
+	//	Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcIdleLeft");
+	//	Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OrcIdleLeft");
+	//	fb->SetInfo({ texture, L"FB_OrcIdleLeft", {100, 100}, 0, 5, 0, 0.5f });
 	//}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcMoveRight");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OrcMoveRight");
+		fb->SetInfo({ texture, L"FB_OrcMoveRight", {100, 100}, 0, 7, 0, 0.5f});
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcMoveLeft");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OrcMoveLeft");
+		fb->SetInfo({ texture, L"FB_OrcMoveLeft", {100, 100}, 0, 7, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcAttackRight");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OrcAttackRight");
+		fb->SetInfo({ texture, L"FB_OrcAttackRight", {100, 100}, 0, 5, 0, 1.f});
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcAttackLeft");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OrcAttackLeft");
+		fb->SetInfo({ texture, L"FB_OrcAttackLeft", {100, 100}, 0, 5, 0, 1.f });
+	}
+	{
+		Monster* monster = new Monster();
+		monster->SetPos({ 450, 300 });
+		AddActor(monster);
+	}
+
+	 //BackGround
+	ResourceManager::GetInstance()->LoadTexture(L"Tilemap", L"Tilemap\\Tilemap03.png");
+	//ResourceManager::GetInstance()->CreateSprite(L"Tilemap01", ResourceManager::GetInstance()->GetTexture(L"Tilemap01"));
+	{
+		//Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"Tilemap01");
+
+		//SpriteActor* background = new SpriteActor();
+		//background->SetSprite(sprite);
+		//background->SetLayer(LAYER_BACKGROUND);
+		//const Vec2Int size = sprite->GetSize();
+		//background->SetPos(Vec2(size.x / 2, size.y / 2));
+
+		//AddActor(background);
+	}
 
 	ResourceManager::GetInstance()->LoadTexture(L"Arrow", L"Projectile\\Arrow01(32x32).png");
 	ResourceManager::GetInstance()->CreateSprite(L"Arrow", ResourceManager::GetInstance()->GetTexture(L"Arrow"));
@@ -121,19 +140,6 @@ void DevScene::Update()
 void DevScene::Render(HDC hdc)
 {
 	Super::Render(hdc);
-
-	//{
-	//	Graphics graphics(hdc);
-	//	Pen      pen(Color(255, 0, 0, 255));
-	//	for (int32 i = 0; i <= 800 ; i += 16)
-	//	{
-	//		graphics.DrawLine(&pen, i, 0, i, 600);
-	//	}
-	//	for (int32 i = 0; i <= 600; i+=16)
-	//	{
-	//		graphics.DrawLine(&pen, 0, i, 800, i);
-	//	}
-	//}
 }
 
 

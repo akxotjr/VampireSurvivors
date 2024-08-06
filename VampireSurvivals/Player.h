@@ -11,11 +11,7 @@ enum class PlayerState
 	Attack
 };
 
-enum Sight
-{
-	Right,
-	Left
-};
+
 
 
 class Player : public FlipbookActor

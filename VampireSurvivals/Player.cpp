@@ -82,6 +82,9 @@ void Player::Update()
 			}
 		}
 	}
+
+	DevScene* scene = dynamic_cast<DevScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	scene->SetPlayerPos(_pos);
 	UpdateAnimation();
 }
 
