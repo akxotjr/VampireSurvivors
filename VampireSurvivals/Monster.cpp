@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "DevScene.h"
 #include "GameScene.h"
+#include "SphereCollider.h"
 
 Monster::Monster()
 {
@@ -20,6 +21,19 @@ Monster::Monster()
 
 	_flipbookAttack[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_OrcAttackRight");
 	_flipbookAttack[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_OrcAttackLeft");
+
+
+	SphereCollider* collider = new SphereCollider();
+	collider->SetOwner(this);
+	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
+	collider->ResetCollisionFlag();
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_SKILL);
+	collider->SetRadius(10);
+	AddComponent(collider);
+
+	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	scene->AddColliders(collider);
 
 }
 

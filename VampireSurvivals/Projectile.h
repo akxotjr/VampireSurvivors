@@ -2,6 +2,7 @@
 #include "SpriteActor.h"
 
 class Sprite;
+class Collider;
 
 class Projectile : public SpriteActor
 {

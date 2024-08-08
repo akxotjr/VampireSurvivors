@@ -6,8 +6,12 @@
 #include "ResourceManager.h"
 #include "SceneManager.h"
 #include "DevScene.h"
+#include "GameScene.h"
 #include "CameraComponent.h"
 #include "Projectile.h"
+#include "Collider.h"
+#include "BoxCollider.h"
+#include "SphereCollider.h"
 
 Player::Player()
 {
@@ -25,6 +29,17 @@ Player::Player()
 
 	CameraComponent* camera = new CameraComponent();
 	AddComponent(camera);
+
+	SphereCollider* collider = new SphereCollider();
+	collider->SetOwner(this);
+	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
+	collider->ResetCollisionFlag();
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
+	collider->SetRadius(50);
+	AddComponent(collider);
+	
+	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	scene->AddColliders(collider);
 }
 
 Player::~Player()
@@ -40,7 +55,20 @@ void Player::Init()
 void Player::Update()
 {
 	Super::Update();
-	
+
+	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	vector<Collider*>& v = scene->_colliders[CLT_MONSTER];
+
+	SphereCollider* player = dynamic_cast<SphereCollider*>(scene->_colliders[CLT_PLAYER].front());
+
+	for (auto it : v)
+	{
+		if (player->CheckCollision(it))
+		{
+			//
+		}
+	}
+
 	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
 
 	_sumTime += deltaTime;
@@ -160,19 +188,6 @@ void Player::ShootArrow()
 		_sight = Sight::Right;
 	else
 		_sight = Sight::Left;
-
-	//{
-	//	Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"Arrow");
-	//	Projectile* arrow = new Projectile();
-	//	arrow->SetSprite(sprite);
-	//	arrow->SetLayer(LAYER_PLAYER);
-	//	arrow->SetPos(_pos);
-	//	arrow->SetDestPos(mousePos);
-	//	arrow->SetAttackDir(attackDir);
-	//	arrow->SetRotate(arrow->GetAttackDir());
-	//	Scene* scene = SceneManager::GetInstance()->GetCurrentScene();
-	//	scene->AddActor(arrow);
-	//}
 
 	{
 		Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"Arrow");

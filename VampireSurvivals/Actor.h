@@ -32,7 +32,7 @@ protected:
 	Vec2			_destPos = { 0, 0 };
 	Vec2			_dir = { 0,0 };
 	LAYER_TYPE		_layer = LAYER_BACKGROUND;
-	
+
 	vector<Component*> _components;
 };
 

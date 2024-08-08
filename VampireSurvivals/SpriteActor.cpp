@@ -31,32 +31,42 @@ void SpriteActor::Render(HDC hdc)
 	Vec2Int size = _sprite->GetSize();
 	Vec2 cameraPos = SceneManager::GetInstance()->GetCameraPos();
 
-	RectF destRect = {
-		_pos.x - size.x / 2 - (cameraPos.x - GWinSizeX / 2),
-		_pos.y - size.y / 2 - (cameraPos.y - GWinSizeY / 2),
-		(float)size.x, 
-		(float)size.y};
+	//RectF destRect = {
+	//	_pos.x - size.x / 2 - (cameraPos.x - GWinSizeX / 2),
+	//	_pos.y - size.y / 2 - (cameraPos.y - GWinSizeY / 2),
+	//	(float)size.x, 
+	//	(float)size.y};
 
-	Graphics graphics(hdc);
+	//Graphics graphics(hdc);
 
-	if (_dir.x != 0 && _dir.y != 0)
-	{
-		graphics.TranslateTransform(destRect.X + destRect.Width / 2, destRect.Y + destRect.Height / 2);
-		graphics.RotateTransform(atan2(_dir.y, _dir.x) * 180 / PI);
-		graphics.TranslateTransform(-(destRect.X + destRect.Width / 2), -(destRect.Y + destRect.Height / 2));
-	}
+	//if (_dir.x != 0 && _dir.y != 0)
+	//{
+	//	graphics.TranslateTransform(destRect.X + destRect.Width / 2, destRect.Y + destRect.Height / 2);
+	//	graphics.RotateTransform(atan2(_dir.y, _dir.x) * 180 / PI);
+	//	graphics.TranslateTransform(-(destRect.X + destRect.Width / 2), -(destRect.Y + destRect.Height / 2));
+	//}
 
 
-	graphics.SetClip(destRect);
+	//graphics.SetClip(destRect);
 
-	graphics.DrawImage(
-		_sprite->GetTexture()->GetGdiBitmap(),
-		destRect,
+	//graphics.DrawImage(
+	//	_sprite->GetTexture()->GetGdiBitmap(),
+	//	destRect,
+	//	_sprite->GetPos().x,
+	//	_sprite->GetPos().y,
+	//	_sprite->GetSize().x,
+	//	_sprite->GetSize().y,
+	//	UnitPixel
+	//);
+
+	::BitBlt(hdc,
+		(int32)_pos.x - size.x / 2 - ((int32)cameraPos.x - GWinSizeX / 2),
+		(int32)_pos.y - size.y / 2 - ((int32)cameraPos.y - GWinSizeY / 2),
+		size.x,
+		size.y,
+		_sprite->GetDC(),
 		_sprite->GetPos().x,
 		_sprite->GetPos().y,
-		_sprite->GetSize().x,
-		_sprite->GetSize().y,
-		UnitPixel
-	);
+		SRCCOPY);
 
 }

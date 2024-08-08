@@ -34,12 +34,19 @@ public:
 	void SetCollisionFlag(uint32 flag) { _collisionFlag = flag; }
 	uint32 GetCollisionFlag() { return _collisionFlag; }
 
+	static bool CheckCollisionBox2Box(BoxCollider* b1, BoxCollider* b2);
+	static bool CheckCollisionSphere2Box(SphereCollider* s1, BoxCollider* b2);
+	static bool CheckCollisionSphere2Sphere(SphereCollider* s1, SphereCollider* s2);
+
+
+public:
+	unordered_set<Collider*> _collisionMap;
 
 protected:
 	ColliderType	_colliderType;
 	bool			_showDebug;
 
-	COLLISION_LAYER_TYPE	_collisionLayer = CLT_OBJECT;
+	COLLISION_LAYER_TYPE	_collisionLayer = CLT_GROUND;
 	uint32					_collisionFlag = 0xFFFFFFFF;
 };
 

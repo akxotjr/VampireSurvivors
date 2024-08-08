@@ -35,12 +35,6 @@ void SphereCollider::Render(HDC hdc)
 	Vec2 pos = GetOwner()->GetPos();
 	pos.x -= (cameraPos.x - GWinSizeX / 2);
 	pos.y -= (cameraPos.y - GWinSizeY / 2);
-
-	//HBRUSH myBrush = (HBRUSH)::GetStockObject(NULL_BRUSH);
-	//HBRUSH oldBrush = (HBRUSH)::SelectObject(hdc, myBrush);
-	//Utils::DrawCircle(hdc, pos, _radius);
-	//::SelectObject(hdc, oldBrush);
-	//::DeleteObject(myBrush);
 }
 
 bool SphereCollider::CheckCollision(Collider* other)
@@ -48,13 +42,13 @@ bool SphereCollider::CheckCollision(Collider* other)
 	if (Super::CheckCollision(other) == false)
 		return false;
 
-	//switch (other->GetColliderType())
-	//{
-	//case ColliderType::Box:
-	//	return CheckCollisionSphere2Box(this, static_cast<BoxCollider*>(other));
-	//case ColliderType::Sphere:
-	//	return CheckCollisionSphere2Sphere(this, static_cast<SphereCollider*>(other));
-	//}
+	switch (other->GetColliderType())
+	{
+	case ColliderType::Box:
+		return CheckCollisionSphere2Box(this, static_cast<BoxCollider*>(other));
+	case ColliderType::Sphere:
+		return CheckCollisionSphere2Sphere(this, static_cast<SphereCollider*>(other));
+	}
 
 	return false;
 }

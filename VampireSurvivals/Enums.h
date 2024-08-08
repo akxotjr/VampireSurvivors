@@ -35,10 +35,13 @@ enum class ColliderType
 
 enum COLLISION_LAYER_TYPE : uint8
 {
-	CLT_OBJECT,
+	CLT_PLAYER,
+	CLT_SKILL,
+	CLT_MONSTER,
 	CLT_GROUND,
 	CLT_WALL,
 	// ...
+	CLT_MAX_COUNT
 };
 
 enum Dir : uint8

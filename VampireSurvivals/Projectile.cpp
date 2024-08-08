@@ -4,9 +4,21 @@
 #include "SceneManager.h"
 #include "Texture.h"
 #include "Sprite.h"
+#include "SphereCollider.h"
+#include "GameScene.h"
 
 Projectile::Projectile()
 {
+	SphereCollider* collider = new SphereCollider();
+	collider->SetOwner(this);
+	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_SKILL);
+	collider->ResetCollisionFlag();
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
+	collider->SetRadius(5);
+	AddComponent(collider);
+
+	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	scene->AddColliders(collider);
 }
 
 Projectile::~Projectile()
