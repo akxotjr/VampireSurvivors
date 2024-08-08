@@ -27,7 +27,7 @@ public:
 		_resourcePath = resourcePath;
 	}
 
-	Texture* LoadTexture(const wstring& key, const wstring& path, uint32 transparent = RGB(255, 0, 255));
+	Texture* LoadTexture(const wstring& key, const wstring& path, uint32 transparent = RGB(0, 0, 0));
 	Texture* GetTexture(const wstring& key) { return _textures[key]; }
 
 	Sprite* CreateSprite(const wstring& key, Texture* texture, int32 x = 0, int32 y = 0, int32 cx = 0, int32 cy = 0);

@@ -64,16 +64,5 @@ Texture* Texture::LoadPng(HWND hwnd, const wstring& path)
 	return this;
 }
 
-void Texture::RotateBitmap(Vec2 t)
-{
-    _gdiRotateBitmap = new Bitmap(_size.x, _size.y, _gdiBitmap->GetPixelFormat());
-
-    Graphics graphics(_gdiRotateBitmap);
-    graphics.ScaleTransform(t.x, t.y);
-    graphics.TranslateTransform((float)_size.x, 0); 
-
-    graphics.DrawImage(_gdiBitmap, 0, 0, _size.x, _size.y);
-}
-
 
 

@@ -19,15 +19,12 @@ public:
 	uint32		GetTransparent() { return _transparent; }
 	
 	Bitmap*		GetGdiBitmap() { return _gdiBitmap; }
-	void 		RotateBitmap(Vec2 t);
-	Bitmap*		GetRotateGdiBitmap() { return _gdiRotateBitmap; }
 
 private:
 	HDC			_hdc = {};
 	HBITMAP		_bitmap = {};
 	Vec2Int		_size = {};
-	uint32		_transparent = RGB(255, 255, 255);
+	uint32		_transparent = RGB(0, 0, 0);
 	Bitmap*		_gdiBitmap = nullptr;
-	Bitmap*		_gdiRotateBitmap = nullptr;
 };
 

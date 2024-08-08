@@ -28,14 +28,16 @@ void GameScene::Init()
 {
 #pragma region Player
 	// Load Soldier Texture
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierIdleRight", L"Soldier\\Soldier-Idle-Right.png");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierIdleLeft", L"Soldier\\Soldier-Idle-Left.png");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierMoveRight", L"Soldier\\Soldier-Walk-Right.png");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierMoveLeft", L"Soldier\\Soldier-Walk-Left.png");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierAttackRight", L"Soldier\\Soldier-Attack03-Right.png");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierAttackLeft", L"Soldier\\Soldier-Attack03-Left.png");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierHurt", L"Soldier\\Soldier-Hurt.png");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierDeath", L"Soldier\\Soldier-Death.png");
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierIdleRight", L"Soldier\\Soldier-Idle-Right.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierIdleLeft", L"Soldier\\Soldier-Idle-Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierMoveRight", L"Soldier\\Soldier-Walk-Right.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierMoveLeft", L"Soldier\\Soldier-Walk-Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierAttackRight", L"Soldier\\Soldier-Attack03-Right.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierAttackLeft", L"Soldier\\Soldier-Attack03-Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierHurt", L"Soldier\\Soldier-Hurt-Right.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierHurt", L"Soldier\\Soldier-Hurt-Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierDeath", L"Soldier\\Soldier-Death-Right.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierDeath", L"Soldier\\Soldier-Death-Left.bmp");
 
 	// Create Soldier Flipbook
 	{
@@ -69,14 +71,24 @@ void GameScene::Init()
 		fb->SetInfo({ texture, L"FB_SoldierAttackLeft", {100, 100}, 0, 8, 0, 0.5f });
 	}
 	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierHurt");
-		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierHurt");
-		fb->SetInfo({ texture, L"FB_SoldierHurt", {100, 100}, 0, 3, 0, 0.5f });
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierHurtRight");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierHurtRight");
+		fb->SetInfo({ texture, L"FB_SoldierHurtRight", {100, 100}, 0, 3, 0, 0.5f });
 	}
 	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierDeath");
-		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierDeath");
-		fb->SetInfo({ texture, L"FB_SoldierDeath", {100, 100}, 0, 3, 0, 0.5f });
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierHurtLeft");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierHurtLeft");
+		fb->SetInfo({ texture, L"FB_SoldierHurtLeft", {100, 100}, 0, 3, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierDeathRight");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierDeathRight");
+		fb->SetInfo({ texture, L"FB_SoldierDeathRight", {100, 100}, 0, 3, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierDeathLeft");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierDeathLeft");
+		fb->SetInfo({ texture, L"FB_SoldierDeathLeft", {100, 100}, 0, 3, 0, 0.5f });
 	}
 
 #pragma endregion 
@@ -86,24 +98,26 @@ void GameScene::Init()
 #pragma endregion
 #pragma region Monster
 	// Load Orc Texture
-	ResourceManager::GetInstance()->LoadTexture(L"OrcIdle", L"Orc\\Orc-Idle.png");
-	//ResourceManager::GetInstance()->LoadTexture(L"OrcIdleLeft", L"Orc\\Orc-Idle-Left.png");
-	ResourceManager::GetInstance()->LoadTexture(L"OrcMoveRight", L"Orc\\Orc-Walk-Right.png");
-	ResourceManager::GetInstance()->LoadTexture(L"OrcMoveLeft", L"Orc\\Orc-Walk-Left.png");
-	ResourceManager::GetInstance()->LoadTexture(L"OrcAttackRight", L"Orc\\Orc-Attack01-Right.png");
-	ResourceManager::GetInstance()->LoadTexture(L"OrcAttackLeft", L"Orc\\Orc-Attack01-Left.png");
-	ResourceManager::GetInstance()->LoadTexture(L"OrcHurt", L"Orc\\Orc-Hurt.png");
-	ResourceManager::GetInstance()->LoadTexture(L"OrcDeath", L"Orc\\Orc-Death.png");
+	ResourceManager::GetInstance()->LoadTexture(L"OrcIdle", L"Orc\\Orc-Idle-Right.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OrcIdleLeft", L"Orc\\Orc-Idle-Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OrcMoveRight", L"Orc\\Orc-Walk-Right.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OrcMoveLeft", L"Orc\\Orc-Walk-Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OrcAttackRight", L"Orc\\Orc-Attack01-Right.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OrcAttackLeft", L"Orc\\Orc-Attack01-Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OrcHurt", L"Orc\\Orc-Hurt-Right.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OrcHurt", L"Orc\\Orc-Hurt-Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OrcDeath", L"Orc\\Orc-Death-Right.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OrcDeath", L"Orc\\Orc-Death-Left.bmp");
 	{
 		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcIdle");
 		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OrcIdle");
 		fb->SetInfo({ texture, L"FB_OrcIdle", {100, 100}, 0, 5, 0, 0.5f });
 	}
-	//{
-	//	Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcIdleLeft");
-	//	Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OrcIdleLeft");
-	//	fb->SetInfo({ texture, L"FB_OrcIdleLeft", {100, 100}, 0, 5, 0, 0.5f });
-	//}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcIdleLeft");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OrcIdleLeft");
+		fb->SetInfo({ texture, L"FB_OrcIdleLeft", {100, 100}, 0, 5, 0, 0.5f });
+	}
 	{
 		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcMoveRight");
 		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OrcMoveRight");
@@ -125,14 +139,24 @@ void GameScene::Init()
 		fb->SetInfo({ texture, L"FB_OrcAttackLeft", {100, 100}, 0, 5, 0, 1.f });
 	}
 	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcHurt");
-		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OrcHurt");
-		fb->SetInfo({ texture, L"FB_OrcHurt", {100, 100}, 0, 3, 0, 0.5f });
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcHurtRight");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OrcHurtRight");
+		fb->SetInfo({ texture, L"FB_OrcHurtRight", {100, 100}, 0, 3, 0, 0.5f });
 	}
 	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcDeath");
-		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OrcDeath");
-		fb->SetInfo({ texture, L"FB_OrcDeath", {100, 100}, 0, 3, 0, 0.5f });
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcHurtLeft");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OrcHurtLeft");
+		fb->SetInfo({ texture, L"FB_OrcHurtLeft", {100, 100}, 0, 3, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcDeathRight");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OrcDeathRight");
+		fb->SetInfo({ texture, L"FB_OrcDeathRight", {100, 100}, 0, 3, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcDeathLeft");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OrcDeathLeft");
+		fb->SetInfo({ texture, L"FB_OrcDeathLeft", {100, 100}, 0, 3, 0, 0.5f });
 	}
 #pragma endregion	
 #pragma region Item
@@ -157,22 +181,6 @@ void GameScene::Init()
 void GameScene::Update()
 {
 	Super::Update();
-
-	for (auto c_skill : _colliders[CLT_SKILL])
-	{
-		for (auto c_monster : _colliders[CLT_MONSTER])
-		{
-			if (Collider::CheckCollisionSphere2Sphere(dynamic_cast<SphereCollider*>(c_skill), dynamic_cast<SphereCollider*>(c_monster)))
-			{
-				RemoveActor(c_skill->GetOwner());
-				RemoveColliders(c_skill);
-
-				RemoveActor(c_monster->GetOwner());
-				RemoveColliders(c_monster);
-			}
-		}
-	}
-
 
 
 	MonsterRespawn();
@@ -219,19 +227,3 @@ Vec2 GameScene::MonsterRandomPos(float deltaTime)
 	return monsterPos;
 }
 
-void GameScene::AddColliders(Collider* collider)
-{
-	if (collider == nullptr)
-		return;
-
-	_colliders[collider->GetCollisionLayer()].push_back(collider);
-}
-
-void GameScene::RemoveColliders(Collider* collider)
-{
-	if (collider == nullptr)
-		return;
-
-	vector<Collider*>& v = _colliders[collider->GetCollisionLayer()];
-	v.erase(std::remove(v.begin(), v.end(), collider), v.end());
-}

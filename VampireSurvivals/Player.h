@@ -9,7 +9,9 @@ enum class PlayerState
 {
 	Idle,
 	Move,
-	Attack
+	Attack,
+	Hurt,
+	Death
 };
 
 
@@ -48,12 +50,15 @@ private:
 	Vec2		_speed = {};
 	bool		_keyPressed = false;
 	Vec2Int		_cellPos = {};
+
 	float		_coolTime = 2.f;
 	float		_sumTime = 0.f;
 
 	Flipbook*	_flipbookIdle[2] = {};
 	Flipbook*	_flipbookMove[2] = {};
 	Flipbook*	_flipbookAttack[2] = {};
+	Flipbook*	_flipbookHurt[2] = {};
+	Flipbook*	_flipbookDeath[2] = {};
 
 	vector<Actor*>	_skills;
 };

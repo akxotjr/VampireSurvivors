@@ -161,6 +161,9 @@
     <ClInclude Include="Monster.h">
       <Filter>소스 파일\03. Object\Contents</Filter>
     </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>소스 파일\02. Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="VampireSurvivals.rc">
@@ -265,6 +268,9 @@
     </ClCompile>
     <ClCompile Include="Monster.cpp">
       <Filter>소스 파일\03. Object\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>소스 파일\02. Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

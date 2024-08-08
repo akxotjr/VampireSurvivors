@@ -26,6 +26,12 @@ Player::Player()
 	_flipbookAttack[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierAttackRight");
 	_flipbookAttack[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierAttackLeft");
 
+	_flipbookHurt[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierHurtRight");
+	_flipbookHurt[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierHurtLeft");
+
+	_flipbookDeath[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierDeathRight");
+	_flipbookDeath[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierDeathLeft");
+
 
 	CameraComponent* camera = new CameraComponent();
 	AddComponent(camera);
@@ -37,9 +43,8 @@ Player::Player()
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
 	collider->SetRadius(50);
 	AddComponent(collider);
-	
-	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-	scene->AddColliders(collider);
+
+
 }
 
 Player::~Player()
@@ -56,19 +61,6 @@ void Player::Update()
 {
 	Super::Update();
 
-	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-	vector<Collider*>& v = scene->_colliders[CLT_MONSTER];
-
-	SphereCollider* player = dynamic_cast<SphereCollider*>(scene->_colliders[CLT_PLAYER].front());
-
-	for (auto it : v)
-	{
-		if (player->CheckCollision(it))
-		{
-			//
-		}
-	}
-
 	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
 
 	_sumTime += deltaTime;
@@ -77,7 +69,7 @@ void Player::Update()
 		SetState(PlayerState::Attack);
 		if (_sumTime > _coolTime + 0.5f)
 		{
-			ShootArrow();
+			//ShootArrow();
 			_sumTime = 0.f;
 		}
 	}
@@ -111,19 +103,11 @@ void Player::Update()
 			}
 		}
 	}
-	for (auto skill : _skills)
-	{
-		skill->Update();
-	}
 	UpdateAnimation();
 }
 
 void Player::Render(HDC hdc)
 {
-	for (auto skill : _skills)
-	{
-		skill->Render(hdc);
-	}
 	Super::Render(hdc);
 }
 
@@ -198,6 +182,8 @@ void Player::ShootArrow()
 		arrow->SetDestPos(mousePos);
 		arrow->SetDir(attackDir);
 		
+		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+		scene->AddActor(arrow);
 		_skills.push_back(arrow);
 	}
 }

@@ -16,9 +16,6 @@ Projectile::Projectile()
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
 	collider->SetRadius(5);
 	AddComponent(collider);
-
-	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-	scene->AddColliders(collider);
 }
 
 Projectile::~Projectile()

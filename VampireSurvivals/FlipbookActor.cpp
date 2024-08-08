@@ -51,22 +51,34 @@ void FlipbookActor::Render(HDC hdc)
 	const FlipbookInfo& info = _flipbook->GetInfo();
 	Vec2 cameraPos = SceneManager::GetInstance()->GetCameraPos();
 
-	RectF destRect = {
-		_pos.x - info.size.x / 2 - (cameraPos.x - GWinSizeX / 2),
-		_pos.y - info.size.y / 2 - (cameraPos.y - GWinSizeY / 2),
-		static_cast<REAL>(info.size.x),
-		static_cast<REAL>(info.size.y)
-	};
+	//RectF destRect = {
+	//	_pos.x - info.size.x / 2 - (cameraPos.x - GWinSizeX / 2),
+	//	_pos.y - info.size.y / 2 - (cameraPos.y - GWinSizeY / 2),
+	//	static_cast<REAL>(info.size.x),
+	//	static_cast<REAL>(info.size.y)
+	//};
  
 
-	Graphics graphics(hdc);
-	graphics.DrawImage(
-		info.texture->GetGdiBitmap(),
-		destRect,
+	//Graphics graphics(hdc);
+	//graphics.DrawImage(
+	//	info.texture->GetGdiBitmap(),
+	//	destRect,
+	//	(info.start + _idx) * info.size.x,
+	//	info.line * info.size.y,
+	//	info.size.x,
+	//	info.size.y,
+	//	UnitPixel);
+
+	::TransparentBlt(hdc,
+		(int32)_pos.x - info.size.x / 2 - ((int32)cameraPos.x - GWinSizeX / 2),
+		(int32)_pos.y - info.size.y / 2 - ((int32)cameraPos.y - GWinSizeY / 2),
+		info.size.x,
+		info.size.y,
+		info.texture->GetDC(),
 		(info.start + _idx) * info.size.x,
 		info.line * info.size.y,
 		info.size.x,
 		info.size.y,
-		UnitPixel);
+		info.texture->GetTransparent());
 
 }

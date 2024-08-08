@@ -32,8 +32,6 @@ Monster::Monster()
 	collider->SetRadius(10);
 	AddComponent(collider);
 
-	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-	scene->AddColliders(collider);
 
 }
 
