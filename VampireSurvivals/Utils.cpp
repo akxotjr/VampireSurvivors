@@ -11,6 +11,56 @@ void Utils::DrawRect(HDC hdc, Vec2 pos, int32 w, int32 h)
 	::Rectangle(hdc, static_cast<int32>(pos.x - w / 2), static_cast<int32>(pos.y - h / 2), static_cast<int32>(pos.x + w / 2), static_cast<int32>(pos.y + h / 2));
 }
 
+void Utils::DrawnFillRect(HDC hdc, Vec2 pos, int32 w, int32 h, COLORREF color1, COLORREF color2)
+{
+	RECT outerRect = {
+			static_cast<int32>(pos.x - w / 2), 
+			static_cast<int32>(pos.y - h / 2), 
+			static_cast<int32>(pos.x + w / 2), 
+			static_cast<int32>(pos.y + h / 2)
+	}; 
+	RECT innerRect = { outerRect.left + 1, outerRect.top + 1, outerRect.right - 1, outerRect.bottom - 1 }; 
+
+	HPEN pen = ::CreatePen(PS_SOLID, 1, color1);
+	HPEN oldPen = (HPEN)::SelectObject(hdc, (HGDIOBJ)pen);
+	HBRUSH emptyBrush = (HBRUSH)::GetStockObject(NULL_BRUSH); 
+	HBRUSH oldBrush = (HBRUSH)::SelectObject(hdc, (HGDIOBJ)emptyBrush);
+	::Rectangle(hdc, outerRect.left, outerRect.top, outerRect.right, outerRect.bottom);
+
+	HBRUSH brush = ::CreateSolidBrush(color2);
+	::FillRect(hdc, &innerRect, brush);
+
+	::SelectObject(hdc, (HGDIOBJ)oldPen);
+	::SelectObject(hdc, (HGDIOBJ)oldBrush);
+	::DeleteObject(pen);
+	::DeleteObject(brush);
+}
+
+void Utils::DrawHP(HDC hdc, Vec2 pos, int32 w, int32 h, float curHP)
+{
+	RECT outerRect = {
+		static_cast<int32>(pos.x - w / 2),
+		static_cast<int32>(pos.y - h / 2),
+		static_cast<int32>(pos.x + w / 2),
+		static_cast<int32>(pos.y + h / 2)
+	};
+	RECT innerRect = { outerRect.left + 1, outerRect.top + 1, outerRect.left + static_cast<int32>(w * curHP) - 1, outerRect.bottom - 1};
+
+	HPEN pen = ::CreatePen(PS_SOLID, 1, RGB(0,0,0));
+	HPEN oldPen = (HPEN)::SelectObject(hdc, (HGDIOBJ)pen);
+	HBRUSH emptyBrush = (HBRUSH)::GetStockObject(NULL_BRUSH);
+	HBRUSH oldBrush = (HBRUSH)::SelectObject(hdc, (HGDIOBJ)emptyBrush);
+	::Rectangle(hdc, outerRect.left, outerRect.top, outerRect.right, outerRect.bottom);
+
+	HBRUSH brush = ::CreateSolidBrush(RGB(255,0,0));
+	::FillRect(hdc, &innerRect, brush);
+
+	::SelectObject(hdc, (HGDIOBJ)oldPen);
+	::SelectObject(hdc, (HGDIOBJ)oldBrush);
+	::DeleteObject(pen);
+	::DeleteObject(brush);
+}
+
 void Utils::DrawCircle(HDC hdc, Vec2 pos, int32 radius)
 {
 	::Ellipse(hdc, static_cast<int32>(pos.x - radius), static_cast<int32>(pos.y - radius), static_cast<int32>(pos.x + radius), static_cast<int32>(pos.y + radius));

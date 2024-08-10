@@ -13,9 +13,12 @@
 #include "Collider.h"
 #include "BoxCollider.h"
 #include "SphereCollider.h"
+#include "Monster.h"
 
 Player::Player()
 {
+	_stat = { 100, 100, 50 };
+
 	SetLayer(LAYER_PLAYER);
 
 	_flipbookIdle[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierIdleRight");
@@ -108,6 +111,8 @@ void Player::Update()
 void Player::Render(HDC hdc)
 {
 	Super::Render(hdc);
+
+	Utils::DrawHP(hdc, Vec2(400, 280), 30, 5, _stat.HP / _stat.MaxHP);
 }
 
 void Player::SetState(PlayerState state)
@@ -224,10 +229,24 @@ void Player::ShootArrow()
 	}
 }
 
+bool Player::TakeDamage(int32 damage)
+{
+	_stat.HP -= damage;
+	if (_stat.HP > 0)
+		return false;
+	return true;
+}
+
 void Player::OnComponentBeginOverlap(Collider* collider, Collider* other)
 {
-	SetState(PlayerState::Hurt);
-
+	if (other->GetCollisionLayer() == CLT_MONSTER)
+	{
+		Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
+		if (!TakeDamage(monster->GetDamage()))
+			SetState(PlayerState::Hurt);
+		else
+			SetState(PlayerState::Death);
+	}
 }
 
 void Player::OnComponentEndOverlap(Collider* collider, Collider* other)

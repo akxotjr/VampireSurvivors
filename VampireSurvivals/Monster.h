@@ -36,6 +36,12 @@ public:
 	virtual void OnComponentBeginOverlap(Collider* collider, Collider* other) override;
 	virtual void OnComponentEndOverlap(Collider* collider, Collider* other) override;
 
+
+	int32 GetDamage()
+	{
+		return _stat.AttackPower;
+	}
+
 protected:
 	MonsterState	_state = MonsterState::Idle;
 	bool			_isAnimationPlaying = false;
@@ -46,6 +52,8 @@ protected:
 	Vec2			_speed = {};
 	float			_coolTime = 2.f;
 	float			_sumTime = 0.f;
+
+	Stat			_stat;
 
 	Flipbook*	_flipbookIdle[2] = {};
 	Flipbook*	_flipbookMove[2] = {};

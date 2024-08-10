@@ -168,3 +168,12 @@ struct Vec2Int
 	int32 x = 0;
 	int32 y = 0;
 };
+
+
+struct Stat
+{
+	int32 MaxHP = 0;
+	int32 HP = 0;
+	int32 AttackPower = 0;
+
+};

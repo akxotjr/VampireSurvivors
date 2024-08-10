@@ -12,6 +12,8 @@
 
 Monster::Monster()
 {
+	_stat = { 100, 100, 10 };
+
 	SetLayer(LAYER_MONSTER);
 
 	_flipbookIdle[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_OrcIdleRight");
@@ -154,7 +156,7 @@ void Monster::OnComponentEndOverlap(Collider* collider, Collider* other)
 {
 	if (_state == MonsterState::Death)
 	{
-		CollisionManager::GetInstance()->RemoveCollider(other);
+		CollisionManager::GetInstance()->RemoveCollider(collider);
 
 		//delete(this);
 	}

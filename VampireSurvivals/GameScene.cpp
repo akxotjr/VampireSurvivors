@@ -214,13 +214,15 @@ Vec2 GameScene::MonsterRandomPos(float deltaTime)
 {
 	Vec2 playerPos = GetPlayerPos();
 
-	srand(time(0));
+	std::random_device rd;
+	std::mt19937 gen(rd());
 
-	int min = 30;
-	int max = 200;
-	int radius = min + rand() % (max - min + 1);
 
-	float theta = ((float)rand() / RAND_MAX) * 2 * PI;
+	std::uniform_real_distribution<float> radius_dist(50, 300);
+	float radius = radius_dist(gen);
+
+	std::uniform_real_distribution<float> theta_dist(0.f, 2.f * PI);
+	float theta = theta_dist(gen);
 
 	Vec2 monsterPos;
 	monsterPos.x = playerPos.x + radius * cos(theta);
