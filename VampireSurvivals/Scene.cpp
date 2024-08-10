@@ -73,6 +73,8 @@ void Scene::RemoveActor(Actor* actor)
 
 	vector<Actor*>& v = _actors[actor->GetLayer()];
 	v.erase(std::remove(v.begin(), v.end(), actor), v.end());
+
+//	delete(actor);
 }
 
 Vec2 Scene::GetPlayerPos()

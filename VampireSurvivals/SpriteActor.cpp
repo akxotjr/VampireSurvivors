@@ -59,7 +59,8 @@ void SpriteActor::Render(HDC hdc)
 	//	UnitPixel
 	//);
 
-	::BitBlt(hdc,
+
+	::TransparentBlt(hdc,
 		(int32)_pos.x - size.x / 2 - ((int32)cameraPos.x - GWinSizeX / 2),
 		(int32)_pos.y - size.y / 2 - ((int32)cameraPos.y - GWinSizeY / 2),
 		size.x,
@@ -67,6 +68,8 @@ void SpriteActor::Render(HDC hdc)
 		_sprite->GetDC(),
 		_sprite->GetPos().x,
 		_sprite->GetPos().y,
-		SRCCOPY);
+		_sprite->GetSize().x,
+		_sprite->GetSize().y,
+		_sprite->GetTransparent());
 
 }

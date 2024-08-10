@@ -1,6 +1,7 @@
 #pragma once
 
 class Component;
+class Collider;
 
 class Actor
 {
@@ -26,6 +27,11 @@ public:
 
 	void AddComponent(Component* component);
 	void RemoveComponent(Component* component);
+
+	Component* GetCollider();
+
+	virtual void OnComponentBeginOverlap(Collider* collider, Collider* other);
+	virtual void OnComponentEndOverlap(Collider* collider, Collider* other);
 
 protected:
 	Vec2			_pos = { 0, 0 };

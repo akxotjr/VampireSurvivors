@@ -44,7 +44,7 @@ public:
 
 protected:
 	ColliderType	_colliderType;
-	bool			_showDebug;
+	bool			_showDebug = true;
 
 	COLLISION_LAYER_TYPE	_collisionLayer = CLT_GROUND;
 	uint32					_collisionFlag = 0xFFFFFFFF;

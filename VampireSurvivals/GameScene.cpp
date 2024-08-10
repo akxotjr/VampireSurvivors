@@ -3,6 +3,7 @@
 #include "TimeManager.h"
 #include "InputManager.h"
 #include "ResourceManager.h"
+#include "CollisionManager.h"
 #include "Texture.h"
 #include "Sprite.h"
 #include "Flipbook.h"
@@ -34,10 +35,10 @@ void GameScene::Init()
 	ResourceManager::GetInstance()->LoadTexture(L"SoldierMoveLeft", L"Soldier\\Soldier-Walk-Left.bmp");
 	ResourceManager::GetInstance()->LoadTexture(L"SoldierAttackRight", L"Soldier\\Soldier-Attack03-Right.bmp");
 	ResourceManager::GetInstance()->LoadTexture(L"SoldierAttackLeft", L"Soldier\\Soldier-Attack03-Left.bmp");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierHurt", L"Soldier\\Soldier-Hurt-Right.bmp");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierHurt", L"Soldier\\Soldier-Hurt-Left.bmp");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierDeath", L"Soldier\\Soldier-Death-Right.bmp");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierDeath", L"Soldier\\Soldier-Death-Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierHurtRight", L"Soldier\\Soldier-Hurt-Right.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierHurtLeft", L"Soldier\\Soldier-Hurt-Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierDeathRight", L"Soldier\\Soldier-Death-Right.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"SoldierDeathLeft", L"Soldier\\Soldier-Death-Left.bmp");
 
 	// Create Soldier Flipbook
 	{
@@ -93,25 +94,25 @@ void GameScene::Init()
 
 #pragma endregion 
 #pragma region Skills
-	ResourceManager::GetInstance()->LoadTexture(L"Arrow", L"Projectile\\Arrow01(32x32).png");
+	ResourceManager::GetInstance()->LoadTexture(L"Arrow", L"Projectile\\Arrow01.bmp");
 	ResourceManager::GetInstance()->CreateSprite(L"Arrow", ResourceManager::GetInstance()->GetTexture(L"Arrow"));
 #pragma endregion
 #pragma region Monster
 	// Load Orc Texture
-	ResourceManager::GetInstance()->LoadTexture(L"OrcIdle", L"Orc\\Orc-Idle-Right.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OrcIdleRight", L"Orc\\Orc-Idle-Right.bmp");
 	ResourceManager::GetInstance()->LoadTexture(L"OrcIdleLeft", L"Orc\\Orc-Idle-Left.bmp");
 	ResourceManager::GetInstance()->LoadTexture(L"OrcMoveRight", L"Orc\\Orc-Walk-Right.bmp");
 	ResourceManager::GetInstance()->LoadTexture(L"OrcMoveLeft", L"Orc\\Orc-Walk-Left.bmp");
 	ResourceManager::GetInstance()->LoadTexture(L"OrcAttackRight", L"Orc\\Orc-Attack01-Right.bmp");
 	ResourceManager::GetInstance()->LoadTexture(L"OrcAttackLeft", L"Orc\\Orc-Attack01-Left.bmp");
-	ResourceManager::GetInstance()->LoadTexture(L"OrcHurt", L"Orc\\Orc-Hurt-Right.bmp");
-	ResourceManager::GetInstance()->LoadTexture(L"OrcHurt", L"Orc\\Orc-Hurt-Left.bmp");
-	ResourceManager::GetInstance()->LoadTexture(L"OrcDeath", L"Orc\\Orc-Death-Right.bmp");
-	ResourceManager::GetInstance()->LoadTexture(L"OrcDeath", L"Orc\\Orc-Death-Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OrcHurtRight", L"Orc\\Orc-Hurt-Right.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OrcHurtLeft", L"Orc\\Orc-Hurt-Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OrcDeathRight", L"Orc\\Orc-Death-Right.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OrcDeathLeft", L"Orc\\Orc-Death-Left.bmp");
 	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcIdle");
-		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OrcIdle");
-		fb->SetInfo({ texture, L"FB_OrcIdle", {100, 100}, 0, 5, 0, 0.5f });
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcIdleRight");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OrcIdleRight");
+		fb->SetInfo({ texture, L"FB_OrcIdleRight", {100, 100}, 0, 5, 0, 0.5f });
 	}
 	{
 		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OrcIdleLeft");
@@ -182,8 +183,9 @@ void GameScene::Update()
 {
 	Super::Update();
 
-
 	MonsterRespawn();
+
+	CollisionManager::GetInstance()->Update();
 }
 
 void GameScene::Render(HDC hdc)
@@ -212,10 +214,10 @@ Vec2 GameScene::MonsterRandomPos(float deltaTime)
 {
 	Vec2 playerPos = GetPlayerPos();
 
-	srand(deltaTime);
+	srand(time(0));
 
 	int min = 30;
-	int max = 100;
+	int max = 200;
 	int radius = min + rand() % (max - min + 1);
 
 	float theta = ((float)rand() / RAND_MAX) * 2 * PI;

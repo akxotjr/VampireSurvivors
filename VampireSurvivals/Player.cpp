@@ -5,6 +5,7 @@
 #include "Flipbook.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
+#include "CollisionManager.h"
 #include "DevScene.h"
 #include "GameScene.h"
 #include "CameraComponent.h"
@@ -41,10 +42,11 @@ Player::Player()
 	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
 	collider->ResetCollisionFlag();
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
-	collider->SetRadius(50);
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_ITEM);
+	collider->SetRadius(20);
 	AddComponent(collider);
 
-
+	CollisionManager::GetInstance()->AddCollider(collider);
 }
 
 Player::~Player()
@@ -67,13 +69,10 @@ void Player::Update()
 	if (_sumTime > _coolTime)
 	{
 		SetState(PlayerState::Attack);
-		if (_sumTime > _coolTime + 0.5f)
-		{
-			//ShootArrow();
-			_sumTime = 0.f;
-		}
+		ShootArrow();
+		_sumTime = 0.f;
 	}
-	else
+
 	{
 		UpdateDir();
 		if (!_keyPressed)
@@ -111,6 +110,15 @@ void Player::Render(HDC hdc)
 	Super::Render(hdc);
 }
 
+void Player::SetState(PlayerState state)
+{
+	if (!_isAnimationPlaying)
+	{
+		_state = state;
+		UpdateAnimation();
+	}
+}
+
 void Player::UpdateDir()
 {
 	uint8 dir = 0;
@@ -142,22 +150,50 @@ void Player::UpdateDir()
 
 void Player::UpdateAnimation()
 {
-	
-	switch (_state)
+	if (!_isAnimationPlaying)
 	{
-	case PlayerState::Idle:
-		if (_keyPressed)
+		switch (_state)
+		{
+		case PlayerState::Idle:
+			if (_keyPressed)
+				SetFlipbook(_flipbookMove[_sight]);
+			else
+				SetFlipbook(_flipbookIdle[_sight]);
+			break;
+		case PlayerState::Move:
 			SetFlipbook(_flipbookMove[_sight]);
-		else
-			SetFlipbook(_flipbookIdle[_sight]);
-		break;
-	case PlayerState::Move:
-		SetFlipbook(_flipbookMove[_sight]);
-		break;
-	case PlayerState::Attack:
-		SetFlipbook(_flipbookAttack[_sight]);
-		break;
+			break;
+		case PlayerState::Attack:
+			SetFlipbook(_flipbookAttack[_sight]);
+			_isAnimationPlaying = true;
+			_animationTime = 0.0f;
+			break;
+		case PlayerState::Hurt:
+			SetFlipbook(_flipbookHurt[_sight]);
+			_isAnimationPlaying = true;
+			_animationTime = 0.0f;
+			break;
+		case PlayerState::Death:
+			SetFlipbook(_flipbookDeath[_sight]);
+			_isAnimationPlaying = true;
+			_animationTime = 0.0f;
+			break;
+		}
 	}
+	else
+	{
+		_animationTime += TimeManager::GetInstance()->GetDeltaTime();
+		if (_animationTime >= GetFlipbookDuration())
+		{
+			OnAnimationFinished();
+		}
+	}
+}
+
+void Player::OnAnimationFinished()
+{
+	_isAnimationPlaying = false;
+	SetState(PlayerState::Idle);
 }
 
 void Player::ShootArrow()
@@ -186,6 +222,17 @@ void Player::ShootArrow()
 		scene->AddActor(arrow);
 		_skills.push_back(arrow);
 	}
+}
+
+void Player::OnComponentBeginOverlap(Collider* collider, Collider* other)
+{
+	SetState(PlayerState::Hurt);
+
+}
+
+void Player::OnComponentEndOverlap(Collider* collider, Collider* other)
+{
+
 }
 
 

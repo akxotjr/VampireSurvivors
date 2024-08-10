@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Actor.h"
 #include "Component.h"
+#include "Collider.h"
 
 Actor::Actor()
 {
@@ -50,4 +51,25 @@ void Actor::RemoveComponent(Component* component)
 		return;
 
 	_components.erase(findIt);
+}
+
+Component* Actor::GetCollider()
+{
+	for (Component* component : _components)
+	{
+		if (dynamic_cast<Collider*>(component))
+			return component;
+	}
+
+	return nullptr;
+}
+
+void Actor::OnComponentBeginOverlap(Collider* collider, Collider* other)
+{
+
+}
+
+void Actor::OnComponentEndOverlap(Collider* collider, Collider* other)
+{
+
 }

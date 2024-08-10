@@ -35,6 +35,12 @@ void SphereCollider::Render(HDC hdc)
 	Vec2 pos = GetOwner()->GetPos();
 	pos.x -= (cameraPos.x - GWinSizeX / 2);
 	pos.y -= (cameraPos.y - GWinSizeY / 2);
+
+	HBRUSH myBrush = (HBRUSH)::GetStockObject(NULL_BRUSH);
+	HBRUSH oldBrush = (HBRUSH)::SelectObject(hdc, myBrush);
+	Utils::DrawCircle(hdc, pos, _radius);
+	::SelectObject(hdc, oldBrush);
+	::DeleteObject(myBrush);
 }
 
 bool SphereCollider::CheckCollision(Collider* other)

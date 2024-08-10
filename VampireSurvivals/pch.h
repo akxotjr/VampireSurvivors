@@ -4,7 +4,7 @@
 #include "Defines.h"
 #include "Enums.h"
 #include "Values.h"
-//#include "Utils.h"
+#include "Utils.h"
 
 #include <windows.h>
 #include <vector>
@@ -35,8 +35,8 @@ namespace fs = std::filesystem;
 
 #pragma comment(lib, "msimg32.lib")
 
-#include <gdiplus.h>
-#pragma comment(lib, "gdiplus")
-
-using namespace Gdiplus;
+//#include <gdiplus.h>
+//#pragma comment(lib, "gdiplus")
+//
+//using namespace Gdiplus;
 using namespace std;

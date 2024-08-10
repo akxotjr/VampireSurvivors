@@ -24,8 +24,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ int       nCmdShow)
 {
     ULONG_PTR gpToken;
-    GdiplusStartupInput gpsi;
-    if (GdiplusStartup(&gpToken, &gpsi, NULL) != Ok) return 0;
+   /* GdiplusStartupInput gpsi;
+    if (GdiplusStartup(&gpToken, &gpsi, NULL) != Ok) return 0;*/
 
     MyRegisterClass(hInstance);
 
@@ -50,7 +50,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         {
             uint64 now = ::GetTickCount64();
 
-            //if (now - prevTick >= 30)
+            if (now - prevTick >= 0.5f)
             {
                 game.Update();
                 game.Render();
@@ -60,7 +60,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
     }
 
-    GdiplusShutdown(gpToken);
+    //GdiplusShutdown(gpToken);
 
     return (int) msg.wParam;
 }

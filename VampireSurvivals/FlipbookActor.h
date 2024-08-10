@@ -29,6 +29,8 @@ public:
 		_idx = 0;
 	}
 
+	float GetFlipbookDuration();
+
 protected:
 	Flipbook*	_flipbook = nullptr;
 	float		_sumTime = 0.f;

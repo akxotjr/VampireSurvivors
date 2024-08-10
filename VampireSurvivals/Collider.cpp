@@ -3,7 +3,7 @@
 #include "BoxCollider.h"
 #include "SphereCollider.h"
 
-Collider::Collider(ColliderType colliderType)
+Collider::Collider(ColliderType colliderType) : _colliderType(colliderType)
 {
 }
 

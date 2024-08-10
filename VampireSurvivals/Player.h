@@ -27,11 +27,7 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 
-	void SetState(PlayerState state) 
-	{ 
-		_state = state; 
-		UpdateAnimation();
-	}
+	void SetState(PlayerState state);
 	void SetDir(Dir dir) 
 	{ 
 		_dir = dir; 
@@ -40,11 +36,19 @@ public:
 
 	void	UpdateDir();
 	void	UpdateAnimation();
+	void	OnAnimationFinished();
 
 	void	ShootArrow();
 
+
+	virtual void OnComponentBeginOverlap(Collider* collider, Collider* other) override;
+	virtual void OnComponentEndOverlap(Collider* collider, Collider* other) override;
+
 private:
 	PlayerState	_state = PlayerState::Idle;
+	bool		_isAnimationPlaying = false;
+	float		_animationTime = 0.0f;
+
 	Dir			_dir = Dir::DIR_RIGHT;
 	Sight		_sight = Sight::Right;
 	Vec2		_speed = {};

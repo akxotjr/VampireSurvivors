@@ -2,6 +2,7 @@
 #include "Projectile.h"
 #include "SpriteActor.h"
 #include "SceneManager.h"
+#include "CollisionManager.h"
 #include "Texture.h"
 #include "Sprite.h"
 #include "SphereCollider.h"
@@ -14,8 +15,10 @@ Projectile::Projectile()
 	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_SKILL);
 	collider->ResetCollisionFlag();
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
-	collider->SetRadius(5);
+	collider->SetRadius(10);
 	AddComponent(collider);
+
+	CollisionManager::GetInstance()->AddCollider(collider);
 }
 
 Projectile::~Projectile()
@@ -46,4 +49,14 @@ void Projectile::Update()
 void Projectile::Render(HDC hdc)
 {
 	Super::Render(hdc);
+}
+
+void Projectile::OnComponentBeginOverlap(Collider* collider, Collider* other)
+{
+
+}
+
+void Projectile::OnComponentEndOverlap(Collider* collider, Collider* other)
+{
+
 }
