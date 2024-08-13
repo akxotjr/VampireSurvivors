@@ -1,5 +1,7 @@
 #pragma once
 
+class Sprite;
+
 class UI
 {
 public:
@@ -16,7 +18,12 @@ public:
 	RECT GetRect();
 	bool IsMouseInRect();
 
+	void SetSprite(Sprite* sprite) { _sprite = sprite; }
+
+
 protected:
+	Sprite* _sprite = nullptr;
+
 	Vec2	_pos = { 400, 300 };
 	Vec2Int _size = { 150, 150 };
 };

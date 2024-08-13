@@ -36,6 +36,9 @@ public:
 	Flipbook* CreateFlipbook(const wstring& key);
 	Flipbook* GetFlipbook(const wstring& key) { return _flipbooks[key]; }
 
+	HFONT LoadFont(const wstring& key, const wstring& path);
+	HFONT GetFont(const wstring& key) { return _fonts[key]; }
+
 private:
 	ResourceManager() = default;
 
@@ -54,5 +57,6 @@ private:
 	unordered_map<wstring, Sprite*>		_sprites;
 	unordered_map<wstring, Flipbook*>	_flipbooks;
 	unordered_map<wstring, Tilemap*>	_tilemaps;
+	unordered_map<wstring, HFONT>		_fonts;
 };
 

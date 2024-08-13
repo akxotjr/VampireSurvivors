@@ -172,8 +172,9 @@ struct Vec2Int
 
 struct Stat
 {
-	int32 MaxHP = 0;
-	int32 HP = 0;
-	int32 AttackPower = 0;
+	float MaxHP = 0;
+	float HP = 0;
+	float AttackPower = 0;
 
+	void SetHP(int32 hp) { HP = hp; }
 };

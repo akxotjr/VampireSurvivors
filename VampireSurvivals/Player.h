@@ -39,6 +39,8 @@ public:
 	void	OnAnimationFinished();
 
 	void	ShootArrow();
+	float	GetAttackPower() { return _stat.AttackPower; }
+
 	bool	TakeDamage(int32 damage);
 
 	virtual void OnComponentBeginOverlap(Collider* collider, Collider* other) override;
@@ -58,7 +60,7 @@ private:
 	float		_coolTime = 2.f;
 	float		_sumTime = 0.f;
 
-	Stat		_stat;
+	Stat		_stat = {};
 
 	Flipbook*	_flipbookIdle[2] = {};
 	Flipbook*	_flipbookMove[2] = {};

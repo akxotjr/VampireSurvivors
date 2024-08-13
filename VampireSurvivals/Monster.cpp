@@ -9,6 +9,8 @@
 #include "DevScene.h"
 #include "GameScene.h"
 #include "SphereCollider.h"
+#include "Projectile.h"
+#include "Experience.h"
 
 Monster::Monster()
 {
@@ -52,7 +54,7 @@ Monster::~Monster()
 void Monster::Init()
 {
 	Super::Init();
-	SetState(MonsterState::Idle);
+	SetState(MonsterState::Move);
 }
 
 void Monster::Update()
@@ -129,6 +131,7 @@ void Monster::UpdateAnimation()
 			{
 				GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 				scene->RemoveActor(this);
+				return;
 			}
 			OnAnimationFinished();
 		}
@@ -144,11 +147,24 @@ void Monster::OnAnimationFinished()
 
 void Monster::OnComponentBeginOverlap(Collider* collider, Collider* other)
 {
-	//SetState(MonsterState::Hurt);
-
 	if (other->GetCollisionLayer() == COLLISION_LAYER_TYPE::CLT_SKILL)
 	{
-		SetState(MonsterState::Death);
+		Projectile* projectile = dynamic_cast<Projectile*>(other->GetOwner());
+		if (!TakeDamage(projectile->GetDamage()))
+		{
+			SetState(MonsterState::Hurt);
+		}
+		else
+		{
+			{
+				Experience* exp = new Experience();
+				exp->SetPos(_pos);
+
+				GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+				scene->AddActor(exp);
+			}
+			SetState(MonsterState::Death);
+		}
 	}
 }
 
@@ -160,4 +176,13 @@ void Monster::OnComponentEndOverlap(Collider* collider, Collider* other)
 
 		//delete(this);
 	}
+}
+
+bool Monster::TakeDamage(float damage)
+{
+	_stat.HP -= damage;
+
+	if (_stat.HP > 0)
+		return false;
+	return true;
 }

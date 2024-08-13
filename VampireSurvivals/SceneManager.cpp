@@ -2,6 +2,8 @@
 #include "SceneManager.h"
 #include "DevScene.h"
 #include "GameScene.h"
+#include "LobbyScene.h"
+#include "StatUpgradeScene.h"
 
 unique_ptr<SceneManager> SceneManager::instance = nullptr;
 
@@ -37,11 +39,16 @@ void SceneManager::ChangeScene(SceneType sceneType)
 	switch (sceneType)
 	{
 	case SceneType::DevScene:
-		//newScene = make_unique<DevScene>();
 		newScene = new DevScene();
 		break;
 	case SceneType::GameScene:
 		newScene = new GameScene();
+		break;
+	case SceneType::LobbyScene:
+		newScene = new LobbyScene();
+		break;
+	case SceneType::StatUpgradeScene:
+		newScene = new StatUpgradeScene();
 		break;
 	}
 

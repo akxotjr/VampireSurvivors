@@ -19,6 +19,7 @@ Player::Player()
 {
 	_stat = { 100, 100, 50 };
 
+
 	SetLayer(LAYER_PLAYER);
 
 	_flipbookIdle[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierIdleRight");
@@ -71,9 +72,12 @@ void Player::Update()
 	_sumTime += deltaTime;
 	if (_sumTime > _coolTime)
 	{
-		SetState(PlayerState::Attack);
-		ShootArrow();
-		_sumTime = 0.f;
+		if (_sumTime > _coolTime + 0.5f)
+		{
+			SetState(PlayerState::Attack);
+			ShootArrow();
+			_sumTime = 0.f;
+		}
 	}
 
 	{
@@ -111,8 +115,7 @@ void Player::Update()
 void Player::Render(HDC hdc)
 {
 	Super::Render(hdc);
-
-	Utils::DrawHP(hdc, Vec2(400, 280), 30, 5, _stat.HP / _stat.MaxHP);
+	Utils::DrawHP(hdc, Vec2(480, 340), 30, 5, _stat.HP / _stat.MaxHP);
 }
 
 void Player::SetState(PlayerState state)
@@ -206,7 +209,7 @@ void Player::ShootArrow()
 	Vec2 mousePos = {};
 	mousePos.x = InputManager::GetInstance()->GetMousePos().x;
 	mousePos.y = InputManager::GetInstance()->GetMousePos().y;
-	Vec2 attackDir = mousePos - Vec2(400,300);
+	Vec2 attackDir = mousePos - Vec2(480,360);
 	attackDir.Normalize();
 
 	if (mousePos.x >= _pos.x)
@@ -222,7 +225,9 @@ void Player::ShootArrow()
 		arrow->SetPos(_pos);
 		arrow->SetDestPos(mousePos);
 		arrow->SetDir(attackDir);
-		
+		arrow->SetOwner(this);
+		arrow->SetDamage();
+
 		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 		scene->AddActor(arrow);
 		_skills.push_back(arrow);
@@ -232,6 +237,7 @@ void Player::ShootArrow()
 bool Player::TakeDamage(int32 damage)
 {
 	_stat.HP -= damage;
+
 	if (_stat.HP > 0)
 		return false;
 	return true;
@@ -246,6 +252,11 @@ void Player::OnComponentBeginOverlap(Collider* collider, Collider* other)
 			SetState(PlayerState::Hurt);
 		else
 			SetState(PlayerState::Death);
+	}
+	else if (other->GetCollisionLayer() == CLT_ITEM)
+	{
+		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+		scene->RemoveActor(other->GetOwner());
 	}
 }
 

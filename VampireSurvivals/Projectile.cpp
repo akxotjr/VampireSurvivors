@@ -7,6 +7,8 @@
 #include "Sprite.h"
 #include "SphereCollider.h"
 #include "GameScene.h"
+#include "Player.h"
+#include "Actor.h"
 
 Projectile::Projectile()
 {
@@ -62,4 +64,9 @@ void Projectile::OnComponentEndOverlap(Collider* collider, Collider* other)
 	scene->RemoveActor(this);
 
 	CollisionManager::GetInstance()->RemoveCollider(collider);
+}
+
+void Projectile::SetDamage()
+{
+	_damage = dynamic_cast<Player*>(_owner)->GetAttackPower() * 1.1f;
 }

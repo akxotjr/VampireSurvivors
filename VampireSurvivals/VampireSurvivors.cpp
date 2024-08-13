@@ -9,8 +9,8 @@
 #define MAX_LOADSTRING 100
 
 // 전역 변수:
-HINSTANCE   hInst;                               
-HWND        g_hWnd;
+HINSTANCE           hInst;                               
+HWND                g_hWnd;
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -108,6 +108,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; 
 
    RECT windowRect = { 0, 0, GWinSizeX, GWinSizeY };
+   ::AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, false);
 
    HWND hWnd = CreateWindowW(L"VampireSurvivals", L"Client", WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top, nullptr, nullptr, hInstance, nullptr);

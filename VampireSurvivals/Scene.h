@@ -1,6 +1,7 @@
 #pragma once
 
 class Actor;
+class UI;
 
 class Scene
 {
@@ -12,20 +13,16 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 
-	//void AddActor(shared_ptr<Actor> actor);
-	//void RemoveActor(shared_ptr<Actor> actor);
-
 	void AddActor(Actor* actor);
 	void RemoveActor(Actor* actor);
+
+	void AddUI(UI* ui);
+	void RemmoveUI(UI* ui);
 
 	Vec2 GetPlayerPos();
 
 public:
-	//vector<shared_ptr<Actor>> _actors[LAYER_MAXCOUNT];
 	vector<Actor*> _actors[LAYER_MAXCOUNT];
-	// 
-	//vector<UI*>		_uis;
-
-
+	vector<UI*>		_uis;
 };
 

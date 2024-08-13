@@ -36,6 +36,7 @@ public:
 	virtual void OnComponentBeginOverlap(Collider* collider, Collider* other) override;
 	virtual void OnComponentEndOverlap(Collider* collider, Collider* other) override;
 
+	bool TakeDamage(float damage);
 
 	int32 GetDamage()
 	{

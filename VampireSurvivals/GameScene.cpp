@@ -2,6 +2,7 @@
 #include "GameScene.h"
 #include "TimeManager.h"
 #include "InputManager.h"
+#include "SceneManager.h"
 #include "ResourceManager.h"
 #include "CollisionManager.h"
 #include "Texture.h"
@@ -11,6 +12,7 @@
 #include "SpriteActor.h"
 #include "FlipbookActor.h"
 #include "Player.h"
+#include "Background.h"
 #include "Monster.h"
 #include "Collider.h"
 #include "BoxCollider.h"
@@ -161,20 +163,25 @@ void GameScene::Init()
 	}
 #pragma endregion	
 #pragma region Item
-
+	ResourceManager::GetInstance()->LoadTexture(L"EXP01", L"Items\\EXP01.bmp", RGB(255,255,255));
 #pragma endregion
 #pragma region Background
+	ResourceManager::GetInstance()->LoadTexture(L"Tilemap03", L"Tilemap\\Tilemap03.bmp");
+
 #pragma endregion
 
-
 	{
+		// Player
 		Player* player = new Player();
-		// TODO : player setPos (mapsize/2)
-		player->SetPos({ 480, 360 });
+		player->SetPos({ GWinSizeX / 2, GWinSizeY / 2 });
+
 		AddActor(player);
 	}
 	{
-		// TODO : Background
+		// Background
+		Background* background = new Background();
+
+		AddActor(background);
 	}
 	Super::Init();
 }

@@ -5,7 +5,9 @@ enum class SceneType
 	None,
 	DevScene,
 	EditScene,
-	GameScene
+	GameScene,
+	LobbyScene,
+	StatUpgradeScene,
 };
 
 enum LAYER_TYPE

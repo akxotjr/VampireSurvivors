@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Scene.h"
 #include "Actor.h"
+#include "UI.h"
 
 Scene::Scene()
 {
@@ -18,6 +19,9 @@ void Scene::Init()
 	for (const vector<Actor*>& actors : _actors)
 		for (Actor* actor : actors)
 			actor->Init();
+
+	for (UI* ui : _uis)
+		ui->Init();
 }
 
 void Scene::Update()
@@ -28,34 +32,21 @@ void Scene::Update()
 	for (const vector<Actor*>& actors : _actors)
 		for (Actor* actor : actors)
 			actor->Update();
+
+
+	for (UI* ui : _uis)
+			ui->Update();
 }
 
 void Scene::Render(HDC hdc)
 {
-	//for (const vector<shared_ptr<Actor>>& actors : _actors)
-	//	for (shared_ptr<Actor> actor : actors)
-	//		actor->Render(hdc);
 	for (const vector<Actor*>& actors : _actors)
 		for (Actor* actor : actors)
 			actor->Render(hdc);
-}
 
-//void Scene::AddActor(shared_ptr<Actor> actor)
-//{
-//	if (actor == nullptr)
-//		return;
-//
-//	_actors[actor->GetLayer()].push_back(actor);
-//}
-//
-//void Scene::RemoveActor(shared_ptr<Actor> actor)
-//{
-//	if (actor == nullptr)
-//		return;
-//
-//	vector<shared_ptr<Actor>>& v = _actors[actor->GetLayer()];
-//	v.erase(std::remove(v.begin(), v.end(), actor), v.end());
-//}
+	for (UI* ui : _uis)
+		ui->Render(hdc);
+}
 
 
 void Scene::AddActor(Actor* actor)
@@ -73,8 +64,22 @@ void Scene::RemoveActor(Actor* actor)
 
 	vector<Actor*>& v = _actors[actor->GetLayer()];
 	v.erase(std::remove(v.begin(), v.end(), actor), v.end());
+}
 
-//	delete(actor);
+void Scene::AddUI(UI* ui)
+{
+	if (ui == nullptr)
+		return;
+
+	_uis.push_back(ui);
+}
+
+void Scene::RemmoveUI(UI* ui)
+{
+	if (ui == nullptr)
+		return;
+
+	_uis.erase(std::remove(_uis.begin(), _uis.end(), ui), _uis.end());
 }
 
 Vec2 Scene::GetPlayerPos()

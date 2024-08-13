@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "UI.h"
 #include "InputManager.h"
+#include "Sprite.h"
 
 UI::UI()
 {
@@ -24,7 +25,12 @@ void UI::Update()
 
 void UI::Render(HDC hdc)
 {
-
+	::TransparentBlt(hdc, 0, 0, _sprite->GetSize().x, _sprite->GetSize().y, _sprite->GetDC(),
+		0,
+		0,
+		_sprite->GetSize().x,
+		_sprite->GetSize().y,
+		_sprite->GetTransparent());
 }
 
 RECT UI::GetRect()

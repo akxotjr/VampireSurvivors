@@ -30,9 +30,9 @@ void Game::Init(HWND hwnd)
 	InputManager::GetInstance()->Init(hwnd);
 	SceneManager::GetInstance()->Init();
 
-	//ResourceManager::GetInstance()->Init(hwnd, fs::path(L"C:\\Users\\UserK\\Desktop\\Project_VampireSurvivors\\VampireSurvivors\\Resources"));
-	ResourceManager::GetInstance()->Init(hwnd, fs::path(L"C:\\Users\\matae\\source\\repos\\akxotjr\\VampireSurvivals\\VampireSurvivals\\Resources"));
-	SceneManager::GetInstance()->ChangeScene(SceneType::GameScene);
+	ResourceManager::GetInstance()->Init(hwnd, fs::path(L"C:\\Users\\UserK\\Desktop\\Project_VampireSurvivors\\VampireSurvivors\\Resources"));
+	//ResourceManager::GetInstance()->Init(hwnd, fs::path(L"C:\\Users\\matae\\source\\repos\\akxotjr\\VampireSurvivals\\VampireSurvivals\\Resources"));
+	SceneManager::GetInstance()->ChangeScene(SceneType::StatUpgradeScene);
 }
 
 void Game::Update()
@@ -49,17 +49,17 @@ void Game::Render()
 	uint32 fps = TimeManager::GetInstance()->GetFps();
 	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
 
-	{
-		POINT mousePos = InputManager::GetInstance()->GetMousePos();
-		wstring str = std::format(L"Mouse({0}, {1})", mousePos.x, mousePos.y);
-		::TextOut(_hdcBack, 20, 10, str.c_str(), static_cast<int32>(str.size()));
-		int a = 0;
-	}
+	//{
+	//	POINT mousePos = InputManager::GetInstance()->GetMousePos();
+	//	wstring str = std::format(L"Mouse({0}, {1})", mousePos.x, mousePos.y);
+	//	::TextOut(_hdcBack, 20, 10, str.c_str(), static_cast<int32>(str.size()));
+	//	int a = 0;
+	//}
 
-	{
-		wstring str = std::format(L"FPS({0}), DT({1})", fps, deltaTime);
-		::TextOut(_hdcBack, 600, 10, str.c_str(), static_cast<int32>(str.size()));
-	}
+	//{
+	//	wstring str = std::format(L"FPS({0}), DT({1})", fps, deltaTime);
+	//	::TextOut(_hdcBack, 600, 10, str.c_str(), static_cast<int32>(str.size()));
+	//}
 
 	//// Double Buffering
 	::BitBlt(_hdc, 0, 0, _rect.right, _rect.bottom, _hdcBack, 0, 0, SRCCOPY);

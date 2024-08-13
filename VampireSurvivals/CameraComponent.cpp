@@ -25,8 +25,8 @@ void CameraComponent::Update()
 	Vec2 pos = _owner->GetPos();
 
 	// TEMP
-	pos.x = ::clamp(pos.x, 0.f, 960.f);
-	pos.y = ::clamp(pos.y, 0.f, 720.f);
+	//pos.x = ::clamp(pos.x, 0.f, 960.f);
+	//pos.y = ::clamp(pos.y, 0.f, 720.f);
 
 	SceneManager::GetInstance()->SetCameraPos(pos);
 }

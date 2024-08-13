@@ -1,0 +1,39 @@
+#include "pch.h"
+#include "StatUpgradeScene.h"
+#include "ResourceManager.h"
+#include "UI.h"
+#include "Sprite.h"
+#include "SpriteActor.h"
+
+StatUpgradeScene::StatUpgradeScene()
+{
+	ResourceManager::GetInstance()->LoadTexture(L"Stat-Upgrade", L"UI\\Stat-Upgrade.bmp");
+
+	{
+		Sprite* sprite = ResourceManager::GetInstance()->CreateSprite(L"Stat-Upgrade", ResourceManager::GetInstance()->GetTexture(L"Stat-Upgrade"));
+		UI* background = new UI();
+		background->SetSprite(sprite);
+		background->SetPos(Vec2(sprite->GetSize().x, sprite->GetSize().y));
+
+		AddUI(background);
+	}
+}
+
+StatUpgradeScene::~StatUpgradeScene()
+{
+}
+
+void StatUpgradeScene::Init()
+{
+	Super::Init();
+}
+
+void StatUpgradeScene::Update()
+{
+	Super::Update();
+}
+
+void StatUpgradeScene::Render(HDC hdc)
+{
+	Super::Render(hdc);
+}
