@@ -1,0 +1,33 @@
+{
+    "characters" : [
+        {
+            "id" : 1,
+            "name" : "warrior",
+            "stat" : {
+                "hp" : 100,
+                "hp_gen" : 3,
+                "atk" : 10,
+                "atk_speed" : 1,
+                "armor" : 10,
+                "speed" : 200
+            }
+        }
+    ],
+
+    "Monsters" : [
+        {
+            "id" : 1,
+            "name" : "Orc",
+            "stat" : {
+                "hp" : 100,
+                "hp_gen" : 3,
+                "atk" : 10,
+                "atk_speed" : 1,
+                "armor" : 10,
+                "speed" : 200
+            }
+        }
+    ]
+
+    
+}

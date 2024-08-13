@@ -64,16 +64,17 @@ void Button::Render(HDC hdc)
 {
 	if (_currentSprite)
 	{
+		const Vec2Int size = _currentSprite->GetSize();
 		::TransparentBlt(hdc,
-			(int32)_pos.x - _size.x / 2,
-			(int32)_pos.y - _size.y / 2,
-			_size.x,
-			_size.y,
+			(int32)_pos.x - size.x / 2,
+			(int32)_pos.y - size.y / 2,
+			size.x,
+			size.y,
 			_currentSprite->GetDC(),
 			_currentSprite->GetPos().x,
 			_currentSprite->GetPos().y,
-			_currentSprite->GetSize().x,
-			_currentSprite->GetSize().y,
+			size.x,
+			size.y,
 			_currentSprite->GetTransparent());
 	}
 	else

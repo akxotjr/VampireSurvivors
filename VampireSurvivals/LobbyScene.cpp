@@ -20,8 +20,8 @@ void LobbyScene::Init()
 	ResourceManager::GetInstance()->LoadTexture(L"Stat-Upgrade", L"UI\\Stat-Upgrade.bmp");
 	ResourceManager::GetInstance()->LoadTexture(L"Stat-LevelUP-Gauge", L"UI\\Stat-LevelUp-Gauge.bmp");
 
-	ResourceManager::GetInstance()->LoadFont(L"Title-Font", L"Font\\FantasyRPGtitle (size 11).ttf");
-	ResourceManager::GetInstance()->LoadFont(L"Text-Font", L"Font\\FantasyRPGtext (size 8).ttf");
+	ResourceManager::GetInstance()->LoadFont(L"FantasyRPGtitle", L"Font\\FantasyRPGtitle (size 11).ttf");
+	ResourceManager::GetInstance()->LoadFont(L"FantasyRPGtext", L"Font\\FantasyRPGtext (size 8).ttf");
 
 	Super::Init();
 }
@@ -65,7 +65,7 @@ void LobbyScene::Render(HDC hdc)
 	}
 
 	{
-		HFONT hFont = ResourceManager::GetInstance()->GetFont(L"Text-Font");
+		HFONT hFont = ResourceManager::GetInstance()->GetFont(L"FantasyRPGtitle");
 
 		if (hFont) {
 			HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);

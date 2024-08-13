@@ -4,6 +4,7 @@
 #include "UI.h"
 #include "Sprite.h"
 #include "SpriteActor.h"
+#include "Button.h"
 
 StatUpgradeScene::StatUpgradeScene()
 {
@@ -17,6 +18,23 @@ StatUpgradeScene::StatUpgradeScene()
 
 		AddUI(background);
 	}
+
+	ResourceManager::GetInstance()->LoadTexture(L"Stat-Upgrade-Button", L"UI\\Stat-Upgrade-button.bmp");
+
+	{
+		Sprite* sprite = ResourceManager::GetInstance()->CreateSprite(L"Stat-Upgrade-Button", ResourceManager::GetInstance()->GetTexture(L"Stat-Upgrade-Button"));
+		Button* button = new Button();
+		button->SetSprite(sprite, BS_Default);
+		button->SetSprite(sprite, BS_Clicked);
+		button->SetSprite(sprite, BS_Pressed);
+		button->SetPos({ 384,233 });
+
+		button->AddOnClickDelegate(this, &StatUpgradeScene::AtkUpgradeButton);
+
+		AddUI(button);
+	}
+
+	ResourceManager::GetInstance()->LoadTexture(L"Stat-LevelUP-Gauge", L"UI\\Stat-LevelUP-Gauge.bmp");
 }
 
 StatUpgradeScene::~StatUpgradeScene()
@@ -37,3 +55,16 @@ void StatUpgradeScene::Render(HDC hdc)
 {
 	Super::Render(hdc);
 }
+
+void StatUpgradeScene::AtkUpgradeButton()
+{
+	{
+		Sprite * sprite = ResourceManager::GetInstance()->CreateSprite(L"Stat-LevelUP-Gauge", ResourceManager::GetInstance()->GetTexture(L"Stat-LevelUP-Gauge"));
+		UI* atkUpgradeGauge = new UI();
+		atkUpgradeGauge->SetSprite(sprite);
+		atkUpgradeGauge->SetPos({ 224, 501 });
+
+		AddUI(atkUpgradeGauge);
+	}
+}
+
