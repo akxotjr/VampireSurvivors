@@ -90,14 +90,40 @@ void Slash::Use(float deltaTime)
 			slash->SetDir(attackSectorsAndDirs[i].second);
 			slash->SetDamage(_damage);
 
+			SphereCollider* collider = new SphereCollider();
+			collider->SetCollisionLayer(CLT_SKILL);
+			collider->ResetCollisionFlag();
+			collider->SetCollisionFlag(CLT_MONSTER);
+
 			GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 			scene->AddActor(slash);
+
+			AddSkillObject(slash);
 		}
 
 		_sumTime = 0.f;
 	}
-	else
-		return;
+
+	{
+		auto it = _skillObjects.begin();
+		while (it != _skillObjects.end())
+		{
+			Vec2 pos = (*it)->GetPos();
+			Vec2 playerPos = GetOwner()->GetPos();
+			if (pos.x > playerPos.x + GWinSizeX / 2 + 32 ||
+				pos.x < playerPos.x - GWinSizeX / 2 - 32 ||
+				pos.y > playerPos.y + GWinSizeY / 2 + 32 ||
+				pos.y < playerPos.y - GWinSizeY / 2 - 32)
+			{
+				GameScene* gamescene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+				gamescene->RemoveActor(*it);
+
+				it = _skillObjects.erase(it);
+				continue;
+			}
+			++it;
+		}
+	}
 }
 
 void Slash::SetDamage()
