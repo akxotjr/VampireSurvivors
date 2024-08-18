@@ -21,6 +21,11 @@ public:
 
 	Vec2 GetPlayerPos();
 
+	const vector<Actor*> GetMonsters()
+	{
+		return _actors[LAYER_MONSTER];
+	}
+
 public:
 	vector<Actor*> _actors[LAYER_MAXCOUNT];
 	vector<UI*>		_uis;

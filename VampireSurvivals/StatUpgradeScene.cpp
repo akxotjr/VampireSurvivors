@@ -19,22 +19,30 @@ StatUpgradeScene::StatUpgradeScene()
 		AddUI(background);
 	}
 
-	ResourceManager::GetInstance()->LoadTexture(L"Stat-Upgrade-Button", L"UI\\Stat-Upgrade-button.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"Stat-Upgrade-Button-Default", L"UI\\Stat-Upgrade-Button-Default.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"Stat-Upgrade-Button-Pressed", L"UI\\Stat-Upgrade-Button-Pressed.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"Stat-Upgrade-Button-Clicked", L"UI\\Stat-Upgrade-Button-Clicked.bmp");
 
 	{
-		Sprite* sprite = ResourceManager::GetInstance()->CreateSprite(L"Stat-Upgrade-Button", ResourceManager::GetInstance()->GetTexture(L"Stat-Upgrade-Button"));
+		Sprite* button_default = ResourceManager::GetInstance()->CreateSprite(L"Stat-Upgrade-Button-Default", ResourceManager::GetInstance()->GetTexture(L"Stat-Upgrade-Button-Default"));
+		Sprite* button_pressed = ResourceManager::GetInstance()->CreateSprite(L"Stat-Upgrade-Button-Pressed", ResourceManager::GetInstance()->GetTexture(L"Stat-Upgrade-Button-Pressed"));
+		Sprite* button_clicked = ResourceManager::GetInstance()->CreateSprite(L"Stat-Upgrade-Button-Clicked", ResourceManager::GetInstance()->GetTexture(L"Stat-Upgrade-Button-Clicked"));
 		Button* button = new Button();
-		button->SetSprite(sprite, BS_Default);
-		button->SetSprite(sprite, BS_Clicked);
-		button->SetSprite(sprite, BS_Pressed);
-		button->SetPos({ 384,233 });
-
-		button->AddOnClickDelegate(this, &StatUpgradeScene::AtkUpgradeButton);
+		button->SetSprite(button_default, BS_Default);
+		button->SetSprite(button_pressed, BS_Clicked);
+		button->SetSprite(button_pressed, BS_Pressed);
+		button->SetPos({ 366,231 });
+		button->SetSize(button_default->GetSize());
+		//button->AddOnClickDelegate(this, &StatUpgradeScene::AtkUpgradeButton);
 
 		AddUI(button);
 	}
 
 	ResourceManager::GetInstance()->LoadTexture(L"Stat-LevelUP-Gauge", L"UI\\Stat-LevelUP-Gauge.bmp");
+
+
+	ResourceManager::GetInstance()->LoadFont(L"FantasyRPGtitle", L"Font\\FantasyRPGtitle (size 11).ttf");
+	ResourceManager::GetInstance()->LoadFont(L"FantasyRPGtext", L"Font\\FantasyRPGtext (size 8).ttf");
 }
 
 StatUpgradeScene::~StatUpgradeScene()
@@ -54,6 +62,21 @@ void StatUpgradeScene::Update()
 void StatUpgradeScene::Render(HDC hdc)
 {
 	Super::Render(hdc);
+	HFONT hFont = ResourceManager::GetInstance()->GetFont(L"FantasyRPGtext");
+
+	if (hFont) {
+		HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
+		SetTextColor(hdc, RGB(255, 255, 255)); // 파란색
+		// 배경 투명도 설정
+		SetBkMode(hdc, TRANSPARENT);
+		// 텍스트 출력
+		TextOut(hdc, 223, 253, L"ATK +10", 7);
+
+		SelectObject(hdc, hOldFont);
+	}
+	else {
+		MessageBox(NULL, L"폰트가 적용되지 않았습니다.", L"Error", MB_OK);
+	}
 }
 
 void StatUpgradeScene::AtkUpgradeButton()

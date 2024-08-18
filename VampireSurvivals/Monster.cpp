@@ -170,6 +170,15 @@ void Monster::OnComponentBeginOverlap(Collider* collider, Collider* other)
 
 void Monster::OnComponentEndOverlap(Collider* collider, Collider* other)
 {
+
+	//if (other->GetCollisionLayer() == CLT_MONSTER)
+	//{
+	//	Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
+	//	if (!TakeDamage(monster->GetDamage()))
+	//		SetState(MonsterState::Hurt);
+	//	else
+	//		SetState(MonsterState::Death);
+	//}
 	if (_state == MonsterState::Death)
 	{
 		CollisionManager::GetInstance()->RemoveCollider(collider);

@@ -25,7 +25,18 @@ void FlipbookActor::Update()
 	if (_flipbook == nullptr) return;
 
 	const FlipbookInfo& info = _flipbook->GetInfo();
-	if (info.loop == false && _idx == info.end) return;
+
+	if (info.name == L"FB_GravityCannon")
+		int a = 0;
+
+	if (info.loop == false && _idx == info.end)
+	{
+		if (_animationFinishedCallback)
+		{
+			_animationFinishedCallback();
+		}
+		return;
+	}
 
 	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
 
@@ -39,6 +50,8 @@ void FlipbookActor::Update()
 		_sumTime = 0.f;
 		_idx = (_idx + 1) % frameCount;
 	}
+
+	int a = 0;
 }
 
 void FlipbookActor::Render(HDC hdc)
@@ -62,9 +75,7 @@ void FlipbookActor::Render(HDC hdc)
 		info.size.x,
 		info.size.y,
 		info.texture->GetTransparent());
-
-
-
+	int a = 0;
 }
 
 float FlipbookActor::GetFlipbookDuration()

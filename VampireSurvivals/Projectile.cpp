@@ -60,13 +60,8 @@ void Projectile::OnComponentBeginOverlap(Collider* collider, Collider* other)
 
 void Projectile::OnComponentEndOverlap(Collider* collider, Collider* other)
 {
-	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-	scene->RemoveActor(this);
+	//GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	//scene->RemoveActor(this);
 
-	CollisionManager::GetInstance()->RemoveCollider(collider);
-}
-
-void Projectile::SetDamage()
-{
-	_damage = dynamic_cast<Player*>(_owner)->GetAttackPower() * 1.1f;
+	//CollisionManager::GetInstance()->RemoveCollider(collider);
 }
