@@ -4,6 +4,7 @@
 class Flipbook;
 class Sprite;
 class Actor;
+class Skill;
 
 enum class PlayerState
 {
@@ -38,13 +39,18 @@ public:
 	void	UpdateAnimation();
 	void	OnAnimationFinished();
 
-	void	ShootArrow();
 	float	GetAttackPower() { return _stat.AttackPower; }
 
 	bool	TakeDamage(int32 damage);
 
 	virtual void OnComponentBeginOverlap(Collider* collider, Collider* other) override;
 	virtual void OnComponentEndOverlap(Collider* collider, Collider* other) override;
+
+	// skills
+	void AddSkill(Skill* skill) { _skills.push_back(skill); }
+
+	void UseSkill(float deltaTime);
+	void UpdateSkill();
 
 private:
 	PlayerState	_state = PlayerState::Idle;
@@ -68,6 +74,6 @@ private:
 	Flipbook*	_flipbookHurt[2] = {};
 	Flipbook*	_flipbookDeath[2] = {};
 
-	vector<Actor*>	_skills;
+	vector<Skill*>	_skills;
 };
 

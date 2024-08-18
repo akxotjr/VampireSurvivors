@@ -31,9 +31,18 @@ public:
 
 	float GetFlipbookDuration();
 
+	using AnimationFinishedCallback = ::function<void()>;
+
+	void SetAnimationFinishedCallback(AnimationFinishedCallback callback)
+	{
+		_animationFinishedCallback = callback;
+	}
+
 protected:
 	Flipbook*	_flipbook = nullptr;
 	float		_sumTime = 0.f;
 	int32		_idx = 0;
+
+	AnimationFinishedCallback _animationFinishedCallback = nullptr;
 };
 

@@ -14,6 +14,13 @@
 #include "BoxCollider.h"
 #include "SphereCollider.h"
 #include "Monster.h"
+#include "Slash.h"
+#include "Skill.h"
+#include "Iceburst.h"
+#include "GravityCannon.h"
+#include "ForceField.h"
+#include "Lightning.h"
+#include "Suriken.h"
 
 Player::Player()
 {
@@ -51,6 +58,35 @@ Player::Player()
 	AddComponent(collider);
 
 	CollisionManager::GetInstance()->AddCollider(collider);
+
+	Slash* slash = new Slash();
+	slash->SetOwner(this);
+	AddSkill(slash);
+
+	Iceburst* iceburst = new Iceburst();
+	iceburst->SetOwner(this);
+	iceburst->Init();
+	AddSkill(iceburst);
+
+	//GravityCannon* gravitcannon = new GravityCannon();
+	//gravitcannon->SetOwner(this);
+	//gravitcannon->Init();
+	//AddSkill(gravitcannon);
+
+	ForceField* forcefield = new ForceField();
+	forcefield->SetOwner(this);
+	forcefield->Init();
+	AddSkill(forcefield);
+
+	Lightning* lightning = new Lightning();
+	lightning->SetOwner(this);
+	lightning->Init();
+	AddSkill(lightning);
+
+	Suriken* suriken = new Suriken();
+	suriken->SetOwner(this);
+	suriken->Init();
+	AddSkill(suriken);
 }
 
 Player::~Player()
@@ -70,13 +106,15 @@ void Player::Update()
 	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
 
 	_sumTime += deltaTime;
+	UseSkill(deltaTime);
+
 	if (_sumTime > _coolTime)
 	{
 		if (_sumTime > _coolTime + 0.5f)
 		{
 			SetState(PlayerState::Attack);
-			ShootArrow();
 			_sumTime = 0.f;
+
 		}
 	}
 
@@ -110,6 +148,8 @@ void Player::Update()
 		}
 	}
 	UpdateAnimation();
+
+	UpdateSkill();
 }
 
 void Player::Render(HDC hdc)
@@ -204,35 +244,6 @@ void Player::OnAnimationFinished()
 	SetState(PlayerState::Idle);
 }
 
-void Player::ShootArrow()
-{
-	Vec2 mousePos = {};
-	mousePos.x = InputManager::GetInstance()->GetMousePos().x;
-	mousePos.y = InputManager::GetInstance()->GetMousePos().y;
-	Vec2 attackDir = mousePos - Vec2(480,360);
-	attackDir.Normalize();
-
-	if (mousePos.x >= _pos.x)
-		_sight = Sight::Right;
-	else
-		_sight = Sight::Left;
-
-	{
-		Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"Arrow");
-
-		Projectile* arrow = new Projectile();
-		arrow->SetSprite(sprite);
-		arrow->SetPos(_pos);
-		arrow->SetDestPos(mousePos);
-		arrow->SetDir(attackDir);
-		arrow->SetOwner(this);
-		arrow->SetDamage();
-
-		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-		scene->AddActor(arrow);
-		_skills.push_back(arrow);
-	}
-}
 
 bool Player::TakeDamage(int32 damage)
 {
@@ -265,32 +276,14 @@ void Player::OnComponentEndOverlap(Collider* collider, Collider* other)
 
 }
 
+void Player::UseSkill(float deltaTime)
+{
+	for (auto& skill : _skills)
+		skill->Use(deltaTime);
+}
 
-//void Player::SetCellPos(Vec2Int cellPos, bool teleport)
-//{
-//	_cellPos = cellPos;
-//
-//	DevScene* scene = dynamic_cast<DevScene*>(SceneManager::GetInstance()->GetCurrentScene().get());
-//	if (scene == nullptr)
-//		return;
-//
-//	_destPos = scene->ConvertPos(cellPos);
-//
-//	if (teleport)
-//		_pos = _destPos;
-//}
-//
-//bool Player::HasReachedDest()
-//{
-//	Vec2 dir = (_destPos - _pos);
-//	return (dir.Length() < 10.f);
-//}
-//
-//bool Player::CanGo(Vec2Int cellPos)
-//{
-//	DevScene* scene = dynamic_cast<DevScene*>(SceneManager::GetInstance()->GetCurrentScene().get());
-//	if (scene == nullptr)
-//		return false;
-//
-//	return scene->CanGo(cellPos);
-//}
+void Player::UpdateSkill()
+{
+	for (auto& skill : _skills)
+		skill->Update();
+}

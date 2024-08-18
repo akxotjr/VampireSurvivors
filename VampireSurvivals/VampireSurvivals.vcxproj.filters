@@ -48,6 +48,9 @@
     <Filter Include="소스 파일\05. Component\Collision">
       <UniqueIdentifier>{9e43704d-6c07-4e92-b318-d0278c9ca893}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\05. Component\Skill">
+      <UniqueIdentifier>{3da91ad5-bf54-4fa2-b9cb-d6c296c9aeda}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -179,6 +182,27 @@
     <ClInclude Include="LobbyScene.h">
       <Filter>소스 파일\02. Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>소스 파일\05. Component\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Slash.h">
+      <Filter>소스 파일\05. Component\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Iceburst.h">
+      <Filter>소스 파일\05. Component\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="GravityCannon.h">
+      <Filter>소스 파일\05. Component\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="ForceField.h">
+      <Filter>소스 파일\05. Component\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Lightning.h">
+      <Filter>소스 파일\05. Component\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Suriken.h">
+      <Filter>소스 파일\05. Component\Skill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="VampireSurvivals.rc">
@@ -300,7 +324,28 @@
       <Filter>소스 파일\02. Scene</Filter>
     </ClCompile>
     <ClCompile Include="StatUpgradeScene.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\02. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>소스 파일\05. Component\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="Slash.cpp">
+      <Filter>소스 파일\05. Component\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="Iceburst.cpp">
+      <Filter>소스 파일\05. Component\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="GravityCannon.cpp">
+      <Filter>소스 파일\05. Component\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="ForceField.cpp">
+      <Filter>소스 파일\05. Component\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="Lightning.cpp">
+      <Filter>소스 파일\05. Component\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="Suriken.cpp">
+      <Filter>소스 파일\05. Component\Skill</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

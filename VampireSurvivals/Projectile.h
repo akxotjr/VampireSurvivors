@@ -19,16 +19,11 @@ public:
 	virtual void OnComponentBeginOverlap(Collider* collider, Collider* other) override;
 	virtual void OnComponentEndOverlap(Collider* collider, Collider* other) override;
 
-	void SetOwner(Actor* owner) { _owner = owner; }
-	Actor* GetOwner() { return _owner; }
-
-	void SetDamage();
+	void SetDamage(float damage) { _damage = damage; }
 	float GetDamage() { return _damage; }
 
 protected:
 	float	_speed = 5.f;
 	float	_damage = 0.f;
-
-	Actor*	_owner = nullptr;
 };
 

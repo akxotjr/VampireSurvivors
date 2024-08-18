@@ -59,7 +59,7 @@ struct Vec2
 		y *= ratio;
 	}
 
-	bool operator==(const Vec2& other)
+	bool operator==(const Vec2& other) const
 	{
 		return x == other.x && y == other.y;
 	}
