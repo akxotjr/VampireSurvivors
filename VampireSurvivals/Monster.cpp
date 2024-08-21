@@ -131,6 +131,12 @@ void Monster::UpdateAnimation()
 			{
 				GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 				scene->RemoveActor(this);
+
+				Experience* exp = new Experience();
+				exp->SetPos(_pos);
+				exp->SetEXP(30);
+
+				scene->AddActor(exp);
 				return;
 			}
 			OnAnimationFinished();
@@ -147,25 +153,7 @@ void Monster::OnAnimationFinished()
 
 void Monster::OnComponentBeginOverlap(Collider* collider, Collider* other)
 {
-	if (other->GetCollisionLayer() == COLLISION_LAYER_TYPE::CLT_SKILL)
-	{
-		Projectile* projectile = dynamic_cast<Projectile*>(other->GetOwner());
-		if (!TakeDamage(projectile->GetDamage()))
-		{
-			SetState(MonsterState::Hurt);
-		}
-		else
-		{
-			{
-				Experience* exp = new Experience();
-				exp->SetPos(_pos);
-
-				GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-				scene->AddActor(exp);
-			}
-			SetState(MonsterState::Death);
-		}
-	}
+	
 }
 
 void Monster::OnComponentEndOverlap(Collider* collider, Collider* other)

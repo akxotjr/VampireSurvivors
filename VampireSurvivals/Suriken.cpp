@@ -14,6 +14,8 @@
 #include "Scene.h"
 #include "GameScene.h"
 #include "Player.h"
+#include "Monster.h"
+#include "DamageText.h"
 
 Suriken::Suriken()
 {
@@ -40,6 +42,8 @@ void Suriken::Use(float deltaTime)
 		Vec2 playerPos = GetOwner()->GetPos();
 		for (int32 i = 0; i < _skillLevel; i++)
 		{
+			GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+
 			FlipbookActor* suriken = new FlipbookActor();
 			suriken->SetFlipbook(_flipbook);
 			suriken->SetLayer(LAYER_SKILL);
@@ -51,8 +55,39 @@ void Suriken::Use(float deltaTime)
 
 			suriken->SetPos(pos);
 
-			GameScene* gamescene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-			gamescene->AddActor(suriken);
+			SphereCollider* collider = new SphereCollider();
+			collider->SetCollisionLayer(CLT_SKILL);
+			collider->ResetCollisionFlag();
+			collider->SetCollisionFlag(CLT_MONSTER);
+			collider->SetOwner(suriken);
+			collider->SetRadius(20);
+			//collider->SetShowDebug(true);
+
+			suriken->AddComponent(collider);
+			CollisionManager::GetInstance()->AddCollider(collider);
+
+			suriken->SetSkill2MonsterCallback([this, collider, scene](Collider* other) {
+				Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
+				if (monster)
+				{
+					if (monster->TakeDamage(GetDamage()))
+						monster->SetState(MonsterState::Death);
+					else
+					{
+						monster->SetState(MonsterState::Hurt);
+						const float damagevalue = static_cast<int32>(GetDamage());
+
+						DamageText* damagetext = new DamageText();
+						damagetext->SetPos(monster->GetPos() + Vec2(10, 0));
+						damagetext->SetText(damagevalue);
+						damagetext->SetLayer(LAYER_DAMAGETEXT);
+
+						scene->AddActor(damagetext);
+					}
+				}
+			});
+
+			scene->AddActor(suriken);
 
 			_skillObjectsAndThetas.emplace_back(suriken, initialTheta);
 		}
@@ -66,6 +101,8 @@ void Suriken::Use(float deltaTime)
 		{
 			GameScene* gamescene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 			gamescene->RemoveActor(it.first);
+
+			CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>(it.first->GetCollider()));
 		}
 
 		_skillObjectsAndThetas.clear();

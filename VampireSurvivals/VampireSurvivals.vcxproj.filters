@@ -51,6 +51,9 @@
     <Filter Include="소스 파일\05. Component\Skill">
       <UniqueIdentifier>{3da91ad5-bf54-4fa2-b9cb-d6c296c9aeda}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\06. UI\Contents">
+      <UniqueIdentifier>{cdbc772c-cbf7-4357-824e-610dbe6a21af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -203,6 +206,15 @@
     <ClInclude Include="Suriken.h">
       <Filter>소스 파일\05. Component\Skill</Filter>
     </ClInclude>
+    <ClInclude Include="DamageText.h">
+      <Filter>소스 파일\03. Object\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="Panel.h">
+      <Filter>소스 파일\06. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectSkillPanel.h">
+      <Filter>소스 파일\06. UI\Contents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="VampireSurvivals.rc">
@@ -346,6 +358,15 @@
     </ClCompile>
     <ClCompile Include="Suriken.cpp">
       <Filter>소스 파일\05. Component\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="DamageText.cpp">
+      <Filter>소스 파일\03. Object\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="Panel.cpp">
+      <Filter>소스 파일\06. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectSkillPanel.cpp">
+      <Filter>소스 파일\06. UI\Contents</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

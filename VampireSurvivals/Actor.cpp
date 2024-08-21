@@ -66,7 +66,10 @@ Component* Actor::GetCollider()
 
 void Actor::OnComponentBeginOverlap(Collider* collider, Collider* other)
 {
-
+	if (_skillDamageCallback)
+	{
+		_skillDamageCallback(other);
+	}
 }
 
 void Actor::OnComponentEndOverlap(Collider* collider, Collider* other)

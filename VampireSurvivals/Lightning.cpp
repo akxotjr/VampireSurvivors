@@ -13,6 +13,8 @@
 #include "Scene.h"
 #include "GameScene.h"
 #include "Player.h"
+#include "Monster.h"
+#include "DamageText.h"
 
 Lightning::Lightning()
 {
@@ -34,7 +36,7 @@ void Lightning::Use(float deltaTime)
 	_sumTime += deltaTime;
 	if (_sumTime >= _coolTime)
 	{
-		Scene* scene = SceneManager::GetInstance()->GetCurrentScene();
+		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 		const vector<Actor*>& monsters = scene->GetMonsters();
 
 		Vec2 pos;
@@ -51,14 +53,48 @@ void Lightning::Use(float deltaTime)
 		lightning->SetFlipbook(_flipbook);
 		lightning->SetPos(pos);
 		lightning->SetLayer(LAYER_SKILL);
-		lightning->SetAnimationFinishedCallback([lightning, scene]() {
+
+		SphereCollider* collider = new SphereCollider();
+		collider->SetCollisionLayer(CLT_SKILL);
+		collider->ResetCollisionFlag();
+		collider->SetCollisionFlag(CLT_MONSTER);
+		collider->SetOwner(lightning);
+		collider->SetRadius(20);
+		//collider->SetShowDebug(true);
+
+		lightning->SetAnimationFinishedCallback([lightning, scene, collider]() {
 			GameScene* gamescene = dynamic_cast<GameScene*>(scene);
 			gamescene->RemoveActor(lightning);
 			//delete(iceburst);
+			CollisionManager::GetInstance()->RemoveCollider(collider);
 		});
 
-		GameScene* gamescene = dynamic_cast<GameScene*>(scene);
-		gamescene->AddActor(lightning);
+		lightning->AddComponent(collider);
+		CollisionManager::GetInstance()->AddCollider(collider);
+
+		lightning->SetSkill2MonsterCallback([this, collider, scene](Collider* other) {
+			Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
+			if (monster)
+			{
+				if (monster->TakeDamage(GetDamage()))
+					monster->SetState(MonsterState::Death);
+				else
+				{
+					monster->SetState(MonsterState::Hurt);
+
+					const float damagevalue = static_cast<int32>(GetDamage());
+
+					DamageText* damagetext = new DamageText();
+					damagetext->SetPos(monster->GetPos() + Vec2(10, 0));
+					damagetext->SetText(damagevalue);
+					damagetext->SetLayer(LAYER_DAMAGETEXT);
+
+					scene->AddActor(damagetext);
+				}
+			}
+		});
+
+		scene->AddActor(lightning);
 
 		_sumTime = 0.f;
 

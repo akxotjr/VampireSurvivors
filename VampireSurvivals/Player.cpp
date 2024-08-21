@@ -21,10 +21,12 @@
 #include "ForceField.h"
 #include "Lightning.h"
 #include "Suriken.h"
+#include "Experience.h"
+#include "SelectSkillPanel.h"
 
 Player::Player()
 {
-	_stat = { 100, 100, 50 };
+	_stat = { 100, 100, 30 };
 
 
 	SetLayer(LAYER_PLAYER);
@@ -53,7 +55,7 @@ Player::Player()
 	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
 	collider->ResetCollisionFlag();
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
-	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_ITEM);
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_EXP);
 	collider->SetRadius(20);
 	AddComponent(collider);
 
@@ -264,10 +266,14 @@ void Player::OnComponentBeginOverlap(Collider* collider, Collider* other)
 		else
 			SetState(PlayerState::Death);
 	}
-	else if (other->GetCollisionLayer() == CLT_ITEM)
+	else if (other->GetCollisionLayer() == CLT_EXP)
 	{
+		Experience* exp = dynamic_cast<Experience*>(other->GetOwner());
+		TakeEXP(exp->GetEXP());
+
 		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 		scene->RemoveActor(other->GetOwner());
+		CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>(exp->GetCollider()));
 	}
 }
 
@@ -287,3 +293,43 @@ void Player::UpdateSkill()
 	for (auto& skill : _skills)
 		skill->Update();
 }
+
+void Player::TakeEXP(int32 exp)
+{
+	_exp += exp;
+	if (_exp >= _maxExp)
+	{
+		int32 overExp = _exp - _maxExp;
+		_exp = overExp;
+
+		_maxExp += 20;
+
+		LevelUP();
+	}
+}
+
+void Player::LevelUP()
+{
+	//TODO
+	_level++;
+	
+	SelectSkillPanel* ssp = new SelectSkillPanel();
+	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	scene->AddUI(ssp);
+}
+
+void Player::RandomSkill()
+{
+	std::random_device rd;
+	std::mt19937 gen(rd());
+
+	//uniform_random_bit_generator
+
+	//int32 S = 0;
+	//for (int32 i = 1; i <= 10; i++)
+	//{
+	//	if()
+	//}
+}
+
+

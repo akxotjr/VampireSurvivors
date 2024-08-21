@@ -43,6 +43,8 @@ public:
 		return _stat.AttackPower;
 	}
 
+
+
 protected:
 	MonsterState	_state = MonsterState::Idle;
 	bool			_isAnimationPlaying = false;

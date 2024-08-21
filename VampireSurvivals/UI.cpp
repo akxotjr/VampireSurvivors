@@ -25,6 +25,7 @@ void UI::Update()
 
 void UI::Render(HDC hdc)
 {
+	if (_sprite == nullptr) return;
 	::TransparentBlt(hdc, 0, 0, _sprite->GetSize().x, _sprite->GetSize().y, _sprite->GetDC(),
 		0,
 		0,

@@ -41,6 +41,13 @@ public:
 	virtual void OnComponentBeginOverlap(Collider* collider, Collider* other);
 	virtual void OnComponentEndOverlap(Collider* collider, Collider* other);
 
+	using Skill2MonsterCallback = ::function<void(Collider*)>;
+
+	void SetSkill2MonsterCallback(Skill2MonsterCallback callback)
+	{
+		_skillDamageCallback = callback;
+	}
+
 protected:
 	Vec2			_pos = { 0, 0 };
 	Vec2			_startPos = { 0, 0 };
@@ -49,5 +56,7 @@ protected:
 	LAYER_TYPE		_layer = LAYER_BACKGROUND;
 
 	vector<Component*> _components;
+
+	Skill2MonsterCallback _skillDamageCallback = nullptr;
 };
 

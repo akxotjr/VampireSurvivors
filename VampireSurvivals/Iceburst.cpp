@@ -13,6 +13,8 @@
 #include "Scene.h"
 #include "GameScene.h"
 #include "Player.h"
+#include "Monster.h"
+#include "DamageText.h"
 
 Iceburst::Iceburst()
 {
@@ -35,7 +37,7 @@ void Iceburst::Use(float deltaTime)
 	_sumTime += deltaTime;
 	if (_sumTime >= _coolTime)
 	{
-		Scene* scene = SceneManager::GetInstance()->GetCurrentScene();
+		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 		const vector<Actor*>& monsters = scene->GetMonsters();
 
 		Vec2 pos;
@@ -52,14 +54,46 @@ void Iceburst::Use(float deltaTime)
 		iceburst->SetFlipbook(_flipbook);
 		iceburst->SetPos(pos);
 		iceburst->SetLayer(LAYER_SKILL);
-		iceburst->SetAnimationFinishedCallback([iceburst, scene]() {
-			GameScene* gamescene = dynamic_cast<GameScene*>(scene);
-			gamescene->RemoveActor(iceburst);
+
+		SphereCollider* collider = new SphereCollider();
+		collider->SetCollisionLayer(CLT_SKILL);
+		collider->ResetCollisionFlag();
+		collider->SetCollisionFlag(CLT_MONSTER);
+		collider->SetOwner(iceburst);
+		collider->SetRadius(20);
+		//collider->SetShowDebug(true);
+
+		iceburst->SetAnimationFinishedCallback([iceburst, scene, collider]() {
+			scene->RemoveActor(iceburst);
 			//delete(iceburst);
+			CollisionManager::GetInstance()->RemoveCollider(collider);
 		});
 
-		GameScene* gamescene = dynamic_cast<GameScene*>(scene);
-		gamescene->AddActor(iceburst);
+		iceburst->AddComponent(collider);
+		CollisionManager::GetInstance()->AddCollider(collider);
+
+		iceburst->SetSkill2MonsterCallback([this, collider, scene](Collider* other) {
+			Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
+			if (monster)
+			{
+				if (monster->TakeDamage(GetDamage()))
+					monster->SetState(MonsterState::Death);
+				else
+				{
+					monster->SetState(MonsterState::Hurt);
+					const float damagevalue = static_cast<int32>(GetDamage());
+
+					DamageText* damagetext = new DamageText();
+					damagetext->SetPos(monster->GetPos() + Vec2(10, 0));
+					damagetext->SetText(damagevalue);
+					damagetext->SetLayer(LAYER_DAMAGETEXT);
+
+					scene->AddActor(damagetext);
+				}
+			}
+		});
+
+		scene->AddActor(iceburst);
 
 		_sumTime = 0.f;
 	}

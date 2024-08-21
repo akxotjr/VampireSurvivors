@@ -36,7 +36,7 @@ public:
 	Flipbook* CreateFlipbook(const wstring& key);
 	Flipbook* GetFlipbook(const wstring& key) { return _flipbooks[key]; }
 
-	HFONT LoadFont(const wstring& key, const wstring& path);
+	HFONT LoadFont(const wstring& key, const wstring& name, const wstring& path, int32 fontSize);
 	HFONT GetFont(const wstring& key) { return _fonts[key]; }
 
 private:

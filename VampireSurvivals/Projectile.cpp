@@ -12,15 +12,15 @@
 
 Projectile::Projectile()
 {
-	SphereCollider* collider = new SphereCollider();
-	collider->SetOwner(this);
-	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_SKILL);
-	collider->ResetCollisionFlag();
-	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
-	collider->SetRadius(10);
-	AddComponent(collider);
+	//SphereCollider* collider = new SphereCollider();
+	//collider->SetOwner(this);
+	//collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_SKILL);
+	//collider->ResetCollisionFlag();
+	//collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
+	//collider->SetRadius(10);
+	//AddComponent(collider);
 
-	CollisionManager::GetInstance()->AddCollider(collider);
+	//CollisionManager::GetInstance()->AddCollider(collider);
 }
 
 Projectile::~Projectile()

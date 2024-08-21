@@ -12,6 +12,8 @@
 #include "Scene.h"
 #include "GameScene.h"
 #include "Player.h"
+#include "Monster.h"
+#include "DamageText.h"
 
 Slash::Slash()
 {
@@ -94,8 +96,36 @@ void Slash::Use(float deltaTime)
 			collider->SetCollisionLayer(CLT_SKILL);
 			collider->ResetCollisionFlag();
 			collider->SetCollisionFlag(CLT_MONSTER);
+			collider->SetOwner(slash);
+			collider->SetRadius(15);
+			//collider->SetShowDebug(true);
+
+			slash->AddComponent(collider);
+			CollisionManager::GetInstance()->AddCollider(collider);
 
 			GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+
+			slash->SetSkill2MonsterCallback([this, collider, scene](Collider* other) {
+				Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
+				if (monster)
+				{
+					if (monster->TakeDamage(GetDamage()))
+						monster->SetState(MonsterState::Death);
+					else
+					{
+						monster->SetState(MonsterState::Hurt);
+						const float damagevalue = GetDamage();
+
+						DamageText* damagetext = new DamageText();
+						damagetext->SetPos(monster->GetPos() + Vec2(10, -5));
+						damagetext->SetText(damagevalue);
+						damagetext->SetLayer(LAYER_DAMAGETEXT);
+
+						scene->AddActor(damagetext);
+					}
+				}
+			});
+
 			scene->AddActor(slash);
 
 			AddSkillObject(slash);
@@ -117,6 +147,8 @@ void Slash::Use(float deltaTime)
 			{
 				GameScene* gamescene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 				gamescene->RemoveActor(*it);
+
+				CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>((*it)->GetCollider()));
 
 				it = _skillObjects.erase(it);
 				continue;

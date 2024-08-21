@@ -280,6 +280,13 @@ void GameScene::Init()
 	ResourceManager::GetInstance()->LoadTexture(L"Tilemap03", L"Tilemap\\Tilemap03.bmp");
 
 #pragma endregion
+#pragma region Font
+	ResourceManager::GetInstance()->LoadFont(L"DamageText20", L"m3x6", L"Font\\m3x6.ttf", 20);
+#pragma endregion
+#pragma region UI
+	ResourceManager::GetInstance()->LoadTexture(L"SelectSkillButton", L"UI\\SelectSkillButton.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"SelectSkillButton", ResourceManager::GetInstance()->GetTexture(L"SelectSkillButton"));
+#pragma endregion
 
 	{
 		// Player

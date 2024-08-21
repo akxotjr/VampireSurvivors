@@ -15,6 +15,20 @@ enum class PlayerState
 	Death
 };
 
+enum SkillList
+{
+	Active1 = 1,
+	Active2 = 2,
+	Active3 = 3,
+	Active4 = 4, 
+	Active5 = 5,
+	Passive1 = 6,
+	Passive2 = 7,
+	Passive3 = 8,
+	Passive4 = 9,
+	Passive5 = 10
+};
+
 
 class Player : public FlipbookActor
 {
@@ -52,6 +66,10 @@ public:
 	void UseSkill(float deltaTime);
 	void UpdateSkill();
 
+	void TakeEXP(int32 exp);
+	void LevelUP();
+	void RandomSkill();
+
 private:
 	PlayerState	_state = PlayerState::Idle;
 	bool		_isAnimationPlaying = false;
@@ -65,6 +83,13 @@ private:
 
 	float		_coolTime = 2.f;
 	float		_sumTime = 0.f;
+
+	int32		_exp = 0;
+	int32		_maxExp = 50;
+	int32		_level = 1;
+
+	int32       _possibleSkills = (1 << 10) - 1;
+	int32		_selectedSkills = 1;
 
 	Stat		_stat = {};
 

@@ -51,7 +51,7 @@ Flipbook* ResourceManager::CreateFlipbook(const wstring& key)
 	return fb;
 }
 
-HFONT ResourceManager::LoadFont(const wstring& key, const wstring& path)
+HFONT ResourceManager::LoadFont(const wstring& key, const wstring& name, const wstring& path, int32 fontSize)
 {
 	if (_fonts.find(key) != _fonts.end())
 		return _fonts[key];
@@ -64,9 +64,9 @@ HFONT ResourceManager::LoadFont(const wstring& key, const wstring& path)
 	{
 		// 폰트 생성 (추가한 폰트의 이름을 사용)
 		hfont = CreateFont(
-			20, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+			fontSize, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
 			DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
-			DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, key.c_str()
+			DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, name.c_str()
 		);
 
 		if (!hfont) {
