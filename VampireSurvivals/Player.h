@@ -5,6 +5,7 @@ class Flipbook;
 class Sprite;
 class Actor;
 class Skill;
+class SelectSkillPanel;
 
 enum class PlayerState
 {
@@ -14,21 +15,6 @@ enum class PlayerState
 	Hurt,
 	Death
 };
-
-enum SkillList
-{
-	Active1 = 1,
-	Active2 = 2,
-	Active3 = 3,
-	Active4 = 4, 
-	Active5 = 5,
-	Passive1 = 6,
-	Passive2 = 7,
-	Passive3 = 8,
-	Passive4 = 9,
-	Passive5 = 10
-};
-
 
 class Player : public FlipbookActor
 {
@@ -68,7 +54,9 @@ public:
 
 	void TakeEXP(int32 exp);
 	void LevelUP();
+	void SkillLevelUP(int32 id, SelectSkillPanel* panel);
 	void RandomSkill();
+	void GenerateSkillButton(int32 id, Vec2 pos, SelectSkillPanel* panel);
 
 private:
 	PlayerState	_state = PlayerState::Idle;
@@ -88,8 +76,9 @@ private:
 	int32		_maxExp = 50;
 	int32		_level = 1;
 
-	int32       _possibleSkills = (1 << 10) - 1;
-	int32		_selectedSkills = 1;
+	// skillpool 에서 고를 수 있는 skill을 1, 각 i번째 비트는 skill_id가 i임을 의미
+	// 켜져있는 i번째 비트가 의미하는것은 skill_id가 i인 스킬을 획득했다는것
+
 
 	Stat		_stat = {};
 
@@ -100,5 +89,7 @@ private:
 	Flipbook*	_flipbookDeath[2] = {};
 
 	vector<Skill*>	_skills;
+
+	vector<wstring> _skillNames = { L"slash", L"iceburst", L"lightning", L"suriken", L"forcefiled" };
 };
 

@@ -22,5 +22,6 @@ public:
 
 protected:
 	vector<Sprite*> _sprites;
+	float _moveSpeed = 5.f;
 };
 

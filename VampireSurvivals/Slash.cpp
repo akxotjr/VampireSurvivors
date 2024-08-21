@@ -63,6 +63,7 @@ Slash::~Slash()
 
 void Slash::Init()
 {
+	SetSkillID(0);
 	SetDamage();
 }
 
@@ -85,12 +86,12 @@ void Slash::Use(float deltaTime)
 
 		for (int32 i = 0; i < slashCount; i++)
 		{
-			Projectile* slash = new Projectile();
+			SpriteActor* slash = new SpriteActor();
 			slash->SetSprite(_sprites[attackSectorsAndDirs[i].first]);
 			slash->SetPos(_owner->GetPos());
 			slash->SetDestPos(attackSectorsAndDirs[i].second);
 			slash->SetDir(attackSectorsAndDirs[i].second);
-			slash->SetDamage(_damage);
+			//slash->SetDamage(_damage);
 
 			SphereCollider* collider = new SphereCollider();
 			collider->SetCollisionLayer(CLT_SKILL);
@@ -152,6 +153,12 @@ void Slash::Use(float deltaTime)
 
 				it = _skillObjects.erase(it);
 				continue;
+			}
+			else
+			{
+
+				Vec2 dir = (*it)->GetDir();
+				(*it)->SetPos(pos + dir * _moveSpeed);
 			}
 			++it;
 		}

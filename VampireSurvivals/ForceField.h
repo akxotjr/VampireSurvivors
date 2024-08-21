@@ -6,6 +6,7 @@ class Sprite;
 
 class ForceField : public Skill
 {
+	using Super = Skill;
 public:
 	ForceField();
 	virtual ~ForceField();
@@ -18,9 +19,13 @@ public:
 
 	virtual void SetDamage() override;
 
-protected:
-	Sprite*	 _sprite = nullptr;
+	virtual void SkillLevelUP();
 
-	bool	 _createdForceField = false;
+private:
+	vector<Sprite*> _sprites;
+
+protected:
+	float			_radius = 32;
+	bool			_createdForceField = false;
 };
 

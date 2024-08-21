@@ -30,7 +30,7 @@ void Suriken::Init()
 {
 	SetCooltime(12.f);
 	SetDamage();
-	_sumTime = 10.f;
+	SetSkillID(3);
 }
 
 

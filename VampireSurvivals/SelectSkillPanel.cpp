@@ -11,51 +11,52 @@
 
 SelectSkillPanel::SelectSkillPanel()
 {
-	_sprite = ResourceManager::GetInstance()->GetSprite(L"SelectSkillButton");
-	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-	{
-		Button* button = new Button();
-		button->SetSprite(_sprite, BS_Default);
-		button->SetSprite(_sprite, BS_Clicked);
-		button->SetSprite(_sprite, BS_Pressed);
-		button->SetPos({ 245, 360 });
-		button->SetSize(_sprite->GetSize());
-		button->Init();
-		button->AddOnClickDelegate(this, &SelectSkillPanel::RemoveAllChild);
+	//_sprite = ResourceManager::GetInstance()->GetSprite(L"SelectSkillButton");
+	//GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	//{
+	//	Button* button = new Button();
+	//	button->SetSprite(_sprite, BS_Default);
+	//	button->SetSprite(_sprite, BS_Clicked);
+	//	button->SetSprite(_sprite, BS_Pressed);
+	//	button->SetPos({ 245, 360 });
+	//	button->SetSize(_sprite->GetSize());
+	//	button->Init();
+	//	button->AddOnClickDelegate(this, &SelectSkillPanel::RemoveAllChild);
 
-		AddChild(button);
-		scene->AddUI(button);
-	}
-	{
-		Button* button = new Button();
-		button->SetSprite(_sprite, BS_Default);
-		button->SetSprite(_sprite, BS_Clicked);
-		button->SetSprite(_sprite, BS_Pressed);
-		button->SetPos({ 480, 360 });
-		button->SetSize(_sprite->GetSize());
-		button->Init();
-		button->AddOnClickDelegate(this, &SelectSkillPanel::RemoveAllChild);
+	//	AddChild(button);
+	//	scene->AddUI(button);
+	//}
+	//{
+	//	Button* button = new Button();
+	//	button->SetSprite(_sprite, BS_Default);
+	//	button->SetSprite(_sprite, BS_Clicked);
+	//	button->SetSprite(_sprite, BS_Pressed);
+	//	button->SetPos({ 480, 360 });
+	//	button->SetSize(_sprite->GetSize());
+	//	button->Init();
+	//	button->AddOnClickDelegate(this, &SelectSkillPanel::RemoveAllChild);
 
-		AddChild(button);
-		scene->AddUI(button);
-	}
-	{
-		Button* button = new Button();
-		button->SetSprite(_sprite, BS_Default);
-		button->SetSprite(_sprite, BS_Clicked);
-		button->SetSprite(_sprite, BS_Pressed);
-		button->SetPos({ 715, 360 });
-		button->SetSize(_sprite->GetSize());
-		button->Init();
-		button->AddOnClickDelegate(this, &SelectSkillPanel::RemoveAllChild);
+	//	AddChild(button);
+	//	scene->AddUI(button);
+	//}
+	//{
+	//	Button* button = new Button();
+	//	button->SetSprite(_sprite, BS_Default);
+	//	button->SetSprite(_sprite, BS_Clicked);
+	//	button->SetSprite(_sprite, BS_Pressed);
+	//	button->SetPos({ 715, 360 });
+	//	button->SetSize(_sprite->GetSize());
+	//	button->Init();
+	//	button->AddOnClickDelegate(this, &SelectSkillPanel::RemoveAllChild);
 
-		AddChild(button);
-		scene->AddUI(button);
-	}
+	//	AddChild(button);
+	//	scene->AddUI(button);
+	//}
 }
 
 SelectSkillPanel::~SelectSkillPanel()
 {
+	RemoveAllChild();
 }
 
 void SelectSkillPanel::Init()

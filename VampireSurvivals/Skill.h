@@ -13,6 +13,8 @@ public:
 
 	virtual void Use(float deltaTime) abstract;
 
+	int32 GetSkillLevel() { return _skillLevel; }
+
 	void SetCooltime(float cooltime) { _coolTime = cooltime; }
 	float GetCooltime() { return _coolTime; }
 
@@ -22,8 +24,12 @@ public:
 	void SetAtkCoef(float coef) { _atkCoef = coef; }
 	float GetAtkCoef() { return _atkCoef; }
 
-	void SkillLevelUP() 
+	void SetSkillID(int32 id) { _id = id; }
+	int32 GetSkillID() { return _id; }
+
+	virtual void SkillLevelUP() 
 	{ 
+		if (_skillLevel > 5) return;
 		_skillLevel++; 
 		_atkCoef += 0.1f;
 		SetDamage();
@@ -39,7 +45,8 @@ protected:
 	float	_coolTime = 1.f;
 	float	_sumTime = 0.f;
 
-	int32	_skillLevel = 5;
+	int32	_id = 999;
+	int32	_skillLevel = 1;
 	float	_damage = 0.f;
 	float	_atkCoef = 1.1f;
 

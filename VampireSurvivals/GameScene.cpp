@@ -187,13 +187,18 @@ void GameScene::Init()
 		fb->SetInfo({ texture, L"FB_GravityCannon", {100, 80}, 0, 7, 0, 1.f});
 	}
 
-	ResourceManager::GetInstance()->LoadTexture(L"ForceField", L"Skills\\ForceField\\Skill-ForceField03.bmp");
-	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"ForceField");
-		/*Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_ForceField");
-		fb->SetInfo({ texture, L"FB_ForceField", {64, 64}, 0, 4, 0, 0.5f });*/
-		ResourceManager::GetInstance()->CreateSprite(L"ForceField", texture);
-	}
+	ResourceManager::GetInstance()->LoadTexture(L"ForceField01", L"Skills\\ForceField\\Skill-Forcefield01.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"ForceField02", L"Skills\\ForceField\\Skill-Forcefield02.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"ForceField03", L"Skills\\ForceField\\Skill-Forcefield03.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"ForceField04", L"Skills\\ForceField\\Skill-Forcefield04.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"ForceField05", L"Skills\\ForceField\\Skill-Forcefield05.bmp");
+
+	ResourceManager::GetInstance()->CreateSprite(L"ForceField01", ResourceManager::GetInstance()->GetTexture(L"ForceField01"));
+	ResourceManager::GetInstance()->CreateSprite(L"ForceField02", ResourceManager::GetInstance()->GetTexture(L"ForceField02"));
+	ResourceManager::GetInstance()->CreateSprite(L"ForceField03", ResourceManager::GetInstance()->GetTexture(L"ForceField03"));
+	ResourceManager::GetInstance()->CreateSprite(L"ForceField04", ResourceManager::GetInstance()->GetTexture(L"ForceField04"));
+	ResourceManager::GetInstance()->CreateSprite(L"ForceField05", ResourceManager::GetInstance()->GetTexture(L"ForceField05"));
+	
 
 	ResourceManager::GetInstance()->LoadTexture(L"Lightning", L"Skills\\Lightning\\Skill-Lightning03.bmp");
 	{

@@ -18,7 +18,11 @@
 
 ForceField::ForceField()
 {
-	_sprite = ResourceManager::GetInstance()->GetSprite(L"ForceField");
+	_sprites.push_back(ResourceManager::GetInstance()->GetSprite(L"ForceField01"));
+	_sprites.push_back(ResourceManager::GetInstance()->GetSprite(L"ForceField02"));
+	_sprites.push_back(ResourceManager::GetInstance()->GetSprite(L"ForceField03"));
+	_sprites.push_back(ResourceManager::GetInstance()->GetSprite(L"ForceField04"));
+	_sprites.push_back(ResourceManager::GetInstance()->GetSprite(L"ForceField05"));
 }
 
 ForceField::~ForceField()
@@ -29,11 +33,12 @@ void ForceField::Init()
 {
 	SetCooltime(3.f);
 	SetDamage();
+	SetSkillID(4);
 }
 
 void ForceField::Update()
 {
-	_skillObjects.front()->SetPos(GetOwner()->GetPos());
+	
 }
 
 void ForceField::Use(float deltaTime)
@@ -43,7 +48,7 @@ void ForceField::Use(float deltaTime)
 		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 
 		SpriteActor* forcefield = new SpriteActor();
-		forcefield->SetSprite(_sprite);
+		forcefield->SetSprite(_sprites[0]);
 		forcefield->SetPos(GetOwner()->GetPos());
 		forcefield->SetLayer(LAYER_UNDERSKILL);
 
@@ -52,7 +57,7 @@ void ForceField::Use(float deltaTime)
 		collider->ResetCollisionFlag();
 		collider->SetCollisionFlag(CLT_MONSTER);
 		collider->SetOwner(forcefield);
-		collider->SetRadius(20);
+		collider->SetRadius(_radius);
 		//collider->SetShowDebug(true);
 
 		forcefield->AddComponent(collider);
@@ -86,8 +91,8 @@ void ForceField::Use(float deltaTime)
 
 		_createdForceField = true;
 	}
-	else
-		return;
+
+	_skillObjects.front()->SetPos(GetOwner()->GetPos());
 }
 
 void ForceField::SetDamage()
@@ -96,4 +101,13 @@ void ForceField::SetDamage()
 	float atk = player->GetAttackPower();
 
 	_damage = atk * _atkCoef;
+}
+
+void ForceField::SkillLevelUP()
+{
+	Super::SkillLevelUP();
+	_radius += 10;
+
+	SpriteActor* forcefield = dynamic_cast<SpriteActor*>(_skillObjects.front());
+	forcefield->SetSprite(_sprites[_skillLevel - 1]);
 }

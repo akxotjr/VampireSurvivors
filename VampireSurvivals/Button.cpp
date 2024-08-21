@@ -51,6 +51,8 @@ void Button::Update()
 				// OnClicked
 				if (_onClick)
 					_onClick();
+				else
+					MessageBox(NULL, L"onClick is null", L"Error", MB_OK);
 			}
 		}
 	}
@@ -76,6 +78,8 @@ void Button::Render(HDC hdc)
 			size.x,
 			size.y,
 			_currentSprite->GetTransparent());
+
+		TextOut(hdc, (int32)_pos.x - 50, (int32)_pos.y - 160, _text.c_str(), _text.length());
 	}
 	else
 	{

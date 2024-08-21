@@ -23,10 +23,12 @@
 #include "Suriken.h"
 #include "Experience.h"
 #include "SelectSkillPanel.h"
+#include "Button.h"
+#include "Sprite.h"
 
 Player::Player()
 {
-	_stat = { 100, 100, 30 };
+	_stat = { 100, 100, 50 };
 
 
 	SetLayer(LAYER_PLAYER);
@@ -63,32 +65,33 @@ Player::Player()
 
 	Slash* slash = new Slash();
 	slash->SetOwner(this);
+	slash->Init();
 	AddSkill(slash);
 
-	Iceburst* iceburst = new Iceburst();
-	iceburst->SetOwner(this);
-	iceburst->Init();
-	AddSkill(iceburst);
+	//Iceburst* iceburst = new Iceburst();
+	//iceburst->SetOwner(this);
+	//iceburst->Init();
+	//AddSkill(iceburst);
 
-	//GravityCannon* gravitcannon = new GravityCannon();
-	//gravitcannon->SetOwner(this);
-	//gravitcannon->Init();
-	//AddSkill(gravitcannon);
+	////GravityCannon* gravitcannon = new GravityCannon();
+	////gravitcannon->SetOwner(this);
+	////gravitcannon->Init();
+	////AddSkill(gravitcannon);
 
-	ForceField* forcefield = new ForceField();
-	forcefield->SetOwner(this);
-	forcefield->Init();
-	AddSkill(forcefield);
+	//ForceField* forcefield = new ForceField();
+	//forcefield->SetOwner(this);
+	//forcefield->Init();
+	//AddSkill(forcefield);
 
-	Lightning* lightning = new Lightning();
-	lightning->SetOwner(this);
-	lightning->Init();
-	AddSkill(lightning);
+	//Lightning* lightning = new Lightning();
+	//lightning->SetOwner(this);
+	//lightning->Init();
+	//AddSkill(lightning);
 
-	Suriken* suriken = new Suriken();
-	suriken->SetOwner(this);
-	suriken->Init();
-	AddSkill(suriken);
+	//Suriken* suriken = new Suriken();
+	//suriken->SetOwner(this);
+	//suriken->Init();
+	//AddSkill(suriken);
 }
 
 Player::~Player()
@@ -158,6 +161,13 @@ void Player::Render(HDC hdc)
 {
 	Super::Render(hdc);
 	Utils::DrawHP(hdc, Vec2(480, 340), 30, 5, _stat.HP / _stat.MaxHP);
+
+	Vec2 pos = { 10, 50 };
+	for (auto& skill : _skills)
+	{
+		TextOut(hdc, pos.x, pos.y, _skillNames[skill->GetSkillID()].c_str(), _skillNames[skill->GetSkillID()].length());
+		pos.y += 15;
+	}
 }
 
 void Player::SetState(PlayerState state)
@@ -313,23 +323,153 @@ void Player::LevelUP()
 	//TODO
 	_level++;
 	
-	SelectSkillPanel* ssp = new SelectSkillPanel();
-	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-	scene->AddUI(ssp);
+	RandomSkill();
 }
 
 void Player::RandomSkill()
 {
-	std::random_device rd;
-	std::mt19937 gen(rd());
+	int32 possibleSkills = (1 << 5) - 1;
+	int32 selectedSkills = 0;
 
-	//uniform_random_bit_generator
+	if (_skills.size() == 4)
+	{
+		possibleSkills = 0;
+		for (auto skill : _skills)
+		{
+			possibleSkills |= (1 << skill->GetSkillID());
+		}
+	}
+	for (auto skill : _skills)
+	{
+		if (skill->GetSkillLevel() == 5)
+		{
+			possibleSkills &= ~(1 << skill->GetSkillID());
+		}
+	}
 
-	//int32 S = 0;
-	//for (int32 i = 1; i <= 10; i++)
-	//{
-	//	if()
-	//}
+	::random_device rd;
+	::mt19937 gen(rd());
+
+	::uniform_int_distribution<int32> dist(0, 5);
+
+	int32 count = 0; 
+	
+	while (count < 3)
+	{
+		int32 i = dist(gen);
+
+		if (possibleSkills & (1 << i))
+		{
+			selectedSkills |= (1 << i);
+			possibleSkills &= ~(1 << i);
+			count++;
+		}
+	}
+
+	int32 buttonCnt = 0;
+	vector<Vec2> pos = { {245, 360}, {480, 360}, {715, 360} };
+
+	SelectSkillPanel* ssp = new SelectSkillPanel();
+	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+
+	for (int32 i = 0; i < 5; i++)
+	{
+		if (selectedSkills & (1 << i))
+		{
+			GenerateSkillButton(i, pos[buttonCnt], ssp);
+			buttonCnt++;
+		}
+	}
+
+	scene->AddUI(ssp);
 }
+
+void Player::GenerateSkillButton(int32 id, Vec2 pos, SelectSkillPanel* panel)
+{
+	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"SelectSkillButton");
+	{
+		Button* button = new Button();
+		button->SetSprite(sprite, BS_Default);
+		button->SetSprite(sprite, BS_Clicked);
+		button->SetSprite(sprite, BS_Pressed);
+		button->SetPos({ pos.x, pos.y });
+		button->SetSize(sprite->GetSize());
+		button->SetText(_skillNames[id]);
+		button->AddOnClickDelegate(this, &Player::SkillLevelUP, id, panel);
+		button->Init();
+
+		panel->AddChild(button);
+
+		scene->AddUI(button);
+	}
+}
+
+void Player::SkillLevelUP(int32 id, SelectSkillPanel* panel)
+{
+	bool flag = false;
+	for (auto& skill : _skills)
+	{
+		if (skill->GetSkillID() == id)
+		{
+			skill->SkillLevelUP();
+			
+			flag = true;
+			break;
+		}
+	}
+	if (!flag)
+	{
+		switch (id)
+		{
+		case 0:
+		{
+			Slash* slash = new Slash();
+			slash->SetOwner(this);
+			slash->Init();
+			AddSkill(slash);
+		}
+			break;
+		case 1:
+		{
+			Iceburst* iceburst = new Iceburst();
+			iceburst->SetOwner(this);
+			iceburst->Init();
+			AddSkill(iceburst);
+		}
+			break;
+		case 2:
+		{
+			Lightning* lightning = new Lightning();
+			lightning->SetOwner(this);
+			lightning->Init();
+			AddSkill(lightning);
+		}
+			break;
+		case 3:
+		{
+			Suriken* suriken = new Suriken();
+			suriken->SetOwner(this);
+			suriken->Init();
+			AddSkill(suriken);
+		}
+			break;
+		case 4:
+		{
+			ForceField* forcefield = new ForceField();
+			forcefield->SetOwner(this);
+			forcefield->Init();
+			AddSkill(forcefield);
+		}
+			break;
+		}
+	}
+
+	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	panel->RemoveAllChild();
+	scene->RemmoveUI(panel);
+}
+
+
 
 
