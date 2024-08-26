@@ -33,21 +33,31 @@ Player::Player()
 
 	SetLayer(LAYER_PLAYER);
 
-	_flipbookIdle[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerIdleRight");
-	_flipbookIdle[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerIdleLeft");
 
-	_flipbookMove[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerMoveRight");
-	_flipbookMove[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerMoveLeft");
+	_flipbookIdle[DIR_UP] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerIdleUp");
+	_flipbookIdle[DIR_DOWN] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerIdleDown");
+	_flipbookIdle[DIR_LEFT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerIdleLeft");
+	_flipbookIdle[DIR_RIGHT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerIdleRight");
 
-	_flipbookAttack[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerAttackRight");
-	_flipbookAttack[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerAttackLeft");
+	_flipbookAttack[DIR_UP] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerAttackUp");
+	_flipbookAttack[DIR_DOWN] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerAttackDown");
+	_flipbookAttack[DIR_LEFT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerAttackLeft");
+	_flipbookAttack[DIR_RIGHT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerAttackRight");
 
-	_flipbookHurt[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerHurtRight");
-	_flipbookHurt[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerHurtLeft");
+	_flipbookMove[DIR_UP] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerMoveUp");
+	_flipbookMove[DIR_DOWN] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerMoveDown");
+	_flipbookMove[DIR_LEFT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerMoveLeft");
+	_flipbookMove[DIR_RIGHT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerMoveRight");
 
-	_flipbookDeath[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerDeathRight");
-	_flipbookDeath[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerDeathLeft");
+	_flipbookHurt[DIR_UP] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerHurtUp");
+	_flipbookHurt[DIR_DOWN] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerHurtDown");
+	_flipbookHurt[DIR_LEFT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerHurtLeft");
+	_flipbookHurt[DIR_RIGHT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerHurtRight");
 
+	_flipbookDeath[DIR_UP] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerDeathUp");
+	_flipbookDeath[DIR_DOWN] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerDeathDown");
+	_flipbookDeath[DIR_LEFT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerDeathLeft");
+	_flipbookDeath[DIR_RIGHT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerDeathRight");
 
 	CameraComponent* camera = new CameraComponent();
 	AddComponent(camera);
@@ -67,31 +77,6 @@ Player::Player()
 	slash->SetOwner(this);
 	slash->Init();
 	AddSkill(slash);
-
-	//Iceburst* iceburst = new Iceburst();
-	//iceburst->SetOwner(this);
-	//iceburst->Init();
-	//AddSkill(iceburst);
-
-	////GravityCannon* gravitcannon = new GravityCannon();
-	////gravitcannon->SetOwner(this);
-	////gravitcannon->Init();
-	////AddSkill(gravitcannon);
-
-	//ForceField* forcefield = new ForceField();
-	//forcefield->SetOwner(this);
-	//forcefield->Init();
-	//AddSkill(forcefield);
-
-	//Lightning* lightning = new Lightning();
-	//lightning->SetOwner(this);
-	//lightning->Init();
-	//AddSkill(lightning);
-
-	//Suriken* suriken = new Suriken();
-	//suriken->SetOwner(this);
-	//suriken->Init();
-	//AddSkill(suriken);
 }
 
 Player::~Player()
@@ -123,34 +108,15 @@ void Player::Update()
 		}
 	}
 
+	Vec2 dir = UpdateDir();
+	if (dir == Vec2(0,0))
 	{
-		UpdateDir();
-		if (!_keyPressed)
-		{
-			SetState(PlayerState::Idle);
-		}
-		else
-		{
-			SetState(PlayerState::Move);
-			if (_dir & (1 << 1))
-			{
-				_pos.x += 100 * deltaTime;
-				_sight = Sight::Right;
-			}
-			if (_dir & (1 << 2))
-			{
-				_pos.x -= 100 * deltaTime;
-				_sight = Sight::Left;
-			}
-			if (_dir & (1 << 3))
-			{
-				_pos.y -= 100 * deltaTime;
-			}
-			if (_dir & (1 << 4))
-			{
-				_pos.y += 100 * deltaTime;
-			}
-		}
+		SetState(PlayerState::Idle);
+	}
+	else
+	{
+		SetState(PlayerState::Move);
+		_pos += dir * _speed;
 	}
 	UpdateAnimation();
 
@@ -179,33 +145,34 @@ void Player::SetState(PlayerState state)
 	}
 }
 
-void Player::UpdateDir()
+Vec2 Player::UpdateDir()
 {
-	uint8 dir = 0;
-	if (InputManager::GetInstance()->GetButton(KeyType::D))
-	{
-		dir |= (1<<1);
-	}
-	if (InputManager::GetInstance()->GetButton(KeyType::A))
-	{
-		dir |= (1<<2);
-	}
+	Vec2 dir = { 0,0 };
+
 	if (InputManager::GetInstance()->GetButton(KeyType::W))
 	{
-		dir |= (1<<3);
+		dir += {0, -1};
+		_dir = Dir::DIR_UP;
 	}
-	if (InputManager::GetInstance()->GetButton(KeyType::S))
+	else if (InputManager::GetInstance()->GetButton(KeyType::S))
 	{
-		dir |= (1<<4);
+		dir += {0, 1};
+		_dir = Dir::DIR_DOWN;
 	}
 
-	if ((dir & (1<<1) && dir & (1<<2)) || (dir & (1<<3) && (dir & (1<<4))) || dir == 0)
+	if (InputManager::GetInstance()->GetButton(KeyType::D))
 	{
-		_keyPressed = false;
-		return;
+		dir += {1, 0};
+		_dir = Dir::DIR_RIGHT;
 	}
-	_keyPressed = true;
-	_dir = (Dir)dir;
+	else if (InputManager::GetInstance()->GetButton(KeyType::A))
+	{
+		dir += {-1, 0};
+		_dir = Dir::DIR_LEFT;
+	}
+
+	dir.Normalize();
+	return dir;
 }
 
 void Player::UpdateAnimation()
@@ -216,25 +183,25 @@ void Player::UpdateAnimation()
 		{
 		case PlayerState::Idle:
 			if (_keyPressed)
-				SetFlipbook(_flipbookMove[_sight]);
+				SetFlipbook(_flipbookMove[_dir]);
 			else
-				SetFlipbook(_flipbookIdle[_sight]);
+				SetFlipbook(_flipbookIdle[_dir]);
 			break;
 		case PlayerState::Move:
-			SetFlipbook(_flipbookMove[_sight]);
+			SetFlipbook(_flipbookMove[_dir]);
 			break;
 		case PlayerState::Attack:
-			SetFlipbook(_flipbookAttack[_sight]);
+			SetFlipbook(_flipbookAttack[_dir]);
 			_isAnimationPlaying = true;
 			_animationTime = 0.0f;
 			break;
 		case PlayerState::Hurt:
-			SetFlipbook(_flipbookHurt[_sight]);
+			SetFlipbook(_flipbookHurt[_dir]);
 			_isAnimationPlaying = true;
 			_animationTime = 0.0f;
 			break;
 		case PlayerState::Death:
-			SetFlipbook(_flipbookDeath[_sight]);
+			SetFlipbook(_flipbookDeath[_dir]);
 			_isAnimationPlaying = true;
 			_animationTime = 0.0f;
 			break;
@@ -322,7 +289,7 @@ void Player::LevelUP()
 {
 	//TODO
 	_level++;
-	
+	TimeManager::GetInstance()->SetTimeScale(0.f);
 	RandomSkill();
 }
 
@@ -468,6 +435,8 @@ void Player::SkillLevelUP(int32 id, SelectSkillPanel* panel)
 	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 	panel->RemoveAllChild();
 	scene->RemmoveUI(panel);
+
+	TimeManager::GetInstance()->SetTimeScale(1.f);
 }
 
 

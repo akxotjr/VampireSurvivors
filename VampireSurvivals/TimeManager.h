@@ -19,6 +19,9 @@ public:
 
 	uint32 GetFps() { return _fps; }
 	float GetDeltaTime() { return _deltaTime; }
+	float GetAdjustDeltaTime() { return _adjustDeltaTime; }
+
+	void SetTimeScale(float timeScale) { _timeScale = timeScale; }
 
 private:
 	TimeManager() = default;
@@ -34,6 +37,8 @@ private:
 	uint64	_frequency = 0;
 	uint64	_prevCount = 0;
 	float	_deltaTime = 0.f;
+	float	_adjustDeltaTime = 0.f;
+	float	_timeScale = 1.f;
 
 	uint32	_frameCount = 0;
 	float	_frameTime = 0.f;

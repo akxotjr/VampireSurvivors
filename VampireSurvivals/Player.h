@@ -35,7 +35,7 @@ public:
 		UpdateAnimation();
 	}
 
-	void	UpdateDir();
+	Vec2	UpdateDir();
 	void	UpdateAnimation();
 	void	OnAnimationFinished();
 
@@ -63,9 +63,8 @@ private:
 	bool		_isAnimationPlaying = false;
 	float		_animationTime = 0.0f;
 
-	Dir			_dir = Dir::DIR_RIGHT;
-	Sight		_sight = Sight::Right;
-	Vec2		_speed = {};
+	Dir			_dir = Dir::DIR_DOWN;
+	float		_speed = 1.f;
 	bool		_keyPressed = false;
 	Vec2Int		_cellPos = {};
 
@@ -82,11 +81,11 @@ private:
 
 	Stat		_stat = {};
 
-	Flipbook*	_flipbookIdle[2] = {};
-	Flipbook*	_flipbookMove[2] = {};
-	Flipbook*	_flipbookAttack[2] = {};
-	Flipbook*	_flipbookHurt[2] = {};
-	Flipbook*	_flipbookDeath[2] = {};
+	Flipbook*	_flipbookIdle[Dir::DIR_COUNT] = {};	
+	Flipbook*	_flipbookAttack[Dir::DIR_COUNT] = {};
+	Flipbook*	_flipbookMove[Dir::DIR_COUNT] = {};
+	Flipbook*	_flipbookHurt[Dir::DIR_COUNT] = {};
+	Flipbook*	_flipbookDeath[Dir::DIR_COUNT] = {};
 
 	vector<Skill*>	_skills;
 

@@ -176,6 +176,7 @@
     <ClInclude Include="SelectSkillPanel.h" />
     <ClInclude Include="Skill.h" />
     <ClInclude Include="Slash.h" />
+    <ClInclude Include="Slime.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteActor.h" />
@@ -229,6 +230,7 @@
     <ClCompile Include="SelectSkillPanel.cpp" />
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="Slash.cpp" />
+    <ClCompile Include="Slime.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteActor.cpp" />

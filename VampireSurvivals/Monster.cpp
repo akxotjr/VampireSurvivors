@@ -16,24 +16,6 @@ Monster::Monster()
 {
 	_stat = { 100, 100, 10 };
 
-	SetLayer(LAYER_MONSTER);
-
-	_flipbookIdle[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsIdleRight");
-	_flipbookIdle[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsIdleLeft");
-
-	_flipbookMove[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsMoveRight");
-	_flipbookMove[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsMoveLeft");
-
-	_flipbookAttack[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsAttackRight");
-	_flipbookAttack[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsAttackLeft");
-
-	_flipbookHurt[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsHurtRight");
-	_flipbookHurt[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsHurtLeft");
-
-	_flipbookDeath[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsDeathRight");
-	_flipbookDeath[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsDeathLeft");
-
-
 	SphereCollider* collider = new SphereCollider();
 	collider->SetOwner(this);
 	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
@@ -54,6 +36,7 @@ Monster::~Monster()
 void Monster::Init()
 {
 	Super::Init();
+	SetLayer(LAYER_MONSTER);
 	SetState(MonsterState::Move);
 }
 
@@ -70,13 +53,22 @@ void Monster::Update()
 
 	Vec2 dir = _destPos - _pos;
 	dir.Normalize();
+	_pos += dir * _speed;
 
-	_pos += dir * 0.1f;
-
-	if (playerPos.x >= _pos.x) _sight = Right;
-	else _sight = Left;
-
-	UpdateAnimation();
+	if (fabs(dir.x) >= fabs(dir.y))
+	{
+		if (dir.x > 0)
+			SetDir(DIR_RIGHT);
+		else
+			SetDir(DIR_LEFT);
+	}
+	else
+	{
+		if (dir.y > 0)
+			SetDir(DIR_DOWN);
+		else
+			SetDir(DIR_UP);
+	}
 }
 
 void Monster::Render(HDC hdc)
@@ -100,23 +92,23 @@ void Monster::UpdateAnimation()
 		switch (_state)
 		{
 		case MonsterState::Idle:
-			SetFlipbook(_flipbookIdle[_sight]);
+			SetFlipbook(_flipbookIdle[_dir]);
 			break;
 		case MonsterState::Move:
-			SetFlipbook(_flipbookMove[_sight]);
+			SetFlipbook(_flipbookMove[_dir]);
 			break;
 		case MonsterState::Attack:
-			SetFlipbook(_flipbookAttack[_sight]);
+			SetFlipbook(_flipbookAttack[_dir]);
 			_isAnimationPlaying = true;
 			_animationTime = 0.0f;
 			break;
 		case MonsterState::Hurt:
-			SetFlipbook(_flipbookHurt[_sight]);
+			SetFlipbook(_flipbookHurt[_dir]);
 			_isAnimationPlaying = true;
 			_animationTime = 0.0f;
 			break;
 		case MonsterState::Death:
-			SetFlipbook(_flipbookDeath[_sight]);
+			SetFlipbook(_flipbookDeath[_dir]);
 			_isAnimationPlaying = true;
 			_animationTime = 0.0f;
 			break;
