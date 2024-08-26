@@ -33,20 +33,20 @@ Player::Player()
 
 	SetLayer(LAYER_PLAYER);
 
-	_flipbookIdle[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierIdleRight");
-	_flipbookIdle[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierIdleLeft");
+	_flipbookIdle[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerIdleRight");
+	_flipbookIdle[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerIdleLeft");
 
-	_flipbookMove[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierMoveRight");
-	_flipbookMove[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierMoveLeft");
+	_flipbookMove[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerMoveRight");
+	_flipbookMove[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerMoveLeft");
 
-	_flipbookAttack[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierAttackRight");
-	_flipbookAttack[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierAttackLeft");
+	_flipbookAttack[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerAttackRight");
+	_flipbookAttack[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerAttackLeft");
 
-	_flipbookHurt[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierHurtRight");
-	_flipbookHurt[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierHurtLeft");
+	_flipbookHurt[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerHurtRight");
+	_flipbookHurt[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerHurtLeft");
 
-	_flipbookDeath[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierDeathRight");
-	_flipbookDeath[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SoldierDeathLeft");
+	_flipbookDeath[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerDeathRight");
+	_flipbookDeath[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerDeathLeft");
 
 
 	CameraComponent* camera = new CameraComponent();

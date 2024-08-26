@@ -18,20 +18,20 @@ Monster::Monster()
 
 	SetLayer(LAYER_MONSTER);
 
-	_flipbookIdle[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_OrcIdleRight");
-	_flipbookIdle[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_OrcIdleLeft");
+	_flipbookIdle[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsIdleRight");
+	_flipbookIdle[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsIdleLeft");
 
-	_flipbookMove[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_OrcMoveRight");
-	_flipbookMove[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_OrcMoveLeft");
+	_flipbookMove[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsMoveRight");
+	_flipbookMove[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsMoveLeft");
 
-	_flipbookAttack[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_OrcAttackRight");
-	_flipbookAttack[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_OrcAttackLeft");
+	_flipbookAttack[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsAttackRight");
+	_flipbookAttack[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsAttackLeft");
 
-	_flipbookHurt[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_OrcHurtRight");
-	_flipbookHurt[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_OrcHurtLeft");
+	_flipbookHurt[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsHurtRight");
+	_flipbookHurt[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsHurtLeft");
 
-	_flipbookDeath[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_OrcDeathRight");
-	_flipbookDeath[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_OrcDeathLeft");
+	_flipbookDeath[Sight::Right] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsDeathRight");
+	_flipbookDeath[Sight::Left] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsDeathLeft");
 
 
 	SphereCollider* collider = new SphereCollider();

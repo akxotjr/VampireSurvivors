@@ -111,3 +111,4 @@ void ForceField::SkillLevelUP()
 	SpriteActor* forcefield = dynamic_cast<SpriteActor*>(_skillObjects.front());
 	forcefield->SetSprite(_sprites[_skillLevel - 1]);
 }
+
