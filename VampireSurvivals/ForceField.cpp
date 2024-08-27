@@ -53,7 +53,7 @@ void ForceField::Use(float deltaTime)
 		forcefield->SetLayer(LAYER_UNDERSKILL);
 
 		SphereCollider* collider = new SphereCollider();
-		collider->SetCollisionLayer(CLT_SKILL);
+		collider->SetCollisionLayer(CLT_PLAYER_SKILL);
 		collider->ResetCollisionFlag();
 		collider->SetCollisionFlag(CLT_MONSTER);
 		collider->SetOwner(forcefield);

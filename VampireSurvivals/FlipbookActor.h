@@ -38,6 +38,8 @@ public:
 		_animationFinishedCallback = callback;
 	}
 
+	int32 GetIdx() { return _idx; }
+
 protected:
 	Flipbook*	_flipbook = nullptr;
 	float		_sumTime = 0.f;

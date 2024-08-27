@@ -57,7 +57,7 @@ void Iceburst::Use(float deltaTime)
 		iceburst->SetLayer(LAYER_SKILL);
 
 		SphereCollider* collider = new SphereCollider();
-		collider->SetCollisionLayer(CLT_SKILL);
+		collider->SetCollisionLayer(CLT_PLAYER_SKILL);
 		collider->ResetCollisionFlag();
 		collider->SetCollisionFlag(CLT_MONSTER);
 		collider->SetOwner(iceburst);

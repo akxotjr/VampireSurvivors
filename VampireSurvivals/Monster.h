@@ -10,6 +10,14 @@ enum class MonsterState
 	Death
 };
 
+enum class MonsterGrade
+{
+	Normal,
+	Rare,
+	Epic,
+	Boss
+};
+
 class Flipbook;
 
 class Monster : public FlipbookActor
@@ -43,16 +51,18 @@ public:
 		return _stat.AttackPower;
 	}
 
+	void SetGrade(MonsterGrade grade) { _grade = grade; }
+	MonsterGrade GetGrade() { return _grade; }
 
 
 protected:
 	MonsterState	_state = MonsterState::Idle;
+	MonsterGrade	_grade = MonsterGrade::Normal;
 	bool			_isAnimationPlaying = false;
 	float			_animationTime = 0.0f;
 
 	Dir				_dir = Dir::DIR_RIGHT;
-	Sight			_sight = Sight::Right;
-	float			_speed = 1.f;
+	float			_speed = 0.5f;
 	float			_coolTime = 2.f;
 	float			_sumTime = 0.f;
 

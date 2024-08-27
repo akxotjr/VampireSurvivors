@@ -54,6 +54,15 @@
     <Filter Include="소스 파일\06. UI\Contents">
       <UniqueIdentifier>{cdbc772c-cbf7-4357-824e-610dbe6a21af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\03. Object\Contents\Monsters">
+      <UniqueIdentifier>{d65e2fb9-097d-425e-bc01-d25072f07d61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\05. Component\Skill\PlayerSkill">
+      <UniqueIdentifier>{56224719-545d-49ff-ab4c-116322a219c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\05. Component\Skill\MonsterSkill">
+      <UniqueIdentifier>{8ef12502-70ba-4768-ae87-563a62382e91}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -164,9 +173,6 @@
     <ClInclude Include="Utils.h">
       <Filter>소스 파일\99. Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Monster.h">
-      <Filter>소스 파일\03. Object\Contents</Filter>
-    </ClInclude>
     <ClInclude Include="GameScene.h">
       <Filter>소스 파일\02. Scene</Filter>
     </ClInclude>
@@ -185,27 +191,6 @@
     <ClInclude Include="LobbyScene.h">
       <Filter>소스 파일\02. Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Skill.h">
-      <Filter>소스 파일\05. Component\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="Slash.h">
-      <Filter>소스 파일\05. Component\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="Iceburst.h">
-      <Filter>소스 파일\05. Component\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="GravityCannon.h">
-      <Filter>소스 파일\05. Component\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="ForceField.h">
-      <Filter>소스 파일\05. Component\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="Lightning.h">
-      <Filter>소스 파일\05. Component\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="Suriken.h">
-      <Filter>소스 파일\05. Component\Skill</Filter>
-    </ClInclude>
     <ClInclude Include="DamageText.h">
       <Filter>소스 파일\03. Object\Contents</Filter>
     </ClInclude>
@@ -214,6 +199,42 @@
     </ClInclude>
     <ClInclude Include="SelectSkillPanel.h">
       <Filter>소스 파일\06. UI\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
+    </ClInclude>
+    <ClInclude Include="Slime.h">
+      <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
+    </ClInclude>
+    <ClInclude Include="Goblin.h">
+      <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
+    </ClInclude>
+    <ClInclude Include="Orc.h">
+      <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
+    </ClInclude>
+    <ClInclude Include="Cyclops.h">
+      <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
+    </ClInclude>
+    <ClInclude Include="Suriken.h">
+      <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
+    </ClInclude>
+    <ClInclude Include="ForceField.h">
+      <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
+    </ClInclude>
+    <ClInclude Include="GravityCannon.h">
+      <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
+    </ClInclude>
+    <ClInclude Include="Iceburst.h">
+      <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
+    </ClInclude>
+    <ClInclude Include="Lightning.h">
+      <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
+    </ClInclude>
+    <ClInclude Include="Slash.h">
+      <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -317,9 +338,6 @@
     <ClCompile Include="Utils.cpp">
       <Filter>소스 파일\99. Headers</Filter>
     </ClCompile>
-    <ClCompile Include="Monster.cpp">
-      <Filter>소스 파일\03. Object\Contents</Filter>
-    </ClCompile>
     <ClCompile Include="GameScene.cpp">
       <Filter>소스 파일\02. Scene</Filter>
     </ClCompile>
@@ -338,27 +356,6 @@
     <ClCompile Include="StatUpgradeScene.cpp">
       <Filter>소스 파일\02. Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Skill.cpp">
-      <Filter>소스 파일\05. Component\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="Slash.cpp">
-      <Filter>소스 파일\05. Component\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="Iceburst.cpp">
-      <Filter>소스 파일\05. Component\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="GravityCannon.cpp">
-      <Filter>소스 파일\05. Component\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="ForceField.cpp">
-      <Filter>소스 파일\05. Component\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="Lightning.cpp">
-      <Filter>소스 파일\05. Component\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="Suriken.cpp">
-      <Filter>소스 파일\05. Component\Skill</Filter>
-    </ClCompile>
     <ClCompile Include="DamageText.cpp">
       <Filter>소스 파일\03. Object\Contents</Filter>
     </ClCompile>
@@ -367,6 +364,42 @@
     </ClCompile>
     <ClCompile Include="SelectSkillPanel.cpp">
       <Filter>소스 파일\06. UI\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="Slime.cpp">
+      <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="Goblin.cpp">
+      <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="Orc.cpp">
+      <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="Cyclops.cpp">
+      <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="ForceField.cpp">
+      <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="GravityCannon.cpp">
+      <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="Iceburst.cpp">
+      <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="Lightning.cpp">
+      <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="Slash.cpp">
+      <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="Suriken.cpp">
+      <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

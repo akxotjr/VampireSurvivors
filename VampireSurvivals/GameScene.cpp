@@ -18,6 +18,8 @@
 #include "BoxCollider.h"
 #include "SphereCollider.h"
 #include "Slime.h"
+#include "Cyclops.h"
+#include "Goblin.h"
 #include "UI.h"
 
 GameScene::GameScene()
@@ -1245,7 +1247,7 @@ void GameScene::MonsterRespawn()
 	if (_sumTime >= _coolTime)
 	{
 		// new monster
-		Slime* monster = new Slime();
+		Cyclops* monster = new Cyclops();
 		monster->SetPos(MonsterRandomPos(deltaTime));
 		monster->Init();
 		AddActor(monster);

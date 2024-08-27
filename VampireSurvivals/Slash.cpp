@@ -94,7 +94,7 @@ void Slash::Use(float deltaTime)
 			//slash->SetDamage(_damage);
 
 			SphereCollider* collider = new SphereCollider();
-			collider->SetCollisionLayer(CLT_SKILL);
+			collider->SetCollisionLayer(CLT_PLAYER_SKILL);
 			collider->ResetCollisionFlag();
 			collider->SetCollisionFlag(CLT_MONSTER);
 			collider->SetOwner(slash);
@@ -107,22 +107,28 @@ void Slash::Use(float deltaTime)
 			GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 
 			slash->SetSkill2MonsterCallback([this, collider, scene](Collider* other) {
-				Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
-				if (monster)
+				if (other->GetCollisionLayer() == CLT_MONSTER)
 				{
-					if (monster->TakeDamage(GetDamage()))
-						monster->SetState(MonsterState::Death);
-					else
+					Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
+					if (monster)
 					{
-						monster->SetState(MonsterState::Hurt);
-						const float damagevalue = GetDamage();
+						if (monster->TakeDamage(GetDamage()))
+						{
+							monster->SetState(MonsterState::Death);
+							CollisionManager::GetInstance()->RemoveCollider(other);
+						}
+						else
+						{
+							monster->SetState(MonsterState::Hurt);
+							const float damagevalue = GetDamage();
 
-						DamageText* damagetext = new DamageText();
-						damagetext->SetPos(monster->GetPos() + Vec2(10, -5));
-						damagetext->SetText(damagevalue);
-						damagetext->SetLayer(LAYER_DAMAGETEXT);
+							DamageText* damagetext = new DamageText();
+							damagetext->SetPos(monster->GetPos() + Vec2(10, -5));
+							damagetext->SetText(damagevalue);
+							damagetext->SetLayer(LAYER_DAMAGETEXT);
 
-						scene->AddActor(damagetext);
+							scene->AddActor(damagetext);
+						}
 					}
 				}
 			});

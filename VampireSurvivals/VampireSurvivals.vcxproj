@@ -146,6 +146,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="Cyclops.h" />
     <ClInclude Include="DamageText.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="DevScene.h" />
@@ -157,6 +158,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="Goblin.h" />
     <ClInclude Include="GravityCannon.h" />
     <ClInclude Include="Iceburst.h" />
     <ClInclude Include="InputManager.h" />
@@ -164,6 +166,7 @@
     <ClInclude Include="LobbyScene.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="Orc.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
@@ -202,6 +205,7 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Cyclops.cpp" />
     <ClCompile Include="DamageText.cpp" />
     <ClCompile Include="DevScene.cpp" />
     <ClCompile Include="Experience.cpp" />
@@ -210,6 +214,7 @@
     <ClCompile Include="ForceField.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="Goblin.cpp" />
     <ClCompile Include="GravityCannon.cpp" />
     <ClCompile Include="Iceburst.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -217,6 +222,7 @@
     <ClCompile Include="LobbyScene.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Orc.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

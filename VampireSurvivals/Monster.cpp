@@ -21,8 +21,9 @@ Monster::Monster()
 	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
 	collider->ResetCollisionFlag();
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
-	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_SKILL);
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER_SKILL);
 	collider->SetRadius(20);
+	collider->SetShowDebug(true);
 	AddComponent(collider);
 
 	CollisionManager::GetInstance()->AddCollider(collider);
@@ -140,7 +141,7 @@ void Monster::UpdateAnimation()
 void Monster::OnAnimationFinished()
 {
 	_isAnimationPlaying = false;
-	SetState(MonsterState::Move);
+	SetState(MonsterState::Idle);
 }
 
 void Monster::OnComponentBeginOverlap(Collider* collider, Collider* other)
@@ -150,21 +151,12 @@ void Monster::OnComponentBeginOverlap(Collider* collider, Collider* other)
 
 void Monster::OnComponentEndOverlap(Collider* collider, Collider* other)
 {
-
-	//if (other->GetCollisionLayer() == CLT_MONSTER)
+	//if (_state == MonsterState::Death)
 	//{
-	//	Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
-	//	if (!TakeDamage(monster->GetDamage()))
-	//		SetState(MonsterState::Hurt);
-	//	else
-	//		SetState(MonsterState::Death);
-	//}
-	if (_state == MonsterState::Death)
-	{
-		CollisionManager::GetInstance()->RemoveCollider(collider);
+	//	CollisionManager::GetInstance()->RemoveCollider(collider);
 
-		//delete(this);
-	}
+	//	//delete(this);
+	//}
 }
 
 bool Monster::TakeDamage(float damage)

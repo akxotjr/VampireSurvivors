@@ -67,8 +67,10 @@ Player::Player()
 	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
 	collider->ResetCollisionFlag();
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER_ATK_RANGE);
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_EXP);
 	collider->SetRadius(20);
+	collider->SetShowDebug(true);
 	AddComponent(collider);
 
 	CollisionManager::GetInstance()->AddCollider(collider);
