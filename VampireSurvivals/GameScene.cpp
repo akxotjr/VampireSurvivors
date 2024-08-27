@@ -18,7 +18,7 @@
 #include "BoxCollider.h"
 #include "SphereCollider.h"
 #include "Slime.h"
-
+#include "UI.h"
 
 GameScene::GameScene()
 {
@@ -1192,6 +1192,18 @@ void GameScene::Init()
 #pragma region UI
 	ResourceManager::GetInstance()->LoadTexture(L"SelectSkillButton", L"UI\\SelectSkillButton.bmp");
 	ResourceManager::GetInstance()->CreateSprite(L"SelectSkillButton", ResourceManager::GetInstance()->GetTexture(L"SelectSkillButton"));
+
+	// test
+	ResourceManager::GetInstance()->LoadTexture(L"InGameStatus", L"UI\\InGame-Status.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"InGameStatus", ResourceManager::GetInstance()->GetTexture(L"InGameStatus"));
+	{
+		Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"InGameStatus");
+		UI* ui = new UI();
+		ui->SetPos(Vec2(480, 683));
+		ui->SetSprite(sprite);
+
+		AddUI(ui);
+	}
 #pragma endregion
 
 	{
