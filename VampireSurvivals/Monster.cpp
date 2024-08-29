@@ -16,18 +16,17 @@ Monster::Monster()
 {
 	_stat = { 100, 100, 10 };
 
-	//SphereCollider* collider = new SphereCollider();
+	//unique_ptr<SphereCollider> collider = make_unique<SphereCollider>();
 	//collider->SetOwner(this);
 	//collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
 	//collider->ResetCollisionFlag();
 	//collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
 	//collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER_SKILL);
 	//collider->SetRadius(20);
-	//collider->SetShowDebug(true);
-	//AddComponent(collider);
+	////collider->SetShowDebug(true);
 
-	//CollisionManager::GetInstance()->AddCollider(collider);
-
+	//CollisionManager::GetInstance()->AddCollider(collider.get());
+	//AddComponent(::move(collider));
 }
 
 Monster::~Monster()
@@ -133,15 +132,21 @@ void Monster::OnAnimationFinished()
 	}
 	if (_state == MonsterState::Death)
 	{
-		//GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-		//scene->RemoveActor(this);
+		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 
-		//Experience* exp = new Experience();
-		//exp->SetPos(_pos);
-		//exp->SetEXP(30);
+		vector<unique_ptr<Component>>& colliders = GetColliders();
+		for (auto& collider : colliders)
+		{
+			CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>(collider.get()));
+		}
 
-		//scene->AddActor(exp);
-		//return;
+		unique_ptr<Experience> exp = make_unique<Experience>();
+		exp->SetPos(_pos);
+		exp->SetEXP(30);
+		scene->AddActor(::move(exp));
+
+		scene->RemoveActor(this);
+		return;
 	}
 
 
@@ -156,12 +161,7 @@ void Monster::OnComponentBeginOverlap(Collider* collider, Collider* other)
 
 void Monster::OnComponentEndOverlap(Collider* collider, Collider* other)
 {
-	//if (_state == MonsterState::Death)
-	//{
-	//	CollisionManager::GetInstance()->RemoveCollider(collider);
 
-	//	//delete(this);
-	//}
 }
 
 bool Monster::TakeDamage(float damage)

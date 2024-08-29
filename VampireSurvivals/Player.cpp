@@ -81,6 +81,11 @@ Player::Player()
 	slash->SetOwner(this);
 	slash->Init();
 	AddSkill(::move(slash));
+
+	unique_ptr<Iceburst> iceburst = make_unique<Iceburst>();
+	iceburst->SetOwner(this);
+	iceburst->Init();
+	AddSkill(::move(iceburst));
 }
 
 Player::~Player()

@@ -64,10 +64,11 @@ void Iceburst::Use(float deltaTime)
 		collider->SetRadius(20);
 		//collider->SetShowDebug(true);
 
-		iceburst->SetAnimationFinishedCallback([&iceburst, scene, &collider]() {
-			CollisionManager::GetInstance()->RemoveCollider(collider.get());
-			scene->RemoveActor(iceburst.get());
-		});
+		//iceburst->SetAnimationFinishedCallback([this, scene]() {
+
+		//	CollisionManager::GetInstance()->RemoveCollider(collider.get());
+		//	scene->RemoveActor();
+		//});
 		CollisionManager::GetInstance()->AddCollider(collider.get());
 		iceburst->AddComponent(::move(collider));
 		

@@ -4,6 +4,11 @@
 #include "Texture.h"
 #include "TimeManager.h"
 #include "SceneManager.h"
+#include "GameScene.h"
+#include "Scene.h"
+#include "Component.h"
+#include "Collider.h"
+#include "CollisionManager.h"
 
 FlipbookActor::FlipbookActor()
 {
@@ -35,6 +40,14 @@ void FlipbookActor::Update()
 		{
 			_animationFinishedCallback();
 		}
+		vector<unique_ptr<Component>>& colliders = GetColliders();
+		for (auto& collider : colliders)
+		{
+			CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>(collider.get()));
+		}
+
+		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+		scene->RemoveActor(this);
 		return;
 	}
 

@@ -1231,7 +1231,7 @@ void GameScene::Update()
 {
 	Super::Update();
 
-	//MonsterRespawn();
+	MonsterRespawn();
 
 	CollisionManager::GetInstance()->Update();
 }
@@ -1241,48 +1241,74 @@ void GameScene::Render(HDC hdc)
 	Super::Render(hdc);
 }
 
-//void GameScene::MonsterRespawn()
-//{
-//	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
+void GameScene::MonsterRespawn()
+{
+	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
+
+	_sumTime += deltaTime;
+	if (_sumTime >= _coolTime)
+	{
+		// new monster
+		unique_ptr<Cyclops> monster = make_unique<Cyclops>();
+		monster->SetPos(MonsterRandomPos());
+		monster->Init();
+		AddActor(::move(monster));
+
+
+		_sumTime = 0.f;
+	}
+}
+
+Vec2 GameScene::MonsterRandomPos()
+{
+	Vec2 playerPos = GetPlayerPos();
+
+	std::random_device rd;
+	std::mt19937 gen(rd());
+
+
+	std::uniform_real_distribution<float> radius_dist(50, 300);
+	float radius = radius_dist(gen);
+
+	std::uniform_real_distribution<float> theta_dist(0.f, 2.f * PI);
+	float theta = theta_dist(gen);
+
+	Vec2 monsterPos;
+	monsterPos.x = playerPos.x + radius * cos(theta);
+	monsterPos.y = playerPos.y + radius * sin(theta);
+
+	return monsterPos;
+}
 //
-//	_sumTime += deltaTime;
-//	if (_sumTime >= _coolTime)
+//void GameScene::SpawnMonster(MonsterID id)
+//{
+//	switch (id)
 //	{
-//		// new monster
-//		Cyclops* monster = new Cyclops();
-//		monster->SetPos(MonsterRandomPos());
-//		monster->Init();
-//		AddActor(monster);
-//
-//
-//		_sumTime = 0.f;
+//	case ID_Slime:
+//	{
+//		unique_ptr<Slime> slime = make_unique<Slime>();
+//		slime->SetPos(MonsterRandomPos());
+//		slime->Init();
+//		AddActor(::move(slime));
 //	}
-//}
-//
-//Vec2 GameScene::MonsterRandomPos()
-//{
-//	Vec2 playerPos = GetPlayerPos();
-//
-//	std::random_device rd;
-//	std::mt19937 gen(rd());
-//
-//
-//	std::uniform_real_distribution<float> radius_dist(50, 300);
-//	float radius = radius_dist(gen);
-//
-//	std::uniform_real_distribution<float> theta_dist(0.f, 2.f * PI);
-//	float theta = theta_dist(gen);
-//
-//	Vec2 monsterPos;
-//	monsterPos.x = playerPos.x + radius * cos(theta);
-//	monsterPos.y = playerPos.y + radius * sin(theta);
-//
-//	return monsterPos;
-//}
-//
-//void GameScene::SpawnMonster()
-//{
-//
+//		break;
+//	case ID_Goblin:
+//		break;
+//	case ID_Orc:
+//		break;
+//	case ID_Cyclops:
+//		break;
+//	case ID_WolfRider:
+//		break;
+//	case ID_Owlbear:
+//		break;
+//	case ID_Ogre:
+//		break;
+//	case ID_Dragon:
+//		break;
+//	case ID_None:
+//		break;
+//	}
 //}
 //
 //void GameScene::HandleWave()

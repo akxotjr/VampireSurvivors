@@ -18,6 +18,28 @@ enum class MonsterGrade
 	Boss
 };
 
+enum MonsterID
+{
+	ID_Slime = 0,
+	ID_Goblin,
+	ID_Orc,
+	ID_Cyclops,
+	ID_WolfRider,
+	ID_Owlbear,
+	ID_Ogre,
+	ID_Dragon,
+
+	ID_None = 999
+};
+
+struct MonsterInfo
+{
+	MonsterID id = MonsterID::ID_None;
+	MonsterGrade grade = MonsterGrade::Normal;
+	int32 size = 8;
+	Stat stat = {100, 100, 10};
+};
+
 class Flipbook;
 
 class Monster : public FlipbookActor
@@ -59,6 +81,9 @@ public:
 		_onAttackAnimationFinishedCallback = callback;
 	}
 
+	void SetInfo(const MonsterInfo& info) { _info = info; }
+	const MonsterInfo& GetInfo() { return _info; }
+
 
 protected:
 	MonsterState	_state = MonsterState::Idle;
@@ -72,6 +97,8 @@ protected:
 	float			_sumTime = 0.f;
 
 	Stat			_stat;
+
+	MonsterInfo		_info = {};
 
 	Flipbook*	_flipbookIdle[Dir::DIR_COUNT] = {};
 	Flipbook*	_flipbookMove[Dir::DIR_COUNT] = {};

@@ -39,8 +39,8 @@ void StoneSling::Update()
 		Cyclops* cyclops = dynamic_cast<Cyclops*>(GetOwner());
 		if (dist.Length() >= cyclops->GetAttackRange())
 		{
-			//scene->RemoveActor((*it));
-			//it = _skillObjects.erase(it);
+			scene->RemoveActor((*it));
+			it = _skillObjects.erase(it);
 			continue;
 		}
 		Vec2 dir = (*it)->GetDir();
@@ -71,25 +71,26 @@ void StoneSling::Use(float deltaTime)
 		collider->AddCollisionFlagLayer(CLT_PLAYER);
 		collider->SetOwner(stone.get());
 		collider->SetRadius(6);
-		// todo erase
 		//collider->SetShowDebug(true);
 
-		CollisionManager::GetInstance()->AddCollider(collider.get());
-		stone->AddComponent(::move(collider));
-
-		stone->SetSkill2PlayerCallback([this](Collider* other) {
-			if (other->GetCollisionLayer() == CLT_PLAYER)
+		stone->SetSkill2PlayerCallback([this, scene, &stone, &collider](Collider* other) {
+			Player* player = dynamic_cast<Player*>(other->GetOwner());
+			if (other->GetCollisionLayer() == CLT_PLAYER && player)
 			{
-				Player* player = dynamic_cast<Player*>(other->GetOwner());
 				if (player->TakeDamage(10))
 					player->SetState(PlayerState::Death);
 				else
 				{
 					player->SetState(PlayerState::Hurt);
-
 				}
+				CollisionManager::GetInstance()->RemoveCollider(collider.get());
+				scene->RemoveActor(stone.get());
 			}
 		});
+		CollisionManager::GetInstance()->AddCollider(collider.get());
+		stone->AddComponent(::move(collider));
+
+
 		AddSkillObject(stone.get());
 		scene->AddActor(::move(stone));
 

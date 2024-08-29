@@ -2,6 +2,7 @@
 #include "Scene.h"
 
 class Collider;
+class Monster;
 
 class GameScene : public Scene
 {
@@ -18,8 +19,8 @@ public:
 	void MonsterRespawn();
 	Vec2 MonsterRandomPos();
 
-	void SpawnMonster();
-	void HandleWave();
+	//void SpawnMonster(MonsterID id);
+	//void HandleWave();
 
 protected:
 	float _sumTime = 0.f;

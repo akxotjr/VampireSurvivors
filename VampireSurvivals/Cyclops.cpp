@@ -61,9 +61,9 @@ Cyclops::Cyclops()
 		AddComponent(::move(collider));
 	}
 
-	_skill = make_unique<StoneSling>();
-	_skill->SetOwner(this);
-	_skill->Init();
+	//_skill = make_unique<Stonesling>();
+	//_skill->Setowner(this);
+	//_skill->init();
 }
 
 Cyclops::~Cyclops()
@@ -85,7 +85,7 @@ void Cyclops::Update()
 	{
 		float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
 		_sumTime += deltaTime;
-		_skill->Use(deltaTime);
+		//_skill->Use(deltaTime);
 		if (_sumTime >= _coolTime)
 		{
 			SetState(MonsterState::Attack);
@@ -93,7 +93,7 @@ void Cyclops::Update()
 		}
 	}
 
-	_skill->Update();
+	//_skill->Update();
 	
 }
 
