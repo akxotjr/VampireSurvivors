@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "Goblin.h"
 #include "ResourceManager.h"
+#include "Collider.h"
+#include "SphereCollider.h"
+#include "CollisionManager.h"
 
 Goblin::Goblin()
 {
@@ -28,6 +31,18 @@ Goblin::Goblin()
 	_flipbookDeath[Dir::DIR_DOWN] = ResourceManager::GetInstance()->GetFlipbook(L"FB_GoblinDeathDown");
 	_flipbookDeath[Dir::DIR_LEFT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_GoblinDeathLeft");
 	_flipbookDeath[Dir::DIR_RIGHT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_GoblinDeathRight");
+
+	unique_ptr<SphereCollider> collider = make_unique<SphereCollider>();
+	collider->SetOwner(this);
+	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
+	collider->ResetCollisionFlag();
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER_SKILL);
+	collider->SetRadius(8);
+	collider->SetShowDebug(true);
+
+	CollisionManager::GetInstance()->AddCollider(collider.get());
+	AddComponent(::move(collider));
 }
 
 Goblin::~Goblin()

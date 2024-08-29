@@ -16,17 +16,17 @@ Monster::Monster()
 {
 	_stat = { 100, 100, 10 };
 
-	SphereCollider* collider = new SphereCollider();
-	collider->SetOwner(this);
-	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
-	collider->ResetCollisionFlag();
-	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
-	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER_SKILL);
-	collider->SetRadius(20);
-	collider->SetShowDebug(true);
-	AddComponent(collider);
+	//SphereCollider* collider = new SphereCollider();
+	//collider->SetOwner(this);
+	//collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
+	//collider->ResetCollisionFlag();
+	//collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
+	//collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER_SKILL);
+	//collider->SetRadius(20);
+	//collider->SetShowDebug(true);
+	//AddComponent(collider);
 
-	CollisionManager::GetInstance()->AddCollider(collider);
+	//CollisionManager::GetInstance()->AddCollider(collider);
 
 }
 
@@ -120,26 +120,31 @@ void Monster::UpdateAnimation()
 		_animationTime += TimeManager::GetInstance()->GetDeltaTime();
 		if (_animationTime >= GetFlipbookDuration())
 		{
-			if (_state == MonsterState::Death)
-			{
-				GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-				scene->RemoveActor(this);
-
-				Experience* exp = new Experience();
-				exp->SetPos(_pos);
-				exp->SetEXP(30);
-
-				scene->AddActor(exp);
-				return;
-			}
 			OnAnimationFinished();
 		}
 	}
-
 }
 
 void Monster::OnAnimationFinished()
 {
+	if (_state == MonsterState::Attack && _onAttackAnimationFinishedCallback)
+	{
+		_onAttackAnimationFinishedCallback();
+	}
+	if (_state == MonsterState::Death)
+	{
+		//GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+		//scene->RemoveActor(this);
+
+		//Experience* exp = new Experience();
+		//exp->SetPos(_pos);
+		//exp->SetEXP(30);
+
+		//scene->AddActor(exp);
+		//return;
+	}
+
+
 	_isAnimationPlaying = false;
 	SetState(MonsterState::Idle);
 }

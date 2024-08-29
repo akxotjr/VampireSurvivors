@@ -8,7 +8,7 @@ public:
 	Texture();
 	virtual ~Texture();
 
-	Texture*	LoadBmp(HWND hwnd, const wstring& path);
+	void		LoadBmp(HWND hwnd, const wstring& path);
 	//Texture*	LoadPng(HWND hwnd, const wstring& path);
 	HDC			GetDC() { return _hdc; }
 

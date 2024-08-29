@@ -129,17 +129,17 @@ void DevScene::Init()
 	//ResourceManager::GetInstance()->LoadTexture(L"Arrow", L"Projectile\\Arrow01(32x32).png");
 	//ResourceManager::GetInstance()->CreateSprite(L"Arrow", ResourceManager::GetInstance()->GetTexture(L"Arrow"));
 
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierAttack", L"Soldier\\Soldier-Attack01.bmp");
-	ResourceManager::GetInstance()->CreateSprite(L"SoldierAttack", ResourceManager::GetInstance()->GetTexture(L"SoldierAttack"));
-	{
-		Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"SoldierAttack");
+	//ResourceManager::GetInstance()->LoadTexture(L"SoldierAttack", L"Soldier\\Soldier-Attack01.bmp");
+	//ResourceManager::GetInstance()->CreateSprite(L"SoldierAttack", ResourceManager::GetInstance()->GetTexture(L"SoldierAttack"));
+	//{
+	//	Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"SoldierAttack");
 
-		SpriteActor* soldier = new SpriteActor();
-		soldier->SetSprite(sprite);
-		soldier->SetPos({ 400,300 });
+	//	SpriteActor* soldier = new SpriteActor();
+	//	soldier->SetSprite(sprite);
+	//	soldier->SetPos({ 400,300 });
 
-		AddActor(soldier);
-	}
+	//	AddActor(soldier);
+	//}
 
 	Super::Init();
 }

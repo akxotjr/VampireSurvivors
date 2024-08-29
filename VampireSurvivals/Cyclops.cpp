@@ -5,6 +5,8 @@
 #include "Collider.h"
 #include "SphereCollider.h"
 #include "TimeManager.h"
+#include "StoneSling.h"
+#include "Skill.h"
 
 Cyclops::Cyclops()
 {
@@ -33,16 +35,35 @@ Cyclops::Cyclops()
 	_flipbookDeath[Dir::DIR_LEFT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsDeathLeft");
 	_flipbookDeath[Dir::DIR_RIGHT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_CyclopsDeathRight");
 
-	SphereCollider* collider = new SphereCollider();
-	collider->SetOwner(this);
-	collider->SetCollisionLayer(CLT_MONSTER_ATK_RANGE);
-	collider->ResetCollisionFlag();
-	collider->AddCollisionFlagLayer(CLT_PLAYER);
-	collider->SetRadius(50);
-	collider->SetShowDebug(true);
+	{
+		unique_ptr<SphereCollider> collider = make_unique<SphereCollider>();
+		collider->SetOwner(this);
+		collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
+		collider->ResetCollisionFlag();
+		collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
+		collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER_SKILL);
+		collider->SetRadius(16);
+		collider->SetShowDebug(true);
+		
+		CollisionManager::GetInstance()->AddCollider(collider.get());
+		AddComponent(::move(collider));
+	}
+	{
+		unique_ptr<SphereCollider> collider = make_unique<SphereCollider>();
+		collider->SetOwner(this);
+		collider->SetCollisionLayer(CLT_MONSTER_ATK_RANGE);
+		collider->ResetCollisionFlag();
+		collider->AddCollisionFlagLayer(CLT_PLAYER);
+		collider->SetRadius(_attackRange);
+		collider->SetShowDebug(true);
 
-	AddComponent(collider);
-	CollisionManager::GetInstance()->AddCollider(collider);
+		CollisionManager::GetInstance()->AddCollider(collider.get());
+		AddComponent(::move(collider));
+	}
+
+	_skill = make_unique<StoneSling>();
+	_skill->SetOwner(this);
+	_skill->Init();
 }
 
 Cyclops::~Cyclops()
@@ -53,6 +74,7 @@ void Cyclops::Init()
 {
 	Super::Init();
 	SetGrade(MonsterGrade::Rare);
+
 }
 
 void Cyclops::Update()
@@ -63,12 +85,15 @@ void Cyclops::Update()
 	{
 		float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
 		_sumTime += deltaTime;
+		_skill->Use(deltaTime);
 		if (_sumTime >= _coolTime)
 		{
 			SetState(MonsterState::Attack);
 			_sumTime = 0.f;
 		}
 	}
+
+	_skill->Update();
 	
 }
 

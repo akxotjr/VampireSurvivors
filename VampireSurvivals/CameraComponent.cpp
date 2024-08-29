@@ -5,7 +5,7 @@
 
 CameraComponent::CameraComponent()
 {
-
+	SetComponentType(CAMERA);
 }
 
 CameraComponent::~CameraComponent()

@@ -59,26 +59,28 @@ Player::Player()
 	_flipbookDeath[DIR_LEFT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerDeathLeft");
 	_flipbookDeath[DIR_RIGHT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_SwashbucklerDeathRight");
 
-	CameraComponent* camera = new CameraComponent();
-	AddComponent(camera);
+	unique_ptr<CameraComponent> camera = make_unique<CameraComponent>();
+	camera->SetOwner(this);
+	AddComponent(::move(camera));
 
-	SphereCollider* collider = new SphereCollider();
+	unique_ptr<SphereCollider> collider = make_unique<SphereCollider>();
 	collider->SetOwner(this);
 	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
 	collider->ResetCollisionFlag();
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER_SKILL);
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER_ATK_RANGE);
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_EXP);
 	collider->SetRadius(20);
 	collider->SetShowDebug(true);
-	AddComponent(collider);
+	CollisionManager::GetInstance()->AddCollider(collider.get());
+	AddComponent(::move(collider));
 
-	CollisionManager::GetInstance()->AddCollider(collider);
 
-	Slash* slash = new Slash();
+	unique_ptr<Slash> slash = make_unique<Slash>();
 	slash->SetOwner(this);
 	slash->Init();
-	AddSkill(slash);
+	AddSkill(::move(slash));
 }
 
 Player::~Player()
@@ -214,6 +216,10 @@ void Player::UpdateAnimation()
 		_animationTime += TimeManager::GetInstance()->GetDeltaTime();
 		if (_animationTime >= GetFlipbookDuration())
 		{
+			if (_state == PlayerState::Attack)
+			{
+				int a = 0;
+			}
 			OnAnimationFinished();
 		}
 	}
@@ -247,12 +253,12 @@ void Player::OnComponentBeginOverlap(Collider* collider, Collider* other)
 	}
 	else if (other->GetCollisionLayer() == CLT_EXP)
 	{
-		Experience* exp = dynamic_cast<Experience*>(other->GetOwner());
+		/*Experience* exp = dynamic_cast<Experience*>(other->GetOwner());
 		TakeEXP(exp->GetEXP());
 
 		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 		scene->RemoveActor(other->GetOwner());
-		CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>(exp->GetCollider()));
+		CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>(exp->GetCollider()));*/
 	}
 }
 
@@ -303,12 +309,12 @@ void Player::RandomSkill()
 	if (_skills.size() == 4)
 	{
 		possibleSkills = 0;
-		for (auto skill : _skills)
+		for (auto& skill : _skills)
 		{
 			possibleSkills |= (1 << skill->GetSkillID());
 		}
 	}
-	for (auto skill : _skills)
+	for (auto& skill : _skills)
 	{
 		if (skill->GetSkillLevel() == 5)
 		{
@@ -338,19 +344,19 @@ void Player::RandomSkill()
 	int32 buttonCnt = 0;
 	vector<Vec2> pos = { {245, 360}, {480, 360}, {715, 360} };
 
-	SelectSkillPanel* ssp = new SelectSkillPanel();
+	unique_ptr<SelectSkillPanel> ssp = make_unique<SelectSkillPanel>();
 	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 
 	for (int32 i = 0; i < 5; i++)
 	{
 		if (selectedSkills & (1 << i))
 		{
-			GenerateSkillButton(i, pos[buttonCnt], ssp);
+			GenerateSkillButton(i, pos[buttonCnt], ssp.get());
 			buttonCnt++;
 		}
 	}
 
-	scene->AddUI(ssp);
+	scene->AddUI(::move(ssp));
 }
 
 void Player::GenerateSkillButton(int32 id, Vec2 pos, SelectSkillPanel* panel)
@@ -358,7 +364,7 @@ void Player::GenerateSkillButton(int32 id, Vec2 pos, SelectSkillPanel* panel)
 	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 	Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"SelectSkillButton");
 	{
-		Button* button = new Button();
+		unique_ptr<Button> button = make_unique<Button>();
 		button->SetSprite(sprite, BS_Default);
 		button->SetSprite(sprite, BS_Clicked);
 		button->SetSprite(sprite, BS_Pressed);
@@ -368,9 +374,9 @@ void Player::GenerateSkillButton(int32 id, Vec2 pos, SelectSkillPanel* panel)
 		button->AddOnClickDelegate(this, &Player::SkillLevelUP, id, panel);
 		button->Init();
 
-		panel->AddChild(button);
+		panel->AddChild(button.get());
 
-		scene->AddUI(button);
+		scene->AddUI(::move(button));
 	}
 }
 
@@ -393,42 +399,42 @@ void Player::SkillLevelUP(int32 id, SelectSkillPanel* panel)
 		{
 		case 0:
 		{
-			Slash* slash = new Slash();
+			unique_ptr<Slash> slash = make_unique<Slash>();
 			slash->SetOwner(this);
 			slash->Init();
-			AddSkill(slash);
+			AddSkill(::move(slash));
 		}
 			break;
 		case 1:
 		{
-			Iceburst* iceburst = new Iceburst();
+			unique_ptr<Iceburst> iceburst = make_unique<Iceburst>();
 			iceburst->SetOwner(this);
 			iceburst->Init();
-			AddSkill(iceburst);
+			AddSkill(::move(iceburst));
 		}
 			break;
 		case 2:
 		{
-			Lightning* lightning = new Lightning();
+			unique_ptr<Lightning> lightning = make_unique<Lightning>();
 			lightning->SetOwner(this);
 			lightning->Init();
-			AddSkill(lightning);
+			AddSkill(::move(lightning));
 		}
 			break;
 		case 3:
 		{
-			Suriken* suriken = new Suriken();
+			unique_ptr<Suriken> suriken = make_unique<Suriken>();
 			suriken->SetOwner(this);
 			suriken->Init();
-			AddSkill(suriken);
+			AddSkill(::move(suriken));
 		}
 			break;
 		case 4:
 		{
-			ForceField* forcefield = new ForceField();
+			unique_ptr<ForceField> forcefield = make_unique<ForceField>();
 			forcefield->SetOwner(this);
 			forcefield->Init();
-			AddSkill(forcefield);
+			AddSkill(::move(forcefield));
 		}
 			break;
 		}
@@ -436,9 +442,9 @@ void Player::SkillLevelUP(int32 id, SelectSkillPanel* panel)
 
 	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 	panel->RemoveAllChild();
-	scene->RemmoveUI(panel);
+	scene->RemoveUI(panel);
 
-	TimeManager::GetInstance()->SetTimeScale(1.f);
+	//TimeManager::GetInstance()->SetTimeScale(1.f);
 }
 
 

@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "Orc.h"
 #include "ResourceManager.h"
+#include "Collider.h"
+#include "SphereCollider.h"
+#include "CollisionManager.h"
 
 Orc::Orc()
 {
@@ -28,6 +31,19 @@ Orc::Orc()
 	_flipbookDeath[Dir::DIR_DOWN] = ResourceManager::GetInstance()->GetFlipbook(L"FB_OrcDeathDown");
 	_flipbookDeath[Dir::DIR_LEFT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_OrcDeathLeft");
 	_flipbookDeath[Dir::DIR_RIGHT] = ResourceManager::GetInstance()->GetFlipbook(L"FB_OrcDeathRight");
+
+
+	unique_ptr<SphereCollider> collider = make_unique<SphereCollider>();
+	collider->SetOwner(this);
+	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
+	collider->ResetCollisionFlag();
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER_SKILL);
+	collider->SetRadius(8);
+	collider->SetShowDebug(true);
+
+	CollisionManager::GetInstance()->AddCollider(collider.get());
+	AddComponent(::move(collider));
 }
 
 Orc::~Orc()

@@ -3,7 +3,6 @@
 #include "TimeManager.h"
 #include "InputManager.h"
 #include "SceneManager.h"
-#include "ResourceManager.h"
 #include "CollisionManager.h"
 #include "Texture.h"
 #include "Sprite.h"
@@ -21,6 +20,7 @@
 #include "Cyclops.h"
 #include "Goblin.h"
 #include "UI.h"
+#include "ResourceManager.h"
 
 GameScene::GameScene()
 {
@@ -388,6 +388,10 @@ void GameScene::Init()
 	ResourceManager::GetInstance()->LoadTexture(L"CyclopsDeathDown", L"Monsters\\Cyclops\\Cyclops_Death_Down.bmp");
 	ResourceManager::GetInstance()->LoadTexture(L"CyclopsDeathLeft", L"Monsters\\Cyclops\\Cyclops_Death_Left.bmp");
 	ResourceManager::GetInstance()->LoadTexture(L"CyclopsDeathRight", L"Monsters\\Cyclops\\Cyclops_Death_Right.bmp");
+
+	// Skill
+	ResourceManager::GetInstance()->LoadTexture(L"M_StoneSling", L"Monsters\\Cyclops\\Cyclops_StoneSling.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"M_StoneSling", ResourceManager::GetInstance()->GetTexture(L"M_StoneSling"));
 
 	// Create Flipbook
 
@@ -1196,30 +1200,28 @@ void GameScene::Init()
 	ResourceManager::GetInstance()->CreateSprite(L"SelectSkillButton", ResourceManager::GetInstance()->GetTexture(L"SelectSkillButton"));
 
 	// test
-	ResourceManager::GetInstance()->LoadTexture(L"InGameStatus", L"UI\\InGame-Status.bmp");
-	ResourceManager::GetInstance()->CreateSprite(L"InGameStatus", ResourceManager::GetInstance()->GetTexture(L"InGameStatus"));
-	{
-		Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"InGameStatus");
-		UI* ui = new UI();
-		ui->SetPos(Vec2(480, 683));
-		ui->SetSprite(sprite);
+	//ResourceManager::GetInstance()->LoadTexture(L"InGameStatus", L"UI\\InGame-Status.bmp");
+	//ResourceManager::GetInstance()->CreateSprite(L"InGameStatus", ResourceManager::GetInstance()->GetTexture(L"InGameStatus"));
+	//{
+	//	Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"InGameStatus");
+	//	UI* ui = new UI();
+	//	ui->SetPos(Vec2(480, 683));
+	//	ui->SetSprite(sprite);
 
-		AddUI(ui);
-	}
+	//	AddUI(ui);
+	//}
 #pragma endregion
 
 	{
-		// Player
-		Player* player = new Player();
+		unique_ptr<Player> player = make_unique<Player>();
 		player->SetPos({ GWinSizeX / 2, GWinSizeY / 2 });
-
-		AddActor(player);
+		AddActor(::move(player));
 	}
 	{
 		// Background
-		Background* background = new Background();
-
-		AddActor(background);
+		unique_ptr<Background> background = make_unique<Background>();
+		
+		AddActor(::move(background));
 	}
 
 	Super::Init();
@@ -1229,7 +1231,7 @@ void GameScene::Update()
 {
 	Super::Update();
 
-	MonsterRespawn();
+	//MonsterRespawn();
 
 	CollisionManager::GetInstance()->Update();
 }
@@ -1239,42 +1241,58 @@ void GameScene::Render(HDC hdc)
 	Super::Render(hdc);
 }
 
-void GameScene::MonsterRespawn()
-{
-	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
-
-	_sumTime += deltaTime;
-	if (_sumTime >= _coolTime)
-	{
-		// new monster
-		Cyclops* monster = new Cyclops();
-		monster->SetPos(MonsterRandomPos(deltaTime));
-		monster->Init();
-		AddActor(monster);
-
-
-		_sumTime = 0.f;
-	}
-}
-
-Vec2 GameScene::MonsterRandomPos(float deltaTime)
-{
-	Vec2 playerPos = GetPlayerPos();
-
-	std::random_device rd;
-	std::mt19937 gen(rd());
-
-
-	std::uniform_real_distribution<float> radius_dist(50, 300);
-	float radius = radius_dist(gen);
-
-	std::uniform_real_distribution<float> theta_dist(0.f, 2.f * PI);
-	float theta = theta_dist(gen);
-
-	Vec2 monsterPos;
-	monsterPos.x = playerPos.x + radius * cos(theta);
-	monsterPos.y = playerPos.y + radius * sin(theta);
-
-	return monsterPos;
-}
+//void GameScene::MonsterRespawn()
+//{
+//	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
+//
+//	_sumTime += deltaTime;
+//	if (_sumTime >= _coolTime)
+//	{
+//		// new monster
+//		Cyclops* monster = new Cyclops();
+//		monster->SetPos(MonsterRandomPos());
+//		monster->Init();
+//		AddActor(monster);
+//
+//
+//		_sumTime = 0.f;
+//	}
+//}
+//
+//Vec2 GameScene::MonsterRandomPos()
+//{
+//	Vec2 playerPos = GetPlayerPos();
+//
+//	std::random_device rd;
+//	std::mt19937 gen(rd());
+//
+//
+//	std::uniform_real_distribution<float> radius_dist(50, 300);
+//	float radius = radius_dist(gen);
+//
+//	std::uniform_real_distribution<float> theta_dist(0.f, 2.f * PI);
+//	float theta = theta_dist(gen);
+//
+//	Vec2 monsterPos;
+//	monsterPos.x = playerPos.x + radius * cos(theta);
+//	monsterPos.y = playerPos.y + radius * sin(theta);
+//
+//	return monsterPos;
+//}
+//
+//void GameScene::SpawnMonster()
+//{
+//
+//}
+//
+//void GameScene::HandleWave()
+//{
+//	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
+//	_spawnSumTime += deltaTime;
+//
+//	if (_spawnSumTime >= _spawnCoolTime)
+//	{
+//
+//	}
+//}
 

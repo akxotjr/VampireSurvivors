@@ -38,42 +38,41 @@ void Lightning::Use(float deltaTime)
 	if (_sumTime >= _coolTime)
 	{
 		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-		const vector<Actor*>& monsters = scene->GetMonsters();
+		//const vector<Actor*>& monsters = scene->GetMonsters();
 
 		Vec2 pos;
-		if (monsters.empty())
-		{
-			pos = { 300,300 };
-		}
-		else
-		{
-			pos = monsters.front()->GetPos() + Vec2(0, -16);
-		}
+		//if (monsters.empty())
+		//{
+		pos = { 300,300 };
+		//}
+		//else
+		//{
+		//	pos = monsters.front()->GetPos() + Vec2(0, -16);
+		//}
 
-		FlipbookActor* lightning = new FlipbookActor();
+		unique_ptr<FlipbookActor> lightning = make_unique<FlipbookActor>();
 		lightning->SetFlipbook(_flipbook);
 		lightning->SetPos(pos);
 		lightning->SetLayer(LAYER_SKILL);
 
-		SphereCollider* collider = new SphereCollider();
+		unique_ptr<SphereCollider> collider = make_unique<SphereCollider>();
 		collider->SetCollisionLayer(CLT_PLAYER_SKILL);
 		collider->ResetCollisionFlag();
 		collider->SetCollisionFlag(CLT_MONSTER);
-		collider->SetOwner(lightning);
+		collider->SetOwner(lightning.get());
 		collider->SetRadius(20);
 		//collider->SetShowDebug(true);
 
-		lightning->SetAnimationFinishedCallback([lightning, scene, collider]() {
-			GameScene* gamescene = dynamic_cast<GameScene*>(scene);
-			gamescene->RemoveActor(lightning);
-			//delete(iceburst);
-			CollisionManager::GetInstance()->RemoveCollider(collider);
+		lightning->SetAnimationFinishedCallback([&lightning, scene, &collider]() {
+			CollisionManager::GetInstance()->RemoveCollider(collider.get());
+			scene->RemoveActor(lightning.get());
 		});
 
-		lightning->AddComponent(collider);
-		CollisionManager::GetInstance()->AddCollider(collider);
+		CollisionManager::GetInstance()->AddCollider(collider.get());
+		lightning->AddComponent(::move(collider));
 
-		lightning->SetSkill2MonsterCallback([this, collider, scene](Collider* other) {
+
+		lightning->SetSkill2MonsterCallback([this, scene](Collider* other) {
 			Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
 			if (monster)
 			{
@@ -85,18 +84,17 @@ void Lightning::Use(float deltaTime)
 
 					const float damagevalue = static_cast<int32>(GetDamage());
 
-					DamageText* damagetext = new DamageText();
+					unique_ptr<DamageText> damagetext = make_unique<DamageText>();
 					damagetext->SetPos(monster->GetPos() + Vec2(10, 0));
 					damagetext->SetText(damagevalue);
 					damagetext->SetLayer(LAYER_DAMAGETEXT);
 
-					scene->AddActor(damagetext);
+					scene->AddActor(::move(damagetext));
 				}
 			}
 		});
 
-		scene->AddActor(lightning);
-
+		scene->AddActor(::move(lightning));
 		_sumTime = 0.f;
 
 	}

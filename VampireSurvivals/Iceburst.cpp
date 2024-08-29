@@ -39,41 +39,40 @@ void Iceburst::Use(float deltaTime)
 	if (_sumTime >= _coolTime)
 	{
 		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-		const vector<Actor*>& monsters = scene->GetMonsters();
+		//const vector<Actor*>& monsters = scene->GetMonsters();
 
 		Vec2 pos;
-		if (monsters.empty())
-		{
+		//if (monsters.empty())
+		//{
 			pos = { 300,300 };
-		}
-		else
-		{
-			pos = monsters.front()->GetPos() + Vec2(0, -16);
-		}
+		//}
+		//else
+		//{
+		//	pos = monsters.front()->GetPos() + Vec2(0, -16);
+		//}
 
-		FlipbookActor* iceburst = new FlipbookActor();
+		unique_ptr<FlipbookActor> iceburst = make_unique<FlipbookActor>();
 		iceburst->SetFlipbook(_flipbook);
 		iceburst->SetPos(pos);
 		iceburst->SetLayer(LAYER_SKILL);
 
-		SphereCollider* collider = new SphereCollider();
+		unique_ptr<SphereCollider> collider = make_unique<SphereCollider>();
 		collider->SetCollisionLayer(CLT_PLAYER_SKILL);
 		collider->ResetCollisionFlag();
 		collider->SetCollisionFlag(CLT_MONSTER);
-		collider->SetOwner(iceburst);
+		collider->SetOwner(iceburst.get());
 		collider->SetRadius(20);
 		//collider->SetShowDebug(true);
 
-		iceburst->SetAnimationFinishedCallback([iceburst, scene, collider]() {
-			scene->RemoveActor(iceburst);
-			//delete(iceburst);
-			CollisionManager::GetInstance()->RemoveCollider(collider);
+		iceburst->SetAnimationFinishedCallback([&iceburst, scene, &collider]() {
+			CollisionManager::GetInstance()->RemoveCollider(collider.get());
+			scene->RemoveActor(iceburst.get());
 		});
+		CollisionManager::GetInstance()->AddCollider(collider.get());
+		iceburst->AddComponent(::move(collider));
+		
 
-		iceburst->AddComponent(collider);
-		CollisionManager::GetInstance()->AddCollider(collider);
-
-		iceburst->SetSkill2MonsterCallback([this, collider, scene](Collider* other) {
+		iceburst->SetSkill2MonsterCallback([this, scene](Collider* other) {
 			Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
 			if (monster)
 			{
@@ -84,18 +83,17 @@ void Iceburst::Use(float deltaTime)
 					monster->SetState(MonsterState::Hurt);
 					const float damagevalue = static_cast<int32>(GetDamage());
 
-					DamageText* damagetext = new DamageText();
+					unique_ptr<DamageText> damagetext = make_unique<DamageText>();
 					damagetext->SetPos(monster->GetPos() + Vec2(10, 0));
 					damagetext->SetText(damagevalue);
 					damagetext->SetLayer(LAYER_DAMAGETEXT);
 
-					scene->AddActor(damagetext);
+					scene->AddActor(::move(damagetext));
 				}
 			}
 		});
 
-		scene->AddActor(iceburst);
-
+		scene->AddActor(::move(iceburst));
 		_sumTime = 0.f;
 	}
 }

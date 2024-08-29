@@ -33,26 +33,26 @@ void SceneManager::ChangeScene(SceneType sceneType)
 {
 	if (_sceneType == sceneType) return;
 
-	//unique_ptr<Scene> newScene = nullptr;
-	Scene* newScene = nullptr;
+	//Scene* newScene = nullptr;
+	unique_ptr<Scene> newScene = nullptr;
 
 	switch (sceneType)
 	{
 	case SceneType::DevScene:
-		newScene = new DevScene();
+		newScene = make_unique<DevScene>();
 		break;
 	case SceneType::GameScene:
-		newScene = new GameScene();
+		newScene = make_unique<GameScene>();
 		break;
 	case SceneType::LobbyScene:
-		newScene = new LobbyScene();
+		newScene = make_unique<LobbyScene>();
 		break;
 	case SceneType::StatUpgradeScene:
-		newScene = new StatUpgradeScene();
+		newScene = make_unique<StatUpgradeScene>();
 		break;
 	}
 
-	_scene = newScene;
+	_scene = ::move(newScene);
 	_sceneType = sceneType;
 
 	_scene->Init();

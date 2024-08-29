@@ -33,19 +33,24 @@ public:
 	LAYER_TYPE GetLayer() { return _layer; }
 	void SetLayer(LAYER_TYPE layer) { _layer = layer; }
 
-	void AddComponent(Component* component);
+	void AddComponent(unique_ptr<Component> component);
 	void RemoveComponent(Component* component);
 
-	Component* GetCollider();
+	vector<unique_ptr<Component>>& GetColliders();
 
 	virtual void OnComponentBeginOverlap(Collider* collider, Collider* other);
 	virtual void OnComponentEndOverlap(Collider* collider, Collider* other);
 
 	using Skill2MonsterCallback = ::function<void(Collider*)>;
+	using Skill2PlayerCallback = ::function<void(Collider*)>;
 
 	void SetSkill2MonsterCallback(Skill2MonsterCallback callback)
 	{
-		_skillDamageCallback = callback;
+		_skill2MonsterCallback = callback;
+	}
+	void SetSkill2PlayerCallback(Skill2PlayerCallback callback)
+	{
+		_skill2PlayerCallback = callback;
 	}
 
 protected:
@@ -55,8 +60,9 @@ protected:
 	Vec2			_dir = { 0,0 };
 	LAYER_TYPE		_layer = LAYER_BACKGROUND;
 
-	vector<Component*> _components;
+	vector<unique_ptr<Component>> _components[COMPONENT_TYPE_COUNT];
 
-	Skill2MonsterCallback _skillDamageCallback = nullptr;
+	Skill2MonsterCallback	_skill2MonsterCallback = nullptr;
+	Skill2PlayerCallback	_skill2PlayerCallback = nullptr;
 };
 

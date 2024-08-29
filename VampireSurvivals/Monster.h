@@ -54,6 +54,11 @@ public:
 	void SetGrade(MonsterGrade grade) { _grade = grade; }
 	MonsterGrade GetGrade() { return _grade; }
 
+	void SetOnAttackAnimationFinishedCallback(::function<void()> callback)
+	{
+		_onAttackAnimationFinishedCallback = callback;
+	}
+
 
 protected:
 	MonsterState	_state = MonsterState::Idle;
@@ -73,5 +78,7 @@ protected:
 	Flipbook*	_flipbookAttack[Dir::DIR_COUNT] = {};
 	Flipbook*	_flipbookHurt[Dir::DIR_COUNT] = {};
 	Flipbook*	_flipbookDeath[Dir::DIR_COUNT] = {};
+
+	::function<void()> _onAttackAnimationFinishedCallback = nullptr;
 };
 

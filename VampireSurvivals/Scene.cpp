@@ -13,78 +13,80 @@ Scene::~Scene()
 
 void Scene::Init()
 {
-	//for (const vector<shared_ptr<Actor>>& actors : _actors)
-	//	for (shared_ptr<Actor> actor : actors)
-	//		actor->Init();
-	for (const vector<Actor*>& actors : _actors)
-		for (Actor* actor : actors)
+	for (auto& actors : _actors)
+		for (auto& actor : actors)
 			actor->Init();
 
-	for (UI* ui : _uis)
+	for (auto& ui : _uis)
 		ui->Init();
 }
 
 void Scene::Update()
 {
-	//for (const vector<shared_ptr<Actor>>& actors : _actors)
-	//	for (shared_ptr<Actor> actor : actors)
-	//		actor->Update();
-	for (const vector<Actor*>& actors : _actors)
-		for (Actor* actor : actors)
+	for (auto& actors : _actors)
+		for (auto& actor : actors)
 			actor->Update();
 
-
-	for (UI* ui : _uis)
-			ui->Update();
+	for (auto& ui : _uis)
+		ui->Update();
 }
 
 void Scene::Render(HDC hdc)
 {
-	for (const vector<Actor*>& actors : _actors)
-		for (Actor* actor : actors)
+	for (auto& actors : _actors)
+		for (auto& actor : actors)
 			actor->Render(hdc);
 
-	for (UI* ui : _uis)
+	for (auto& ui : _uis)
 		ui->Render(hdc);
 }
 
 
-void Scene::AddActor(Actor* actor)
+void Scene::AddActor(std::unique_ptr<Actor> actor)
 {
 	if (actor == nullptr)
 		return;
 
-	_actors[actor->GetLayer()].push_back(actor);
+	_actors[actor->GetLayer()].push_back(::move(actor));
 }
+
 
 void Scene::RemoveActor(Actor* actor)
 {
 	if (actor == nullptr)
 		return;
 
-	vector<Actor*>& v = _actors[actor->GetLayer()];
-	v.erase(std::remove(v.begin(), v.end(), actor), v.end());
+	auto& v = _actors[actor->GetLayer()];
+	v.erase(::remove_if(v.begin(), v.end(),
+		[&actor](const unique_ptr<Actor>& ptr) {
+			return ptr.get() == actor;  
+		}),
+		v.end());
 }
 
-void Scene::AddUI(UI* ui)
+void Scene::AddUI(unique_ptr<UI> ui)
 {
 	if (ui == nullptr)
 		return;
 
-	_uis.push_back(ui);
+	_uis.push_back(::move(ui));
 }
 
-void Scene::RemmoveUI(UI* ui)
+void Scene::RemoveUI(UI* ui)
 {
 	if (ui == nullptr)
 		return;
 
-	_uis.erase(std::remove(_uis.begin(), _uis.end(), ui), _uis.end());
+	_uis.erase(::remove_if(_uis.begin(), _uis.end(),
+		[&ui](const unique_ptr<UI>& ptr) {
+			return ptr.get() == ui;
+		}),
+		_uis.end());
 }
 
 Vec2 Scene::GetPlayerPos()
 {
-	if (_actors[LAYER_PLAYER].size() == 0)
+	if (_actors[LAYER_PLAYER].empty())
 		return { 0,0 };
 	else
 		return _actors[LAYER_PLAYER].front()->GetPos();

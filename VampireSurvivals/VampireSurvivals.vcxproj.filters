@@ -230,11 +230,23 @@
     <ClInclude Include="Lightning.h">
       <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
     </ClInclude>
-    <ClInclude Include="Skill.h">
-      <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
-    </ClInclude>
     <ClInclude Include="Slash.h">
       <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
+    </ClInclude>
+    <ClInclude Include="StoneSling.h">
+      <Filter>소스 파일\05. Component\Skill\MonsterSkill</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>소스 파일\05. Component\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="WolfRider.h">
+      <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
+    </ClInclude>
+    <ClInclude Include="Ogre.h">
+      <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
+    </ClInclude>
+    <ClInclude Include="Owlbear.h">
+      <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -392,14 +404,26 @@
     <ClCompile Include="Lightning.cpp">
       <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
     </ClCompile>
-    <ClCompile Include="Skill.cpp">
-      <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
-    </ClCompile>
     <ClCompile Include="Slash.cpp">
       <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
     </ClCompile>
     <ClCompile Include="Suriken.cpp">
       <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="StoneSling.cpp">
+      <Filter>소스 파일\05. Component\Skill\MonsterSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>소스 파일\05. Component\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="Ogre.cpp">
+      <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="Owlbear.cpp">
+      <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="WolfRider.cpp">
+      <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

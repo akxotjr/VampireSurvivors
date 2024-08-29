@@ -1,32 +1,31 @@
 #include "pch.h"
 #include "ResourceManager.h"
-#include "ResourceBase.h"
-#include "Texture.h"
-#include "Sprite.h"
-#include "Flipbook.h"
+//#include "ResourceBase.h"
+//#include "Texture.h"
+//#include "Sprite.h"
+//#include "Flipbook.h"
 
 unique_ptr<ResourceManager> ResourceManager::instance = nullptr;
 
 Texture* ResourceManager::LoadTexture(const wstring& key, const wstring& path, uint32 transparent)
 {
-	if (_textures.find(key) != _textures.end()) return _textures[key];
+	if (_textures.find(key) != _textures.end()) return _textures[key].get();
 
 	fs::path fullPath = _resourcePath / path;
 
-	Texture* texture = new Texture();
+	unique_ptr<Texture> texture = make_unique<Texture>();
 	texture->LoadBmp(_hwnd, fullPath.c_str());
-	//texture->LoadPng(_hwnd, fullPath.c_str());
 	texture->SetTransparent(transparent);
-	_textures[key] = texture;
+	_textures[key] = ::move(texture);
 
-	return texture;
+	return _textures[key].get();
 }
 
 
 Sprite* ResourceManager::CreateSprite(const wstring& key, Texture* texture, int32 x, int32 y, int32 cx, int32 cy)
 {
 	if (_sprites.find(key) != _sprites.end())
-		return _sprites[key];
+		return _sprites[key].get();
 
 	if (cx == 0)
 		cx = texture->GetSize().x;
@@ -34,21 +33,21 @@ Sprite* ResourceManager::CreateSprite(const wstring& key, Texture* texture, int3
 	if (cy == 0)
 		cy = texture->GetSize().y;
 
-	Sprite* sprite = new Sprite(texture, x, y, cx, cy);
-	_sprites[key] = sprite;
+	unique_ptr<Sprite> sprite = make_unique<Sprite>(texture, x, y, cx, cy);
+	_sprites[key] = ::move(sprite);
 
-	return sprite;
+	return _sprites[key].get();
 }
 
 Flipbook* ResourceManager::CreateFlipbook(const wstring& key)
 {
 	if (_flipbooks.find(key) != _flipbooks.end())
-		return _flipbooks[key];
+		return _flipbooks[key].get();
 
-	Flipbook* fb = new Flipbook();
-	_flipbooks[key] = fb;
+	unique_ptr<Flipbook> fb = make_unique<Flipbook>();
+	_flipbooks[key] = ::move(fb);
 
-	return fb;
+	return _flipbooks[key].get();
 }
 
 HFONT ResourceManager::LoadFont(const wstring& key, const wstring& name, const wstring& path, int32 fontSize)

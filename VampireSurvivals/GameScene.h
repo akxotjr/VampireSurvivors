@@ -16,10 +16,16 @@ public:
 
 	// monster spawn
 	void MonsterRespawn();
-	Vec2 MonsterRandomPos(float deltaTime);
+	Vec2 MonsterRandomPos();
+
+	void SpawnMonster();
+	void HandleWave();
 
 protected:
 	float _sumTime = 0.f;
 	float _coolTime = 3.f; // monster respawn cool time
+
+	float _spawnCoolTime = 2.f;
+	float _spawnSumTime = 0.f;
 };
 

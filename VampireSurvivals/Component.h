@@ -17,7 +17,11 @@ public:
 	void SetOwner(Actor* owner) { _owner = owner; }
 	Actor* GetOwner() { return _owner; }
 
+	void SetComponentType(COMPONENT_TYPE type) { _type = type; }
+	COMPONENT_TYPE GetComponentType() { return _type; }
+
 protected:
+	COMPONENT_TYPE _type;
 	//weak_ptr<Actor> _owner;
 	Actor* _owner;
 };

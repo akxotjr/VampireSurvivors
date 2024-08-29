@@ -13,62 +13,61 @@ Actor::~Actor()
 
 void Actor::Init()
 {
-	for (Component* component : _components)
-	{
-		component->Init();
-	}
+	for (auto& components : _components)
+		for (auto& component : components)
+			component->Init();
 }
 
 void Actor::Update()
 {
-	for (Component* component : _components)
-	{
-		component->Update();
-	}
+	for (auto& components : _components)
+		for (auto& component : components)
+			component->Update();
 }
 
 void Actor::Render(HDC hdc)
 {
-	for (Component* component : _components)
-	{
-		component->Render(hdc);
-	}
+	for (auto& components : _components)
+		for (auto& component : components)
+			component->Render(hdc);
 }
 
-void Actor::AddComponent(Component* component)
+void Actor::AddComponent(unique_ptr<Component> component)
 {
 	if (component == nullptr)
 		return;
 
-	component->SetOwner(this);
-	_components.push_back(component);
+	_components[component->GetComponentType()].push_back(::move(component));
 }
 
 void Actor::RemoveComponent(Component* component)
 {
-	auto findIt = std::find(_components.begin(), _components.end(), component);
-	if (findIt == _components.end())
-		return;
+	if (component == nullptr) return;
 
-	_components.erase(findIt);
+	auto& components = _components[component->GetComponentType()];
+	components.erase(::remove_if(components.begin(), components.end(),
+		[&component](const unique_ptr<Component>& ptr) {
+			return ptr.get() == component;
+		}),
+		components.end());
 }
 
-Component* Actor::GetCollider()
+vector<unique_ptr<Component>>& Actor::GetColliders()
 {
-	for (Component* component : _components)
-	{
-		if (dynamic_cast<Collider*>(component))
-			return component;
-	}
-
-	return nullptr;
+	return _components[COLLIDER];
 }
+
+
 
 void Actor::OnComponentBeginOverlap(Collider* collider, Collider* other)
 {
-	if (_skillDamageCallback)
+	if (_skill2MonsterCallback)
 	{
-		_skillDamageCallback(other);
+		_skill2MonsterCallback(other);
+	}
+	else if (_skill2PlayerCallback)
+	{
+		_skill2PlayerCallback(other);
 	}
 }
 

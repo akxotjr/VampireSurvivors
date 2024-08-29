@@ -76,8 +76,8 @@ void SelectSkillPanel::Render(HDC hdc)
 	_sumTime += deltaTime;
 	if (_sumTime >= 3.f)
 	{
-		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-		scene->RemmoveUI(this);
+		//GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+		//scene->RemmoveUI(this);
 		return;
 	}
 	
@@ -89,7 +89,7 @@ void SelectSkillPanel::RemoveAllChild()
 	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 	for (auto& child : _children)
 	{
-		scene->RemmoveUI(child);
+		scene->RemoveUI(child);
 	}
-	scene->RemmoveUI(this);
+	scene->RemoveUI(this);
 }

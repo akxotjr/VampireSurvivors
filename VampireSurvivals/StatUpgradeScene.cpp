@@ -12,11 +12,11 @@ StatUpgradeScene::StatUpgradeScene()
 
 	{
 		Sprite* sprite = ResourceManager::GetInstance()->CreateSprite(L"Stat-Upgrade", ResourceManager::GetInstance()->GetTexture(L"Stat-Upgrade"));
-		UI* background = new UI();
+		unique_ptr<UI> background = make_unique<UI>();
 		background->SetSprite(sprite);
 		background->SetPos(Vec2(sprite->GetSize().x, sprite->GetSize().y));
 
-		AddUI(background);
+		AddUI(::move(background));
 	}
 
 	ResourceManager::GetInstance()->LoadTexture(L"Stat-Upgrade-Button-Default", L"UI\\Stat-Upgrade-Button-Default.bmp");
@@ -27,7 +27,8 @@ StatUpgradeScene::StatUpgradeScene()
 		Sprite* button_default = ResourceManager::GetInstance()->CreateSprite(L"Stat-Upgrade-Button-Default", ResourceManager::GetInstance()->GetTexture(L"Stat-Upgrade-Button-Default"));
 		Sprite* button_pressed = ResourceManager::GetInstance()->CreateSprite(L"Stat-Upgrade-Button-Pressed", ResourceManager::GetInstance()->GetTexture(L"Stat-Upgrade-Button-Pressed"));
 		Sprite* button_clicked = ResourceManager::GetInstance()->CreateSprite(L"Stat-Upgrade-Button-Clicked", ResourceManager::GetInstance()->GetTexture(L"Stat-Upgrade-Button-Clicked"));
-		Button* button = new Button();
+
+		unique_ptr<Button> button = make_unique<Button>();
 		button->SetSprite(button_default, BS_Default);
 		button->SetSprite(button_pressed, BS_Clicked);
 		button->SetSprite(button_pressed, BS_Pressed);
@@ -35,7 +36,7 @@ StatUpgradeScene::StatUpgradeScene()
 		button->SetSize(button_default->GetSize());
 		//button->AddOnClickDelegate(this, &StatUpgradeScene::AtkUpgradeButton);
 
-		AddUI(button);
+		AddUI(::move(button));
 	}
 
 	ResourceManager::GetInstance()->LoadTexture(L"Stat-LevelUP-Gauge", L"UI\\Stat-LevelUP-Gauge.bmp");
@@ -83,11 +84,11 @@ void StatUpgradeScene::AtkUpgradeButton()
 {
 	{
 		Sprite * sprite = ResourceManager::GetInstance()->CreateSprite(L"Stat-LevelUP-Gauge", ResourceManager::GetInstance()->GetTexture(L"Stat-LevelUP-Gauge"));
-		UI* atkUpgradeGauge = new UI();
+		unique_ptr<UI> atkUpgradeGauge = make_unique<UI>();
 		atkUpgradeGauge->SetSprite(sprite);
 		atkUpgradeGauge->SetPos({ 224, 501 });
 
-		AddUI(atkUpgradeGauge);
+		AddUI(::move(atkUpgradeGauge));
 	}
 }
 

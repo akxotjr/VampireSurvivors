@@ -14,7 +14,7 @@ public:
 	int32		GetTransparent();
 	Vec2Int		GetPos() { return Vec2Int{ _x, _y }; }
 	Vec2Int		GetSize() { return Vec2Int{ _cx, _cy }; }
-	Texture*	GetTexture() { return _texture; }
+	Texture* GetTexture() { return _texture; }
 
 private:
 	Texture* _texture = nullptr;

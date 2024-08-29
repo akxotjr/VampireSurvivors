@@ -14,15 +14,15 @@ Experience::Experience()
 	Sprite* sprite = ResourceManager::GetInstance()->CreateSprite(L"EXP01", ResourceManager::GetInstance()->GetTexture(L"EXP01"));
 	SetSprite(sprite);
 
-	SphereCollider* collider = new SphereCollider();
+	unique_ptr<SphereCollider> collider = make_unique<SphereCollider>();
 	collider->SetOwner(this);
 	collider->SetCollisionLayer(CLT_EXP);
 	collider->ResetCollisionFlag();
 	collider->AddCollisionFlagLayer(CLT_PLAYER);
 	collider->SetRadius(10);
-	AddComponent(collider);
 
-	CollisionManager::GetInstance()->AddCollider(collider);
+	CollisionManager::GetInstance()->AddCollider(collider.get());
+	AddComponent(::move(collider));
 }
 
 Experience::~Experience()

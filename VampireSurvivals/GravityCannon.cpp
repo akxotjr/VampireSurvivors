@@ -18,7 +18,7 @@
 
 GravityCannon::GravityCannon()
 {
-	_flipbook = ResourceManager::GetInstance()->GetFlipbook(L"FB_GravityCannon");
+	//_flipbook = ResourceManager::GetInstance()->GetFlipbook(L"FB_GravityCannon");
 }
 
 GravityCannon::~GravityCannon()
@@ -27,97 +27,96 @@ GravityCannon::~GravityCannon()
 
 void GravityCannon::Init()
 {
-	SetCooltime(3.f);
-	SetDamage();
+	//SetCooltime(3.f);
+	//SetDamage();
 }
 
 void GravityCannon::Update()
 {
-    auto it = _skillObjectsAndDurations.begin();
-    while (it != _skillObjectsAndDurations.end())
-    {
-        Vec2 pos = it->first->GetPos();
-        Vec2 destPos = it->first->GetDestPos();
+    //auto it = _skillObjectsAndDurations.begin();
+    //while (it != _skillObjectsAndDurations.end())
+    //{
+    //    Vec2 pos = it->first->GetPos();
+    //    Vec2 destPos = it->first->GetDestPos();
 
-        if (pos == destPos)
-        {
-            float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
-            it->second += deltaTime;
+    //    if (pos == destPos)
+    //    {
+    //        float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
+    //        it->second += deltaTime;
 
-            if (it->second >= _skillDuration)
-            {
-                GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-                scene->RemoveActor(it->first);
+    //        if (it->second >= _skillDuration)
+    //        {
+    //            //GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+    //            //scene->RemoveActor(it->first);
 
-                // 요소를 제거하고, 반복자를 업데이트
-                it = _skillObjectsAndDurations.erase(it);
-                continue;
-            }
-        }
-        else
-        {
-            Vec2 dir = it->first->GetDir();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-            float moveSpeed = 2.f;
+    //            //// 요소를 제거하고, 반복자를 업데이트
+    //            //it = _skillObjectsAndDurations.erase(it);
+    //            //continue;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Vec2 dir = it->first->GetDir();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+    //        float moveSpeed = 2.f;
 
-            float curDist = (destPos - pos).Length();
+    //        float curDist = (destPos - pos).Length();
 
-            // 근접했을 때 destPos 로 설정
-            if (curDist < moveSpeed)
-            {
-                it->first->SetPos(destPos);
-            }
-            else
-            {
-                it->first->SetPos(pos + dir * moveSpeed);
-            }
-        }
+    //        // 근접했을 때 destPos 로 설정
+    //        if (curDist < moveSpeed)
+    //        {
+    //            it->first->SetPos(destPos);
+    //        }
+    //        else
+    //        {
+    //            it->first->SetPos(pos + dir * moveSpeed);
+    //        }
+    //    }
 
-        // 다음 요소로 이동
-        ++it;
-    }
+    //    // 다음 요소로 이동
+    //    ++it;
+    //}
 }
 
 void GravityCannon::Use(float deltaTime)
 {
-	_sumTime += deltaTime;
-	if (_sumTime >= _coolTime)
-	{
-		FlipbookActor* gravitycannon = new FlipbookActor();
-		gravitycannon->SetFlipbook(_flipbook);
-		gravitycannon->SetStartPos(GetOwner()->GetPos());
-		gravitycannon->SetPos(GetOwner()->GetPos());
-		gravitycannon->SetLayer(LAYER_UNDERSKILL);
-		gravitycannon->SetDestPos(GetRandomDestPos());
+	//_sumTime += deltaTime;
+	//if (_sumTime >= _coolTime)
+	//{
+ //       unique_ptr<FlipbookActor> gravitycannon = make_unique<FlipbookActor>();
+	//	gravitycannon->SetFlipbook(_flipbook);
+	//	gravitycannon->SetStartPos(GetOwner()->GetPos());
+	//	gravitycannon->SetPos(GetOwner()->GetPos());
+	//	gravitycannon->SetLayer(LAYER_UNDERSKILL);
+	//	gravitycannon->SetDestPos(GetRandomDestPos());
 
-		GameScene* gamescene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-		gamescene->AddActor(gravitycannon);
-
-		Skill::AddSkillObjectAndDuration(gravitycannon, 0.f);
-		_sumTime = 0.f;
-	}
+	//	GameScene* gamescene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	//	Skill::AddSkillObjectAndDuration(gravitycannon.get(), 0.f);		
+ //       gamescene->AddActor(::move(gravitycannon));
+	//	_sumTime = 0.f;
+	//}
 }
 
 void GravityCannon::SetDamage()
 {
-	Player* player = dynamic_cast<Player*>(GetOwner());
-	float atk = player->GetAttackPower();
+	//Player* player = dynamic_cast<Player*>(GetOwner());
+	//float atk = player->GetAttackPower();
 
-	_damage = atk * _atkCoef;
+	//_damage = atk * _atkCoef;
 }
 
 Vec2 GravityCannon::GetRandomDestPos()
 {
-	Vec2 pos = GetOwner()->GetPos();
+	//Vec2 pos = GetOwner()->GetPos();
 
-	::random_device rd;
-	::mt19937 gen(rd());
+	//::random_device rd;
+	//::mt19937 gen(rd());
 
-	::uniform_real_distribution<float> theta_dist(0.f, 2.f * PI);
-	float theta = theta_dist(gen);
+	//::uniform_real_distribution<float> theta_dist(0.f, 2.f * PI);
+	//float theta = theta_dist(gen);
 
-	Vec2 destPos;
-	destPos.x = pos.x + _dist * cos(theta);
-	destPos.y = pos.y + _dist * sin(theta);
+	//Vec2 destPos;
+	//destPos.x = pos.x + _dist * cos(theta);
+	//destPos.y = pos.y + _dist * sin(theta);
 
-	return destPos;
+    return { 0, 0 };
 }

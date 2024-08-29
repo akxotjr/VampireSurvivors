@@ -5,6 +5,7 @@
 
 Collider::Collider(ColliderType colliderType) : _colliderType(colliderType)
 {
+	SetComponentType(COLLIDER);
 }
 
 Collider::~Collider()

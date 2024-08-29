@@ -23,6 +23,6 @@ public:
 
 protected:
 	vector<Sprite*> _spriteEXP[3] = {};
-	int32 _exp;
+	int32 _exp = 30;
 };
 

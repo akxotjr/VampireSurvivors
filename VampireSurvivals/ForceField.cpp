@@ -47,23 +47,24 @@ void ForceField::Use(float deltaTime)
 	{
 		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 
-		SpriteActor* forcefield = new SpriteActor();
+		unique_ptr<SpriteActor> forcefield = make_unique<SpriteActor>();
 		forcefield->SetSprite(_sprites[0]);
 		forcefield->SetPos(GetOwner()->GetPos());
 		forcefield->SetLayer(LAYER_UNDERSKILL);
 
-		SphereCollider* collider = new SphereCollider();
+		unique_ptr<SphereCollider> collider = make_unique<SphereCollider>();
 		collider->SetCollisionLayer(CLT_PLAYER_SKILL);
 		collider->ResetCollisionFlag();
 		collider->SetCollisionFlag(CLT_MONSTER);
-		collider->SetOwner(forcefield);
+		collider->SetOwner(forcefield.get());
 		collider->SetRadius(_radius);
 		//collider->SetShowDebug(true);
 
-		forcefield->AddComponent(collider);
-		CollisionManager::GetInstance()->AddCollider(collider);
+		CollisionManager::GetInstance()->AddCollider(collider.get());
+		forcefield->AddComponent(::move(collider));
+		
 
-		forcefield->SetSkill2MonsterCallback([this, collider, scene](Collider* other) {
+		forcefield->SetSkill2MonsterCallback([this, scene](Collider* other) {
 			Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
 			if (monster)
 			{
@@ -75,19 +76,17 @@ void ForceField::Use(float deltaTime)
 
 					const float damagevalue = static_cast<int32>(GetDamage());
 
-					DamageText* damagetext = new DamageText();
+					unique_ptr<DamageText> damagetext = make_unique<DamageText>();
 					damagetext->SetPos(monster->GetPos() + Vec2(10, 0));
 					damagetext->SetText(damagevalue);
 					damagetext->SetLayer(LAYER_DAMAGETEXT);
 
-					scene->AddActor(damagetext);
+					scene->AddActor(::move(damagetext));
 				}
 			}
 		});
-
-		scene->AddActor(forcefield);
-
-		Skill::AddSkillObject(forcefield);
+		Skill::AddSkillObject(forcefield.get());
+		scene->AddActor(::move(forcefield));
 
 		_createdForceField = true;
 	}

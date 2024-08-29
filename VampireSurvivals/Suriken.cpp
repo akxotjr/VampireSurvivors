@@ -37,14 +37,15 @@ void Suriken::Init()
 void Suriken::Use(float deltaTime)
 {
 	_sumTime += deltaTime;
+	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+
 	if (_sumTime >= _coolTime)
 	{
 		Vec2 playerPos = GetOwner()->GetPos();
 		for (int32 i = 0; i < _skillLevel; i++)
 		{
-			GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 
-			FlipbookActor* suriken = new FlipbookActor();
+			unique_ptr<FlipbookActor> suriken = make_unique<FlipbookActor>();
 			suriken->SetFlipbook(_flipbook);
 			suriken->SetLayer(LAYER_SKILL);
 
@@ -55,18 +56,18 @@ void Suriken::Use(float deltaTime)
 
 			suriken->SetPos(pos);
 
-			SphereCollider* collider = new SphereCollider();
+			unique_ptr<SphereCollider> collider = make_unique<SphereCollider>();
 			collider->SetCollisionLayer(CLT_PLAYER_SKILL);
 			collider->ResetCollisionFlag();
 			collider->SetCollisionFlag(CLT_MONSTER);
-			collider->SetOwner(suriken);
+			collider->SetOwner(suriken.get());
 			collider->SetRadius(20);
 			//collider->SetShowDebug(true);
+			CollisionManager::GetInstance()->AddCollider(collider.get());
+			suriken->AddComponent(::move(collider));
+			
 
-			suriken->AddComponent(collider);
-			CollisionManager::GetInstance()->AddCollider(collider);
-
-			suriken->SetSkill2MonsterCallback([this, collider, scene](Collider* other) {
+			suriken->SetSkill2MonsterCallback([this, scene](Collider* other) {
 				Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
 				if (monster)
 				{
@@ -77,19 +78,17 @@ void Suriken::Use(float deltaTime)
 						monster->SetState(MonsterState::Hurt);
 						const float damagevalue = static_cast<int32>(GetDamage());
 
-						DamageText* damagetext = new DamageText();
+						unique_ptr<DamageText> damagetext = make_unique<DamageText>();
 						damagetext->SetPos(monster->GetPos() + Vec2(10, 0));
 						damagetext->SetText(damagevalue);
 						damagetext->SetLayer(LAYER_DAMAGETEXT);
 
-						scene->AddActor(damagetext);
+						scene->AddActor(::move(damagetext));
 					}
 				}
 			});
-
-			scene->AddActor(suriken);
-
-			_skillObjectsAndThetas.emplace_back(suriken, initialTheta);
+			_skillObjectsAndThetas.emplace_back(suriken.get(), initialTheta);
+			scene->AddActor(::move(suriken));
 		}
 		_sumTime = 0.f;
 		return;
@@ -99,10 +98,12 @@ void Suriken::Use(float deltaTime)
 	{
 		for (auto& it : _skillObjectsAndThetas)
 		{
-			GameScene* gamescene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-			gamescene->RemoveActor(it.first);
-
-			CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>(it.first->GetCollider()));
+			vector<unique_ptr<Component>>& colliders = it.first->GetColliders();
+			for (auto& collider : colliders)
+			{
+				CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>(collider.get()));
+			}
+			scene->RemoveActor(it.first);
 		}
 
 		_skillObjectsAndThetas.clear();

@@ -1,10 +1,10 @@
 #pragma once
 #include "FlipbookActor.h"
+#include "Skill.h"
 
 class Flipbook;
 class Sprite;
 class Actor;
-class Skill;
 class SelectSkillPanel;
 
 enum class PlayerState
@@ -47,7 +47,7 @@ public:
 	virtual void OnComponentEndOverlap(Collider* collider, Collider* other) override;
 
 	// skills
-	void AddSkill(Skill* skill) { _skills.push_back(skill); }
+	void AddSkill(unique_ptr<Skill> skill) { _skills.push_back(::move(skill)); }
 
 	void UseSkill(float deltaTime);
 	void UpdateSkill();
@@ -87,7 +87,7 @@ private:
 	Flipbook*	_flipbookHurt[Dir::DIR_COUNT] = {};
 	Flipbook*	_flipbookDeath[Dir::DIR_COUNT] = {};
 
-	vector<Skill*>	_skills;
+	vector<unique_ptr<Skill>> _skills;
 
 	vector<wstring> _skillNames = { L"slash", L"iceburst", L"lightning", L"suriken", L"forcefiled" };
 };

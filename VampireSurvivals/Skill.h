@@ -38,9 +38,6 @@ public:
 	void AddSkillObject(Actor* actor);
 	void RemoveSkillObject(Actor* actor);
 
-	void AddSkillObjectAndDuration(Actor* actor, float duration);
-	void RemoveSkillObjectAndDuration(Actor* actor, float duration);
-
 protected:
 	float	_coolTime = 1.f;
 	float	_sumTime = 0.f;

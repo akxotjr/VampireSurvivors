@@ -31,6 +31,15 @@ enum class ColliderType
 	Sphere,
 };
 
+enum COMPONENT_TYPE
+{
+	CAMERA,
+	COLLIDER,
+	SKILL,
+
+	COMPONENT_TYPE_COUNT
+};
+
 
 enum COLLISION_LAYER_TYPE : uint8
 {

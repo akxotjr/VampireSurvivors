@@ -24,7 +24,7 @@ public:
 
 	void ChangeScene(SceneType sceneType);
 	//unique_ptr<Scene>& GetCurrentScene() { return _scene; }
-	Scene* GetCurrentScene() { return _scene; }
+	Scene* GetCurrentScene() { return _scene.get(); }
 
 private:
 	SceneManager() = default;
@@ -37,8 +37,8 @@ private:
 private:
 	static unique_ptr<SceneManager> instance;
 
-	//unique_ptr<Scene> _scene = nullptr;
-	Scene* _scene = nullptr;
+	unique_ptr<Scene> _scene = nullptr;
+	//Scene* _scene = nullptr;
 	SceneType _sceneType = SceneType::None;
 
 public:

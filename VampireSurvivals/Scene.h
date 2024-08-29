@@ -13,21 +13,22 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 
-	void AddActor(Actor* actor);
+	void AddActor(unique_ptr<Actor> actor);
 	void RemoveActor(Actor* actor);
 
-	void AddUI(UI* ui);
-	void RemmoveUI(UI* ui);
+	void AddUI(unique_ptr<UI> ui);
+	void RemoveUI(UI* ui);
 
 	Vec2 GetPlayerPos();
 
-	const vector<Actor*> GetMonsters()
+	const vector<unique_ptr<Actor>>& GetMonsters()
 	{
 		return _actors[LAYER_MONSTER];
 	}
 
 public:
-	vector<Actor*> _actors[LAYER_MAXCOUNT];
-	vector<UI*>		_uis;
+
+	vector<unique_ptr<Actor>>	_actors[LAYER_MAXCOUNT];
+	vector<unique_ptr<UI>>		_uis;
 };
 
