@@ -36,5 +36,6 @@ private:
 	static unique_ptr<CollisionManager> instance;
 
 	vector<Collider*> _colliders;
+	vector<Collider*> _colliderstoremove;
 };
 

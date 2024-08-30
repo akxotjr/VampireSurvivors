@@ -40,7 +40,7 @@ Orc::Orc()
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER_SKILL);
 	collider->SetRadius(8);
-	collider->SetShowDebug(true);
+	//collider->SetShowDebug(true);
 
 	CollisionManager::GetInstance()->AddCollider(collider.get());
 	AddComponent(::move(collider));

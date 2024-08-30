@@ -18,11 +18,13 @@ public:
 	void SetEXP(int32 exp) { _exp = exp; }
 	int32 GetEXP() { return _exp; }
 
-	//virtual void OnComponentBeginOverlap(Collider* collider, Collider* other) override;
-	//virtual void OnComponentEndOverlap(Collider* collider, Collider* other) override;
+	virtual void OnComponentBeginOverlap(Collider* collider, Collider* other) override;
+	virtual void OnComponentEndOverlap(Collider* collider, Collider* other) override;
 
 protected:
 	vector<Sprite*> _spriteEXP[3] = {};
 	int32 _exp = 30;
+
+	bool _takenEXP = false;
 };
 

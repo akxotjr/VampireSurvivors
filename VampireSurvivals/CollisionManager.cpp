@@ -20,12 +20,22 @@ void CollisionManager::Update()
 			Collider* src = colliders[i];
 			Collider* dest = colliders[j];
 
+			if (src == nullptr || dest == nullptr)
+			{
+				continue;
+			}
+
 			if (src->CheckCollision(dest))
 			{
 				if (src->_collisionMap.contains(dest) == false)
 				{
 					src->GetOwner()->OnComponentBeginOverlap(src, dest);
 					dest->GetOwner()->OnComponentBeginOverlap(dest, src);
+					if (src == nullptr || dest == nullptr || src->GetOwner() == nullptr || dest->GetOwner() == nullptr)
+					{
+						continue;
+					}
+
 					src->_collisionMap.insert(dest);
 					dest->_collisionMap.insert(src);
 				}
@@ -43,7 +53,15 @@ void CollisionManager::Update()
 		}
 	}
 
+	//for (Collider* collider : _collidersToRemove) {
+	//	auto it = std::remove(_colliders.begin(), _colliders.end(), collider);
+	//	_colliders.erase(it, _colliders.end());
+	//}
+
 }
+
+
+
 
 void CollisionManager::AddCollider(Collider* collider)
 {

@@ -39,8 +39,6 @@ public:
 
 protected:
 	float _sumTime = 0.f;
-
-
 	float _spawnCoolTime = 2.f;
 	float _spawnSumTime = 0.f;
 
@@ -54,5 +52,8 @@ protected:
 		[this]() { CreateMonster<Ogre>(); },
 		//[this]() { return CreateMonster<Dragon>(); },
 	};
+
+	bool _firstEpicMonster = false;
+	bool _secondEpicMonster = false;
 };
 

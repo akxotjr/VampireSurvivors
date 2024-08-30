@@ -43,7 +43,7 @@ Cyclops::Cyclops()
 		collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
 		collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER_SKILL);
 		collider->SetRadius(16);
-		collider->SetShowDebug(true);
+		//collider->SetShowDebug(true);
 		
 		CollisionManager::GetInstance()->AddCollider(collider.get());
 		AddComponent(::move(collider));
@@ -55,15 +55,15 @@ Cyclops::Cyclops()
 		collider->ResetCollisionFlag();
 		collider->AddCollisionFlagLayer(CLT_PLAYER);
 		collider->SetRadius(_attackRange);
-		collider->SetShowDebug(true);
+		//collider->SetShowDebug(true);
 
 		CollisionManager::GetInstance()->AddCollider(collider.get());
 		AddComponent(::move(collider));
 	}
 
-	//_skill = make_unique<Stonesling>();
-	//_skill->Setowner(this);
-	//_skill->init();
+	_skill = make_unique<StoneSling>();
+	_skill->SetOwner(this);
+	_skill->Init();
 }
 
 Cyclops::~Cyclops()
@@ -85,7 +85,7 @@ void Cyclops::Update()
 	{
 		float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
 		_sumTime += deltaTime;
-		//_skill->Use(deltaTime);
+		_skill->Use(deltaTime);
 		if (_sumTime >= _coolTime)
 		{
 			SetState(MonsterState::Attack);
@@ -93,7 +93,7 @@ void Cyclops::Update()
 		}
 	}
 
-	//_skill->Update();
+	_skill->Update();
 	Super::Update();
 }
 

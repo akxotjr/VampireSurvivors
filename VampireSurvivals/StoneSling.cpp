@@ -39,6 +39,11 @@ void StoneSling::Update()
 		Cyclops* cyclops = dynamic_cast<Cyclops*>(GetOwner());
 		if (dist.Length() >= cyclops->GetAttackRange())
 		{
+			vector<unique_ptr<Component>>& colliders = (*it)->GetColliders();
+			for (auto& collider : colliders)
+			{
+				CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>(collider.get()));
+			}
 			scene->RemoveActor((*it));
 			it = _skillObjects.erase(it);
 			continue;
@@ -73,18 +78,14 @@ void StoneSling::Use(float deltaTime)
 		collider->SetRadius(6);
 		//collider->SetShowDebug(true);
 
-		stone->SetSkill2PlayerCallback([this, scene, &stone, &collider](Collider* other) {
+		stone->SetSkill2PlayerCallback([this, scene](Collider* other) {
 			Player* player = dynamic_cast<Player*>(other->GetOwner());
 			if (other->GetCollisionLayer() == CLT_PLAYER && player)
 			{
 				if (player->TakeDamage(10))
 					player->SetState(PlayerState::Death);
 				else
-				{
 					player->SetState(PlayerState::Hurt);
-				}
-				CollisionManager::GetInstance()->RemoveCollider(collider.get());
-				scene->RemoveActor(stone.get());
 			}
 		});
 		CollisionManager::GetInstance()->AddCollider(collider.get());

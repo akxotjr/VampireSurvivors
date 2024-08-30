@@ -256,15 +256,26 @@ void Player::OnComponentBeginOverlap(Collider* collider, Collider* other)
 		else
 			SetState(PlayerState::Death);
 	}
-	else if (other->GetCollisionLayer() == CLT_EXP)
+	else if (other->GetCollisionLayer() == CLT_MONSTER_SKILL)
 	{
-		/*Experience* exp = dynamic_cast<Experience*>(other->GetOwner());
-		TakeEXP(exp->GetEXP());
 
-		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-		scene->RemoveActor(other->GetOwner());
-		CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>(exp->GetCollider()));*/
 	}
+	//else if (other->GetCollisionLayer() == CLT_EXP)
+	//{
+	//	Experience* exp = dynamic_cast<Experience*>(other->GetOwner());
+	//	TakeEXP(exp->GetEXP());
+
+	//	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	//	
+	//	vector<unique_ptr<Component>>& colliders = exp->GetColliders();
+	//	for (auto& expCollider : colliders)
+	//	{
+	//		CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>(expCollider.get()));
+	//		exp->RemoveComponent(expCollider.get());
+	//	}
+	//	
+	//	scene->RemoveActor(exp);
+	//}
 }
 
 void Player::OnComponentEndOverlap(Collider* collider, Collider* other)

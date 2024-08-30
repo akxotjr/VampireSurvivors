@@ -1,12 +1,16 @@
 #include "pch.h"
 #include "Experience.h"
 #include "ResourceManager.h"
+#include "Component.h"
 #include "CollisionManager.h"
 #include "Collider.h"
 #include "SphereCollider.h"
 #include "Sprite.h"
 #include "Collider.h"
-
+#include "Player.h"
+#include "Scene.h"
+#include "GameScene.h"
+#include "SceneManager.h"
 
 Experience::Experience()
 {
@@ -37,9 +41,37 @@ void Experience::Init()
 void Experience::Update()
 {
 	Super::Update();
+	if (_takenEXP)
+	{
+		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+		vector<unique_ptr<Component>>& colliders = GetColliders();
+		for (auto& collider : colliders)
+		{
+			CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>(collider.get()));
+		}
+
+		scene->RemoveActor(this);
+		return;
+	}
 }
 
 void Experience::Render(HDC hdc)
 {
 	Super::Render(hdc);
+}
+
+void Experience::OnComponentBeginOverlap(Collider* collider, Collider* other)
+{
+	if (other->GetCollisionLayer() == CLT_PLAYER)
+	{
+		Player* player = dynamic_cast<Player*>(other->GetOwner());
+		if (player == nullptr) return;
+
+		player->TakeEXP(GetEXP());
+		_takenEXP = true;
+	}
+}
+
+void Experience::OnComponentEndOverlap(Collider* collider, Collider* other)
+{
 }

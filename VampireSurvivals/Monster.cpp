@@ -149,6 +149,17 @@ void Monster::OnAnimationFinished()
 		unique_ptr<Experience> exp = make_unique<Experience>();
 		exp->SetPos(_pos);
 		exp->SetEXP(30);
+
+		//unique_ptr<SphereCollider> collider = make_unique<SphereCollider>();
+		//collider->SetOwner(exp.get());
+		//collider->SetCollisionLayer(CLT_EXP);
+		//collider->ResetCollisionFlag();
+		//collider->AddCollisionFlagLayer(CLT_PLAYER);
+		//collider->SetRadius(10);
+
+		//CollisionManager::GetInstance()->AddCollider(collider.get());
+		//exp->AddComponent(::move(collider));
+
 		scene->AddActor(::move(exp));
 
 		scene->RemoveActor(this);

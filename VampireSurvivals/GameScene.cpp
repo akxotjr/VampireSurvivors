@@ -1231,7 +1231,7 @@ void GameScene::Update()
 {
 	Super::Update();
 
-	MonsterRespawn();
+	HandleWave();
 
 	CollisionManager::GetInstance()->Update();
 }
@@ -1239,24 +1239,6 @@ void GameScene::Update()
 void GameScene::Render(HDC hdc)
 {
 	Super::Render(hdc);
-}
-
-void GameScene::MonsterRespawn()
-{
-	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
-
-	_sumTime += deltaTime;
-	if (_sumTime >= _coolTime)
-	{
-		// new monster
-		unique_ptr<Cyclops> monster = make_unique<Cyclops>();
-		monster->SetPos(MonsterRandomPos());
-		monster->Init();
-		AddActor(::move(monster));
-
-
-		_sumTime = 0.f;
-	}
 }
 
 Vec2 GameScene::MonsterRandomPos()
@@ -1283,11 +1265,75 @@ void GameScene::HandleWave()
 {
 	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
 	_sumTime += deltaTime;
-	_spawnCoolTime += deltaTime;
+	_spawnSumTime += deltaTime;
 
-	if (_sumTime >= )
+	if (_spawnSumTime >= _spawnCoolTime)
 	{
-
+		if (_sumTime < 20.f)
+		{
+			MonsterBuilder[(int32)MonsterID::ID_Slime]();
+			_spawnCoolTime -= 0.1f;
+		}
+		else if (_sumTime < 120.f)
+		{
+			if (_sumTime > 60.f && !_firstEpicMonster)
+			{
+				MonsterBuilder[(int32)MonsterID::ID_Owlbear]();
+				_firstEpicMonster = true;
+			}
+			MonsterBuilder[(int32)MonsterID::ID_Slime]();
+			MonsterBuilder[(int32)MonsterID::ID_Goblin]();
+		}
+		else if (_sumTime < 180.f)
+		{
+			MonsterBuilder[(int32)MonsterID::ID_Slime]();
+			MonsterBuilder[(int32)MonsterID::ID_Goblin]();
+			MonsterBuilder[(int32)MonsterID::ID_Orc]();
+		}
+		else if (_sumTime < 240.f)
+		{
+			for (int32 i = 0; i < 2; i++)
+			{
+				MonsterBuilder[(int32)MonsterID::ID_Goblin]();
+				MonsterBuilder[(int32)MonsterID::ID_Orc]();
+			}
+			MonsterBuilder[(int32)MonsterID::ID_Cyclops]();
+		}
+		else if (_sumTime < 300.f)
+		{
+			MonsterBuilder[(int32)MonsterID::ID_Slime]();
+			MonsterBuilder[(int32)MonsterID::ID_Orc]();
+			MonsterBuilder[(int32)MonsterID::ID_WolfRider]();
+		}
+		else if (_sumTime < 420.f)
+		{
+			if (_sumTime > 300.f && !_secondEpicMonster)
+			{
+				MonsterBuilder[(int32)MonsterID::ID_Ogre]();
+			}
+			MonsterBuilder[(int32)MonsterID::ID_Orc]();
+			MonsterBuilder[(int32)MonsterID::ID_Goblin]();
+			MonsterBuilder[(int32)MonsterID::ID_WolfRider]();
+		}
+		else if (_sumTime < 480.f)
+		{
+			for (int32 i = 0; i < 2; i++)
+			{
+				MonsterBuilder[(int32)MonsterID::ID_Orc]();
+				MonsterBuilder[(int32)MonsterID::ID_Goblin]();
+				MonsterBuilder[(int32)MonsterID::ID_WolfRider]();
+			}
+			MonsterBuilder[(int32)MonsterID::ID_Cyclops]();
+		}
+		else if (_sumTime <= 600.f)
+		{
+			MonsterBuilder[(int32)MonsterID::ID_Slime]();
+			MonsterBuilder[(int32)MonsterID::ID_Orc]();
+			MonsterBuilder[(int32)MonsterID::ID_Goblin]();
+			MonsterBuilder[(int32)MonsterID::ID_WolfRider](); 
+			MonsterBuilder[(int32)MonsterID::ID_Cyclops]();
+		}
+		_spawnSumTime = 0.f;
 	}
 }
 

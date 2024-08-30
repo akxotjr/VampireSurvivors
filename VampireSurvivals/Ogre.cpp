@@ -39,7 +39,7 @@ Ogre::Ogre()
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER_SKILL);
 	collider->SetRadius(32);
-	collider->SetShowDebug(true);
+	//collider->SetShowDebug(true);
 
 	CollisionManager::GetInstance()->AddCollider(collider.get());
 	AddComponent(::move(collider));
