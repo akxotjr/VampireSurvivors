@@ -20,6 +20,8 @@
 #include <ctime>
 #include <random>
 #include <memory>
+#include <functional>
+#include <array>
 
 // C++20
 #include <format>

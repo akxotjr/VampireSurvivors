@@ -64,14 +64,10 @@ void Iceburst::Use(float deltaTime)
 		collider->SetRadius(20);
 		//collider->SetShowDebug(true);
 
-		//iceburst->SetAnimationFinishedCallback([this, scene]() {
 
-		//	CollisionManager::GetInstance()->RemoveCollider(collider.get());
-		//	scene->RemoveActor();
-		//});
 		CollisionManager::GetInstance()->AddCollider(collider.get());
 		iceburst->AddComponent(::move(collider));
-		
+		AddSkillObject(iceburst.get());
 
 		iceburst->SetSkill2MonsterCallback([this, scene](Collider* other) {
 			Monster* monster = dynamic_cast<Monster*>(other->GetOwner());

@@ -25,8 +25,14 @@ void Scene::Update()
 {
 	for (auto& actors : _actors)
 		for (auto& actor : actors)
+		{
+			if (actor == nullptr)
+			{
+				continue;
+				
+			}
 			actor->Update();
-
+		}
 	for (auto& ui : _uis)
 		ui->Update();
 }

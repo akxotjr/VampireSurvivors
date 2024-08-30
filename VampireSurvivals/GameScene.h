@@ -1,8 +1,15 @@
 #pragma once
 #include "Scene.h"
+#include "Monster.h"
+#include "Slime.h"
+#include "Goblin.h"
+#include "Orc.h"
+#include "Cyclops.h"
+#include "WolfRider.h"
+#include "Owlbear.h"
+#include "Ogre.h"
 
 class Collider;
-class Monster;
 
 class GameScene : public Scene
 {
@@ -20,13 +27,32 @@ public:
 	Vec2 MonsterRandomPos();
 
 	//void SpawnMonster(MonsterID id);
-	//void HandleWave();
+	void HandleWave();
+	template <typename Ty>
+	void CreateMonster()
+	{
+		unique_ptr<Ty> monster = make_unique<Ty>();
+		monster->SetPos(MonsterRandomPos());
+		monster->Init();
+		AddActor(::move(monster));
+	}
 
 protected:
 	float _sumTime = 0.f;
-	float _coolTime = 3.f; // monster respawn cool time
+
 
 	float _spawnCoolTime = 2.f;
 	float _spawnSumTime = 0.f;
+
+	std::array<std::function<void(void)>, static_cast<size_t>(MonsterID::ID_Count)> MonsterBuilder = {
+		[this]() { CreateMonster<Slime>(); },
+		[this]() { CreateMonster<Goblin>(); },
+		[this]() { CreateMonster<Orc>(); },
+		[this]() { CreateMonster<Cyclops>(); },
+		[this]() { CreateMonster<WolfRider>(); },
+		[this]() { CreateMonster<Owlbear>(); },
+		[this]() { CreateMonster<Ogre>(); },
+		//[this]() { return CreateMonster<Dragon>(); },
+	};
 };
 

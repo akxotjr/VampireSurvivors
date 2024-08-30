@@ -18,19 +18,7 @@ enum class MonsterGrade
 	Boss
 };
 
-enum MonsterID
-{
-	ID_Slime = 0,
-	ID_Goblin,
-	ID_Orc,
-	ID_Cyclops,
-	ID_WolfRider,
-	ID_Owlbear,
-	ID_Ogre,
-	ID_Dragon,
 
-	ID_None = 999
-};
 
 struct MonsterInfo
 {

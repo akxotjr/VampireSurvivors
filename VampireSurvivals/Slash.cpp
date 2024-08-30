@@ -91,7 +91,7 @@ void Slash::Use(float deltaTime)
 			slash->SetPos(_owner->GetPos());
 			slash->SetDestPos(attackSectorsAndDirs[i].second);
 			slash->SetDir(attackSectorsAndDirs[i].second);
-			//slash->SetDamage(_damage);
+			slash->SetLayer(LAYER_SKILL);
 
 			unique_ptr<SphereCollider> collider = make_unique<SphereCollider>();
 			collider->SetCollisionLayer(CLT_PLAYER_SKILL);
@@ -115,7 +115,6 @@ void Slash::Use(float deltaTime)
 						if (monster->TakeDamage(GetDamage()))
 						{
 							monster->SetState(MonsterState::Death);
-							CollisionManager::GetInstance()->RemoveCollider(other);
 						}
 						else
 						{

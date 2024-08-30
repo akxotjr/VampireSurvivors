@@ -1279,46 +1279,16 @@ Vec2 GameScene::MonsterRandomPos()
 
 	return monsterPos;
 }
-//
-//void GameScene::SpawnMonster(MonsterID id)
-//{
-//	switch (id)
-//	{
-//	case ID_Slime:
-//	{
-//		unique_ptr<Slime> slime = make_unique<Slime>();
-//		slime->SetPos(MonsterRandomPos());
-//		slime->Init();
-//		AddActor(::move(slime));
-//	}
-//		break;
-//	case ID_Goblin:
-//		break;
-//	case ID_Orc:
-//		break;
-//	case ID_Cyclops:
-//		break;
-//	case ID_WolfRider:
-//		break;
-//	case ID_Owlbear:
-//		break;
-//	case ID_Ogre:
-//		break;
-//	case ID_Dragon:
-//		break;
-//	case ID_None:
-//		break;
-//	}
-//}
-//
-//void GameScene::HandleWave()
-//{
-//	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
-//	_spawnSumTime += deltaTime;
-//
-//	if (_spawnSumTime >= _spawnCoolTime)
-//	{
-//
-//	}
-//}
+void GameScene::HandleWave()
+{
+	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
+	_sumTime += deltaTime;
+	_spawnCoolTime += deltaTime;
+
+	if (_sumTime >= )
+	{
+
+	}
+}
+
 

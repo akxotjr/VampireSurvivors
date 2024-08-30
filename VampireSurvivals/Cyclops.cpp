@@ -79,7 +79,7 @@ void Cyclops::Init()
 
 void Cyclops::Update()
 {
-	Super::Update();
+	
 
 	if (_isPlayerInRange)
 	{
@@ -94,7 +94,7 @@ void Cyclops::Update()
 	}
 
 	//_skill->Update();
-	
+	Super::Update();
 }
 
 void Cyclops::Render(HDC hdc)

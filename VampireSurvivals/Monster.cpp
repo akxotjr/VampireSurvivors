@@ -44,6 +44,12 @@ void Monster::Update()
 {
 	Super::Update();
 
+	if (_state == MonsterState::Death)
+	{
+		UpdateAnimation();
+		return;
+	}
+
 	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
 
 	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
