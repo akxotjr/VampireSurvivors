@@ -99,7 +99,7 @@ void Slash::Use(float deltaTime)
 			collider->SetCollisionFlag(CLT_MONSTER);
 			collider->SetOwner(slash.get());
 			collider->SetRadius(15);
-			collider->SetShowDebug(true);
+			//collider->SetShowDebug(true);
 			CollisionManager::GetInstance()->AddCollider(collider.get());
 			slash->AddComponent(::move(collider));
 

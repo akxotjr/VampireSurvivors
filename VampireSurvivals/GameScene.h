@@ -23,10 +23,8 @@ public:
 	virtual void Render(HDC hdc);
 
 	// monster spawn
-	void MonsterRespawn();
 	Vec2 MonsterRandomPos();
 
-	//void SpawnMonster(MonsterID id);
 	void HandleWave();
 	template <typename Ty>
 	void CreateMonster()

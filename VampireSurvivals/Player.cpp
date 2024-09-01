@@ -72,7 +72,7 @@ Player::Player()
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER_ATK_RANGE);
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_EXP);
 	collider->SetRadius(20);
-	collider->SetShowDebug(true);
+	//collider->SetShowDebug(true);
 	CollisionManager::GetInstance()->AddCollider(collider.get());
 	AddComponent(::move(collider));
 
@@ -260,22 +260,6 @@ void Player::OnComponentBeginOverlap(Collider* collider, Collider* other)
 	{
 
 	}
-	//else if (other->GetCollisionLayer() == CLT_EXP)
-	//{
-	//	Experience* exp = dynamic_cast<Experience*>(other->GetOwner());
-	//	TakeEXP(exp->GetEXP());
-
-	//	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-	//	
-	//	vector<unique_ptr<Component>>& colliders = exp->GetColliders();
-	//	for (auto& expCollider : colliders)
-	//	{
-	//		CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>(expCollider.get()));
-	//		exp->RemoveComponent(expCollider.get());
-	//	}
-	//	
-	//	scene->RemoveActor(exp);
-	//}
 }
 
 void Player::OnComponentEndOverlap(Collider* collider, Collider* other)
@@ -379,21 +363,19 @@ void Player::GenerateSkillButton(int32 id, Vec2 pos, SelectSkillPanel* panel)
 {
 	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 	Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"SelectSkillButton");
-	{
-		unique_ptr<Button> button = make_unique<Button>();
-		button->SetSprite(sprite, BS_Default);
-		button->SetSprite(sprite, BS_Clicked);
-		button->SetSprite(sprite, BS_Pressed);
-		button->SetPos({ pos.x, pos.y });
-		button->SetSize(sprite->GetSize());
-		button->SetText(_skillNames[id]);
-		button->AddOnClickDelegate(this, &Player::SkillLevelUP, id, panel);
-		button->Init();
+	unique_ptr<Button> button = make_unique<Button>();
+	button->SetSprite(sprite, BS_Default);
+	button->SetSprite(sprite, BS_Clicked);
+	button->SetSprite(sprite, BS_Pressed);
+	button->SetPos({ pos.x, pos.y });
+	button->SetSize(sprite->GetSize());
+	button->SetText(_skillNames[id]);
+	button->AddOnClickDelegate(this, &Player::SkillLevelUP, id, panel);
+	button->Init();
 
-		panel->AddChild(button.get());
+	panel->AddChild(::move(button));
 
-		scene->AddUI(::move(button));
-	}
+		//scene->AddUI(::move(panel));
 }
 
 void Player::SkillLevelUP(int32 id, SelectSkillPanel* panel)
@@ -455,12 +437,12 @@ void Player::SkillLevelUP(int32 id, SelectSkillPanel* panel)
 			break;
 		}
 	}
+	panel->SetFinished();
+	//GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	//panel->RemoveAllChild();
+	//scene->RemoveUI(panel);
 
-	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-	panel->RemoveAllChild();
-	scene->RemoveUI(panel);
-
-	//TimeManager::GetInstance()->SetTimeScale(1.f);
+	TimeManager::GetInstance()->SetTimeScale(1.f);
 }
 
 

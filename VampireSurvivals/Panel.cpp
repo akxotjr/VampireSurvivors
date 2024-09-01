@@ -8,17 +8,17 @@ Panel::Panel()
 
 Panel::~Panel()
 {
-	for (UI* child : _children)
-		//SAFE_DELETE(child);
+	//for (UI* child : _children)
+	//	//SAFE_DELETE(child);
 
-	_children.clear();
+	//_children.clear();
 }
 
 void Panel::Init()
 {
 	Super::Init();
 
-	for (UI* child : _children)
+	for (auto& child : _children)
 		child->Init();
 }
 
@@ -26,33 +26,40 @@ void Panel::Update()
 {
 	Super::Update();
 
-	for (UI* child : _children)
+	for (auto& child : _children)
 		child->Update();
+
+	for (UI* child : _childrenToRemove) {
+		auto it = std::remove(_childrenToRemove.begin(), _childrenToRemove.end(), child);
+		_childrenToRemove.erase(it, _childrenToRemove.end());
+	}
 }
 
 void Panel::Render(HDC hdc)
 {
 	Super::Render(hdc);
 
-	for (UI* child : _children)
+	for (auto& child : _children)
 		child->Render(hdc);
 }
 
-void Panel::AddChild(UI* ui)
+void Panel::AddChild(unique_ptr<UI> ui)
 {
 	if (ui == nullptr)
 		return;
 
-	_children.push_back(ui);
+	_children.push_back(::move(ui));
 }
 
-bool Panel::RemoveChild(UI* ui)
+void Panel::RemoveChild(UI* ui)
 {
-	auto findIt = std::find(_children.begin(), _children.end(), ui);
-	if (findIt == _children.end())
-		return false;
+	if (ui == nullptr)
+		return;
 
-	// TODO: ªË¡¶?
-	_children.erase(findIt);
-	return true;
+	//_children.erase(::remove_if(_children.begin(), _children.end(),
+	//	[&ui](const unique_ptr<UI>& ptr) {
+	//		return ptr.get() == ui;
+	//	}),
+	//	_children.end());
+	_childrenToRemove.push_back(ui);
 }
