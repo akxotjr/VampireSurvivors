@@ -21,6 +21,8 @@
 #include "Goblin.h"
 #include "UI.h"
 #include "ResourceManager.h"
+#include "Panel.h"
+#include "Status.h"
 
 GameScene::GameScene()
 {
@@ -1340,8 +1342,25 @@ void GameScene::Init()
 	ResourceManager::GetInstance()->CreateSprite(L"InGameStatus", ResourceManager::GetInstance()->GetTexture(L"InGameStatus"));
 
 	// test
-	ResourceManager::GetInstance()->LoadTexture(L"SlashSkillIcon32", L"UI\\Skill_UI\\Skill_Icon_32_slash.bmp");
-	ResourceManager::GetInstance()->CreateSprite(L"SlashSkillIcon32", ResourceManager::GetInstance()->GetTexture(L"SlashSkillIcon32"));
+	ResourceManager::GetInstance()->LoadTexture(L"SlashSkillIcon36", L"UI\\Skill_UI\\Skill_Icon_36_Slash.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"SlashSkillIcon36", ResourceManager::GetInstance()->GetTexture(L"SlashSkillIcon36"));
+	ResourceManager::GetInstance()->LoadTexture(L"IceburstSkillIcon36", L"UI\\Skill_UI\\Skill_Icon_36_Iceburst.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"IceburstSkillIcon36", ResourceManager::GetInstance()->GetTexture(L"IceburstSkillIcon36"));
+	ResourceManager::GetInstance()->LoadTexture(L"LightningSkillIcon36", L"UI\\Skill_UI\\Skill_Icon_36_Lightning.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"LightningSkillIcon36", ResourceManager::GetInstance()->GetTexture(L"LightningSkillIcon36"));
+	ResourceManager::GetInstance()->LoadTexture(L"SurikenSkillIcon36", L"UI\\Skill_UI\\Skill_Icon_36_Suriken.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"SurikenSkillIcon36", ResourceManager::GetInstance()->GetTexture(L"SurikenSkillIcon36"));
+	ResourceManager::GetInstance()->LoadTexture(L"ForceFieldSkillIcon36", L"UI\\Skill_UI\\Skill_Icon_36_ForceField.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"ForceFieldSkillIcon36", ResourceManager::GetInstance()->GetTexture(L"ForceFieldSkillIcon36"));
+
+	ResourceManager::GetInstance()->LoadTexture(L"HPbar", L"UI\\Status_HPbar.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"HPbar", ResourceManager::GetInstance()->GetTexture(L"HPbar"));
+
+	ResourceManager::GetInstance()->LoadTexture(L"EXPbar", L"UI\\Status_EXPbar.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"EXPbar", ResourceManager::GetInstance()->GetTexture(L"EXPbar"));
+
+	ResourceManager::GetInstance()->LoadTexture(L"LevelToken", L"UI\\Skill_UI\\Skill_Level_Token.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"LevelToken", ResourceManager::GetInstance()->GetTexture(L"LevelToken"));
 #pragma endregion
 
 	{
@@ -1356,21 +1375,35 @@ void GameScene::Init()
 		AddActor(::move(background));
 	}
 	{
-		Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"InGameStatus");
-		unique_ptr<UI> ingamestatus = make_unique<UI>();
-		ingamestatus->SetPos(Vec2(480, 683));
-		ingamestatus->SetSprite(sprite);
+		//Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"InGameStatus");
+		//unique_ptr<Panel> ingamestatus = make_unique<Panel>();
+		//ingamestatus->SetPos(Vec2(275, 646));
+		//ingamestatus->SetSprite(sprite);
 
+		//Sprite* hp = ResourceManager::GetInstance()->GetSprite(L"HPbar");
+		//unique_ptr<UI> hpBar = make_unique<UI>();
+		//hpBar->SetPos({480, 704});
+		//hpBar->SetSprite(hp);
+
+		//Sprite* exp = ResourceManager::GetInstance()->GetSprite(L"EXPbar");
+		//unique_ptr<UI> expBar = make_unique<UI>();
+		//expBar->SetPos({ 480, 710 });
+		//expBar->SetSprite(exp);
+
+		//ingamestatus->AddChild(::move(hpBar));
+		//ingamestatus->AddChild(::move(expBar));
+
+		unique_ptr<Status> ingamestatus = make_unique<Status>();
 		AddUI(::move(ingamestatus));
 	}
-	{
-		Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"SlashSkillIcon32");
-		unique_ptr<UI> slashskillicon = make_unique<UI>();
-		slashskillicon->SetPos({311, 672});
-		slashskillicon->SetSprite(sprite);
+	//{
+	//	Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"SlashSkillIcon32");
+	//	unique_ptr<UI> slashskillicon = make_unique<UI>();
+	//	slashskillicon->SetPos({311, 672});
+	//	slashskillicon->SetSprite(sprite);
 
-		AddUI(::move(slashskillicon));
-	}
+	//	AddUI(::move(slashskillicon));
+	//}
 
 	Super::Init();
 }

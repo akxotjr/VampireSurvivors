@@ -15,7 +15,8 @@ UI::~UI()
 
 void UI::Init()
 {
-
+	if (_sprite == nullptr) return;
+	_size = _sprite->GetSize();
 }
 
 void UI::Update()
@@ -26,17 +27,16 @@ void UI::Update()
 void UI::Render(HDC hdc)
 {
 	if (_sprite == nullptr) return;
-	Vec2Int size = _sprite->GetSize();
 	::TransparentBlt(hdc,
-		_pos.x - size.x / 2,
-		_pos.y - size.y / 2,
-		size.x, 
-		size.y, 
+		_pos.x,
+		_pos.y,
+		_size.x,
+		_size.y,
 		_sprite->GetDC(),
 		0,
 		0,
-		size.x,
-		size.y,
+		_size.x,
+		_size.y,
 		_sprite->GetTransparent());
 }
 

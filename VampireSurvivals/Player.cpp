@@ -82,10 +82,10 @@ Player::Player()
 	slash->Init();
 	AddSkill(::move(slash));
 
-	unique_ptr<Iceburst> iceburst = make_unique<Iceburst>();
-	iceburst->SetOwner(this);
-	iceburst->Init();
-	AddSkill(::move(iceburst));
+	//unique_ptr<Iceburst> iceburst = make_unique<Iceburst>();
+	//iceburst->SetOwner(this);
+	//iceburst->Init();
+	//AddSkill(::move(iceburst));
 }
 
 Player::~Player()
@@ -378,19 +378,32 @@ void Player::GenerateSkillButton(int32 id, Vec2 pos, SelectSkillPanel* panel)
 		//scene->AddUI(::move(panel));
 }
 
+
 void Player::SkillLevelUP(int32 id, SelectSkillPanel* panel)
 {
 	bool flag = false;
-	for (auto& skill : _skills)
+	//for (auto& skill : _skills)
+	//{
+	//	if (skill->GetSkillID() == id)
+	//	{
+	//		skill->SkillLevelUP();
+	//		
+	//		flag = true;
+	//		break;
+	//	}
+	//}
+	for (int32 i = 0; i < _skills.size(); i++)
 	{
-		if (skill->GetSkillID() == id)
+		if (_skills[i]->GetSkillID() == id)
 		{
-			skill->SkillLevelUP();
-			
+			_skills[i]->SkillLevelUP();
+			_skillIDnLevel[i].second++;
+
 			flag = true;
 			break;
 		}
 	}
+
 	if (!flag)
 	{
 		switch (id)

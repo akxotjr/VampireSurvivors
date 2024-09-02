@@ -79,3 +79,15 @@ enum class MonsterID
 
 	ID_None = 999
 };
+
+enum SkillID
+{
+	ID_Slash = 0,
+	ID_Iceburst,
+	ID_Lightning,
+	ID_Suriken,
+	ID_ForceField,
+	ID_Count,
+
+	ID_None = 999
+};

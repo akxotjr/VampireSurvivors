@@ -29,7 +29,7 @@ void Lightning::Init()
 {
 	SetCooltime(3.f);
 	SetDamage();
-	SetSkillID(2);
+	SetSkillID(SkillID::ID_Lightning);
 }
 
 void Lightning::Use(float deltaTime)

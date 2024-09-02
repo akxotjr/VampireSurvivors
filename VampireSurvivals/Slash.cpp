@@ -63,7 +63,7 @@ Slash::~Slash()
 
 void Slash::Init()
 {
-	SetSkillID(0);
+	SetSkillID(SkillID::ID_Slash);
 	SetDamage();
 }
 

@@ -47,7 +47,11 @@ public:
 	virtual void OnComponentEndOverlap(Collider* collider, Collider* other) override;
 
 	// skills
-	void AddSkill(unique_ptr<Skill> skill) { _skills.push_back(::move(skill)); }
+	void AddSkill(unique_ptr<Skill> skill) 
+	{ 
+		_skillIDnLevel.push_back(make_pair(skill->GetSkillID(), 1));
+		_skills.push_back(::move(skill)); 
+	}
 
 	void UseSkill(float deltaTime);
 	void UpdateSkill();
@@ -57,6 +61,11 @@ public:
 	void SkillLevelUP(int32 id, SelectSkillPanel* panel);
 	void RandomSkill();
 	void GenerateSkillButton(int32 id, Vec2 pos, SelectSkillPanel* panel);
+
+	float GetHPRate() { return _stat.HP / _stat.MaxHP; }
+	float GetEXPRate() { return (float)_exp / (float)_maxExp; }
+
+	vector<pair<SkillID, int32>>& GetSkillIDnSkillLevel() { return _skillIDnLevel; }
 
 private:
 	PlayerState	_state = PlayerState::Idle;
@@ -88,7 +97,7 @@ private:
 	Flipbook*	_flipbookDeath[Dir::DIR_COUNT] = {};
 
 	vector<unique_ptr<Skill>> _skills;
-
+	vector<pair<SkillID, int32>> _skillIDnLevel;
 	vector<wstring> _skillNames = { L"slash", L"iceburst", L"lightning", L"suriken", L"forcefiled" };
 };
 

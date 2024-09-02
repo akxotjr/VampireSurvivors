@@ -8,6 +8,7 @@
 #include "WolfRider.h"
 #include "Owlbear.h"
 #include "Ogre.h"
+#include "Player.h"
 
 class Collider;
 
@@ -33,6 +34,11 @@ public:
 		monster->SetPos(MonsterRandomPos());
 		monster->Init();
 		AddActor(::move(monster));
+	}
+
+	Player* GetPlayer() 
+	{
+		return dynamic_cast<Player*>(_actors[LAYER_PLAYER].front().get());
 	}
 
 protected:
