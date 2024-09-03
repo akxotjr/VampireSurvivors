@@ -30,7 +30,7 @@ void Iceburst::Init()
 {
 	SetCooltime(3.f);
 	SetDamage();
-	SetSkillID(1);
+	SetSkillID(SkillID::ID_Iceburst);
 }
 
 void Iceburst::Use(float deltaTime)

@@ -24,8 +24,8 @@ public:
 	void SetAtkCoef(float coef) { _atkCoef = coef; }
 	float GetAtkCoef() { return _atkCoef; }
 
-	void SetSkillID(int32 id) { _id = id; }
-	int32 GetSkillID() { return _id; }
+	void SetSkillID(SkillID id) { _id = id; }
+	SkillID GetSkillID() { return _id; }
 
 	virtual void SkillLevelUP() 
 	{ 
@@ -42,7 +42,7 @@ protected:
 	float	_coolTime = 1.f;
 	float	_sumTime = 0.f;
 
-	int32	_id = 999;
+	SkillID _id = SkillID::ID_None;
 	int32	_skillLevel = 1;
 	float	_damage = 0.f;
 	float	_atkCoef = 1.1f;

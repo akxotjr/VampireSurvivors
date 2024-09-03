@@ -33,7 +33,7 @@ void ForceField::Init()
 {
 	SetCooltime(3.f);
 	SetDamage();
-	SetSkillID(4);
+	SetSkillID(SkillID::ID_ForceField);
 }
 
 void ForceField::Update()
