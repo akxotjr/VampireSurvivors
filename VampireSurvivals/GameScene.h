@@ -8,6 +8,7 @@
 #include "WolfRider.h"
 #include "Owlbear.h"
 #include "Ogre.h"
+#include "Player.h"
 
 class Collider;
 
@@ -23,10 +24,8 @@ public:
 	virtual void Render(HDC hdc);
 
 	// monster spawn
-	void MonsterRespawn();
 	Vec2 MonsterRandomPos();
 
-	//void SpawnMonster(MonsterID id);
 	void HandleWave();
 	template <typename Ty>
 	void CreateMonster()
@@ -35,6 +34,11 @@ public:
 		monster->SetPos(MonsterRandomPos());
 		monster->Init();
 		AddActor(::move(monster));
+	}
+
+	Player* GetPlayer() 
+	{
+		return dynamic_cast<Player*>(_actors[LAYER_PLAYER].front().get());
 	}
 
 protected:

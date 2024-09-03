@@ -63,10 +63,12 @@ void Lightning::Use(float deltaTime)
 		collider->SetRadius(20);
 		//collider->SetShowDebug(true);
 
-		lightning->SetAnimationFinishedCallback([&lightning, scene, &collider]() {
-			CollisionManager::GetInstance()->RemoveCollider(collider.get());
-			scene->RemoveActor(lightning.get());
-		});
+
+		//TODO
+		//lightning->SetAnimationFinishedCallback([&lightning, scene, &collider]() {
+		//	CollisionManager::GetInstance()->RemoveCollider(collider.get());
+		//	scene->RemoveActor(lightning.get());
+		//});
 
 		CollisionManager::GetInstance()->AddCollider(collider.get());
 		lightning->AddComponent(::move(collider));

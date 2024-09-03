@@ -5,7 +5,7 @@ class Sprite;
 
 class SelectSkillPanel : public Panel
 {
-	using Super = UI;
+	using Super = Panel;
 public:
 	SelectSkillPanel();
 	virtual ~SelectSkillPanel();
@@ -16,8 +16,12 @@ public:
 
 	void RemoveAllChild();
 
+	void SetFinished() { _finished = true; }
+
 private:
 	Sprite* _sprite = nullptr;
 	float	_sumTime = 0.f;
+
+	bool	_finished = false;
 };
 

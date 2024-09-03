@@ -89,5 +89,5 @@ enum SkillID
 	ID_ForceField,
 	ID_Count,
 
-	ID_None = 999,
+	ID_None = 999
 };

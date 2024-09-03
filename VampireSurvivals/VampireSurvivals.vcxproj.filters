@@ -248,6 +248,9 @@
     <ClInclude Include="Owlbear.h">
       <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
     </ClInclude>
+    <ClInclude Include="Status.h">
+      <Filter>소스 파일\06. UI\Contents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="VampireSurvivals.rc">
@@ -424,6 +427,9 @@
     </ClCompile>
     <ClCompile Include="WolfRider.cpp">
       <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="Status.cpp">
+      <Filter>소스 파일\06. UI\Contents</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

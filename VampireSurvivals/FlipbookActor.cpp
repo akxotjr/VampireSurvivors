@@ -88,7 +88,6 @@ void FlipbookActor::Render(HDC hdc)
 		info.size.x,
 		info.size.y,
 		info.texture->GetTransparent());
-	int a = 0;
 }
 
 float FlipbookActor::GetFlipbookDuration()

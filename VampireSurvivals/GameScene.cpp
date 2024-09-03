@@ -21,6 +21,8 @@
 #include "Goblin.h"
 #include "UI.h"
 #include "ResourceManager.h"
+#include "Panel.h"
+#include "Status.h"
 
 GameScene::GameScene()
 {
@@ -1181,6 +1183,142 @@ void GameScene::Init()
 		fb->SetInfo({ texture, L"FB_WolfRiderDeathRight", {16, 16}, 0, 0, 0, 0.5f });
 	}
 #pragma endregion
+#pragma region Owlbear
+	// Load Texture
+
+	// Idle
+	ResourceManager::GetInstance()->LoadTexture(L"OwlbearIdleUp", L"Monsters\\Owlbear\\Owlbear_Idle_Up.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OwlbearIdleDown", L"Monsters\\Owlbear\\Owlbear_Idle_Down.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OwlbearIdleLeft", L"Monsters\\Owlbear\\Owlbear_Idle_Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OwlbearIdleRight", L"Monsters\\Owlbear\\Owlbear_Idle_Right.bmp");
+	// Attack									  
+	ResourceManager::GetInstance()->LoadTexture(L"OwlbearAttackUp", L"Monsters\\Owlbear\\Owlbear_Attack_Up.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OwlbearAttackDown", L"Monsters\\Owlbear\\Owlbear_Attack_Down.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OwlbearAttackLeft", L"Monsters\\Owlbear\\Owlbear_Attack_Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OwlbearAttackRight", L"Monsters\\Owlbear\\Owlbear_Attack_Right.bmp");
+	// Move										  
+	ResourceManager::GetInstance()->LoadTexture(L"OwlbearMoveUp", L"Monsters\\Owlbear\\Owlbear_Move_Up.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OwlbearMoveDown", L"Monsters\\Owlbear\\Owlbear_Move_Down.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OwlbearMoveLeft", L"Monsters\\Owlbear\\Owlbear_Move_Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OwlbearMoveRight", L"Monsters\\Owlbear\\Owlbear_Move_Right.bmp");
+	// Hurt										  
+	ResourceManager::GetInstance()->LoadTexture(L"OwlbearHurtUp", L"Monsters\\Owlbear\\Owlbear_Hurt_Up.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OwlbearHurtDown", L"Monsters\\Owlbear\\Owlbear_Hurt_Down.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OwlbearHurtLeft", L"Monsters\\Owlbear\\Owlbear_Hurt_Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OwlbearHurtRight", L"Monsters\\Owlbear\\Owlbear_Hurt_Right.bmp");
+	// Death									  
+	ResourceManager::GetInstance()->LoadTexture(L"OwlbearDeathUp", L"Monsters\\Owlbear\\Owlbear_Death_Up.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OwlbearDeathDown", L"Monsters\\Owlbear\\Owlbear_Death_Down.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OwlbearDeathLeft", L"Monsters\\Owlbear\\Owlbear_Death_Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"OwlbearDeathRight", L"Monsters\\Owlbear\\Owlbear_Death_Right.bmp");
+
+	// Create Flipbook
+	// Idle
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearIdleUp");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearIdleUp");
+		fb->SetInfo({ texture, L"FB_OwlbearIdleUp", {64, 64}, 0, 3, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearIdleDown");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearIdleDown");
+		fb->SetInfo({ texture, L"FB_OwlbearIdleDown", {64, 64}, 0, 3, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearIdleLeft");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearIdleLeft");
+		fb->SetInfo({ texture, L"FB_OwlbearIdleLeft", {64, 64}, 0, 3, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearIdleRight");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearIdleRight");
+		fb->SetInfo({ texture, L"FB_OwlbearIdleRight", {64, 64}, 0, 3, 0, 0.5f });
+	}
+	// Attack
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearAttackUp");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearAttackUp");
+		fb->SetInfo({ texture, L"FB_OwlbearAttackUp", {128, 128}, 0, 4, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearAttackDown");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearAttackDown");
+		fb->SetInfo({ texture, L"FB_OwlbearAttackDown", {128, 128}, 0, 4, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearAttackLeft");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearAttackLeft");
+		fb->SetInfo({ texture, L"FB_OwlbearAttackLeft", {128, 128}, 0, 4, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearAttackRight");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearAttackRight");
+		fb->SetInfo({ texture, L"FB_OwlbearAttackRight", {128, 128}, 0, 4, 0, 0.5f });
+	}
+	// Move
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearMoveUp");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearMoveUp");
+		fb->SetInfo({ texture, L"FB_OwlbearMoveUp", {64, 64}, 0, 3, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearMoveDown");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearMoveDown");
+		fb->SetInfo({ texture, L"FB_OwlbearMoveDown", {64, 64}, 0, 3, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearMoveLeft");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearMoveLeft");
+		fb->SetInfo({ texture, L"FB_OwlbearMoveLeft", {64, 64}, 0, 3, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearMoveRight");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearMoveRight");
+		fb->SetInfo({ texture, L"FB_OwlbearMoveRight", {64, 64}, 0, 3, 0, 0.5f });
+	}
+	// Hurt
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearHurtUp");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearHurtUp");
+		fb->SetInfo({ texture, L"FB_OwlbearHurtUp", {64, 64}, 0, 1, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearHurtDown");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearHurtDown");
+		fb->SetInfo({ texture, L"FB_OwlbearHurtDown", {64, 64}, 0, 1, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearHurtLeft");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearHurtLeft");
+		fb->SetInfo({ texture, L"FB_OwlbearHurtLeft", {64, 64}, 0, 1, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearHurtRight");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearHurtRight");
+		fb->SetInfo({ texture, L"FB_OwlbearHurtRight", {64, 64}, 0, 1, 0, 0.5f });
+	}
+	// Death
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearDeathUp");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearDeathUp");
+		fb->SetInfo({ texture, L"FB_OwlbearDeathUp", {64, 64}, 0, 0, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearDeathDown");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearDeathDown");
+		fb->SetInfo({ texture, L"FB_OwlbearDeathDown", {64, 64}, 0, 0, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearDeathLeft");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearDeathLeft");
+		fb->SetInfo({ texture, L"FB_OwlbearDeathLeft", {64, 64}, 0, 0, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearDeathRight");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearDeathRight");
+		fb->SetInfo({ texture, L"FB_OwlbearDeathRight", {16, 16}, 0, 0, 0, 0.5f });
+	}
+#pragma endregion
 
 #pragma endregion	
 #pragma region Item
@@ -1200,16 +1338,29 @@ void GameScene::Init()
 	ResourceManager::GetInstance()->CreateSprite(L"SelectSkillButton", ResourceManager::GetInstance()->GetTexture(L"SelectSkillButton"));
 
 	// test
-	//ResourceManager::GetInstance()->LoadTexture(L"InGameStatus", L"UI\\InGame-Status.bmp");
-	//ResourceManager::GetInstance()->CreateSprite(L"InGameStatus", ResourceManager::GetInstance()->GetTexture(L"InGameStatus"));
-	//{
-	//	Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"InGameStatus");
-	//	UI* ui = new UI();
-	//	ui->SetPos(Vec2(480, 683));
-	//	ui->SetSprite(sprite);
+	ResourceManager::GetInstance()->LoadTexture(L"InGameStatus", L"UI\\InGame-Status.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"InGameStatus", ResourceManager::GetInstance()->GetTexture(L"InGameStatus"));
 
-	//	AddUI(ui);
-	//}
+	// test
+	ResourceManager::GetInstance()->LoadTexture(L"SlashSkillIcon36", L"UI\\Skill_UI\\Skill_Icon_36_Slash.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"SlashSkillIcon36", ResourceManager::GetInstance()->GetTexture(L"SlashSkillIcon36"));
+	ResourceManager::GetInstance()->LoadTexture(L"IceburstSkillIcon36", L"UI\\Skill_UI\\Skill_Icon_36_Iceburst.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"IceburstSkillIcon36", ResourceManager::GetInstance()->GetTexture(L"IceburstSkillIcon36"));
+	ResourceManager::GetInstance()->LoadTexture(L"LightningSkillIcon36", L"UI\\Skill_UI\\Skill_Icon_36_Lightning.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"LightningSkillIcon36", ResourceManager::GetInstance()->GetTexture(L"LightningSkillIcon36"));
+	ResourceManager::GetInstance()->LoadTexture(L"SurikenSkillIcon36", L"UI\\Skill_UI\\Skill_Icon_36_Suriken.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"SurikenSkillIcon36", ResourceManager::GetInstance()->GetTexture(L"SurikenSkillIcon36"));
+	ResourceManager::GetInstance()->LoadTexture(L"ForceFieldSkillIcon36", L"UI\\Skill_UI\\Skill_Icon_36_ForceField.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"ForceFieldSkillIcon36", ResourceManager::GetInstance()->GetTexture(L"ForceFieldSkillIcon36"));
+
+	ResourceManager::GetInstance()->LoadTexture(L"HPbar", L"UI\\Status_HPbar.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"HPbar", ResourceManager::GetInstance()->GetTexture(L"HPbar"));
+
+	ResourceManager::GetInstance()->LoadTexture(L"EXPbar", L"UI\\Status_EXPbar.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"EXPbar", ResourceManager::GetInstance()->GetTexture(L"EXPbar"));
+
+	ResourceManager::GetInstance()->LoadTexture(L"LevelToken", L"UI\\Skill_UI\\Skill_Level_Token.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"LevelToken", ResourceManager::GetInstance()->GetTexture(L"LevelToken"));
 #pragma endregion
 
 	{
@@ -1223,6 +1374,36 @@ void GameScene::Init()
 		
 		AddActor(::move(background));
 	}
+	{
+		//Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"InGameStatus");
+		//unique_ptr<Panel> ingamestatus = make_unique<Panel>();
+		//ingamestatus->SetPos(Vec2(275, 646));
+		//ingamestatus->SetSprite(sprite);
+
+		//Sprite* hp = ResourceManager::GetInstance()->GetSprite(L"HPbar");
+		//unique_ptr<UI> hpBar = make_unique<UI>();
+		//hpBar->SetPos({480, 704});
+		//hpBar->SetSprite(hp);
+
+		//Sprite* exp = ResourceManager::GetInstance()->GetSprite(L"EXPbar");
+		//unique_ptr<UI> expBar = make_unique<UI>();
+		//expBar->SetPos({ 480, 710 });
+		//expBar->SetSprite(exp);
+
+		//ingamestatus->AddChild(::move(hpBar));
+		//ingamestatus->AddChild(::move(expBar));
+
+		unique_ptr<Status> ingamestatus = make_unique<Status>();
+		AddUI(::move(ingamestatus));
+	}
+	//{
+	//	Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"SlashSkillIcon32");
+	//	unique_ptr<UI> slashskillicon = make_unique<UI>();
+	//	slashskillicon->SetPos({311, 672});
+	//	slashskillicon->SetSprite(sprite);
+
+	//	AddUI(::move(slashskillicon));
+	//}
 
 	Super::Init();
 }

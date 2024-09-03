@@ -11,52 +11,12 @@
 
 SelectSkillPanel::SelectSkillPanel()
 {
-	//_sprite = ResourceManager::GetInstance()->GetSprite(L"SelectSkillButton");
-	//GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-	//{
-	//	Button* button = new Button();
-	//	button->SetSprite(_sprite, BS_Default);
-	//	button->SetSprite(_sprite, BS_Clicked);
-	//	button->SetSprite(_sprite, BS_Pressed);
-	//	button->SetPos({ 245, 360 });
-	//	button->SetSize(_sprite->GetSize());
-	//	button->Init();
-	//	button->AddOnClickDelegate(this, &SelectSkillPanel::RemoveAllChild);
 
-	//	AddChild(button);
-	//	scene->AddUI(button);
-	//}
-	//{
-	//	Button* button = new Button();
-	//	button->SetSprite(_sprite, BS_Default);
-	//	button->SetSprite(_sprite, BS_Clicked);
-	//	button->SetSprite(_sprite, BS_Pressed);
-	//	button->SetPos({ 480, 360 });
-	//	button->SetSize(_sprite->GetSize());
-	//	button->Init();
-	//	button->AddOnClickDelegate(this, &SelectSkillPanel::RemoveAllChild);
-
-	//	AddChild(button);
-	//	scene->AddUI(button);
-	//}
-	//{
-	//	Button* button = new Button();
-	//	button->SetSprite(_sprite, BS_Default);
-	//	button->SetSprite(_sprite, BS_Clicked);
-	//	button->SetSprite(_sprite, BS_Pressed);
-	//	button->SetPos({ 715, 360 });
-	//	button->SetSize(_sprite->GetSize());
-	//	button->Init();
-	//	button->AddOnClickDelegate(this, &SelectSkillPanel::RemoveAllChild);
-
-	//	AddChild(button);
-	//	scene->AddUI(button);
-	//}
 }
 
 SelectSkillPanel::~SelectSkillPanel()
 {
-	RemoveAllChild();
+	//RemoveAllChild();
 }
 
 void SelectSkillPanel::Init()
@@ -67,19 +27,25 @@ void SelectSkillPanel::Init()
 void SelectSkillPanel::Update()
 {
 	Super::Update();
+	if (_finished)
+	{
+		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+		scene->RemoveUI(this);
+		return;
+	}
 }
 
 void SelectSkillPanel::Render(HDC hdc)
 {
-	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
+	//float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
 
-	_sumTime += deltaTime;
-	if (_sumTime >= 3.f)
-	{
-		//GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-		//scene->RemmoveUI(this);
-		return;
-	}
+	//_sumTime += deltaTime;
+	//if (_sumTime >= 3.f)
+	//{
+	//	//GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	//	//scene->RemmoveUI(this);
+	//	return;
+	//}
 	
 	Super::Render(hdc);
 }
@@ -88,8 +54,10 @@ void SelectSkillPanel::RemoveAllChild()
 {
 	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 	for (auto& child : _children)
-	{
-		scene->RemoveUI(child);
+	{ 
+		//scene->RemoveUI(child);
+		RemoveChild(child.get());
 	}
-	scene->RemoveUI(this);
+	//scene->RemoveUI(this);
+	//return;
 }

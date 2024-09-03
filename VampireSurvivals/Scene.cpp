@@ -29,12 +29,19 @@ void Scene::Update()
 			if (actor == nullptr)
 			{
 				continue;
-				
 			}
 			actor->Update();
 		}
 	for (auto& ui : _uis)
+	{
+		if (ui == nullptr)
+		{
+			continue;
+		}
 		ui->Update();
+
+	}
+		
 }
 
 void Scene::Render(HDC hdc)
