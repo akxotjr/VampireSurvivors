@@ -4,6 +4,7 @@
 #include "GameScene.h"
 #include "LobbyScene.h"
 #include "StatUpgradeScene.h"
+#include "TitleScene.h"
 
 unique_ptr<SceneManager> SceneManager::instance = nullptr;
 
@@ -49,6 +50,9 @@ void SceneManager::ChangeScene(SceneType sceneType)
 		break;
 	case SceneType::StatUpgradeScene:
 		newScene = make_unique<StatUpgradeScene>();
+		break;
+	case SceneType::TitleScene:
+		newScene = make_unique<TitleScene>();
 		break;
 	}
 

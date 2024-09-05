@@ -8,6 +8,7 @@ enum class SceneType
 	GameScene,
 	LobbyScene,
 	StatUpgradeScene,
+	TitleScene,
 };
 
 enum LAYER_TYPE

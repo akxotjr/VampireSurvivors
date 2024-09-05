@@ -58,8 +58,8 @@ public:
 
 	void TakeEXP(int32 exp);
 	void LevelUP();
-	void SkillLevelUP(int32 id, SelectSkillPanel* panel);
-	void RandomSkill();
+	void SkillLevelUP(SkillID id, SelectSkillPanel* panel);
+	pair<int32, int32> RandomSkill();
 	void GenerateSkillButton(int32 id, Vec2 pos, SelectSkillPanel* panel);
 
 	float GetHPRate() { return _stat.HP / _stat.MaxHP; }

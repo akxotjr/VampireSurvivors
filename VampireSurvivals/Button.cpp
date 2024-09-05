@@ -17,8 +17,9 @@ Button::~Button()
 void Button::Init()
 {
 	Super::Init();
-
+	
 	SetButtonState(BS_Default);
+	_size = _currentSprite->GetSize();
 }
 
 void Button::Update()
@@ -68,8 +69,8 @@ void Button::Render(HDC hdc)
 	{
 		const Vec2Int size = _currentSprite->GetSize();
 		::TransparentBlt(hdc,
-			(int32)_pos.x - size.x / 2,
-			(int32)_pos.y - size.y / 2,
+			(int32)_pos.x,
+			(int32)_pos.y,
 			size.x,
 			size.y,
 			_currentSprite->GetDC(),
@@ -79,7 +80,7 @@ void Button::Render(HDC hdc)
 			size.y,
 			_currentSprite->GetTransparent());
 
-		TextOut(hdc, (int32)_pos.x - 50, (int32)_pos.y - 160, _text.c_str(), _text.length());
+		//TextOut(hdc, (int32)_pos.x - 50, (int32)_pos.y - 160, _text.c_str(), _text.length());
 	}
 	else
 	{
