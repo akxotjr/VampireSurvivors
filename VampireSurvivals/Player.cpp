@@ -14,8 +14,8 @@
 #include "BoxCollider.h"
 #include "SphereCollider.h"
 #include "Monster.h"
-#include "Slash.h"
-#include "Skill.h"
+//#include "Slash.h"
+//#include "Skill.h"
 //#include "Iceburst.h"
 //#include "GravityCannon.h"
 //#include "ForceField.h"
@@ -77,10 +77,11 @@ Player::Player()
 	AddComponent(::move(collider));
 
 
-	unique_ptr<Slash> slash = make_unique<Slash>();
-	slash->SetOwner(this);
-	slash->Init();
-	AddSkill(::move(slash));
+	//unique_ptr<Slash> slash = make_unique<Slash>();
+	//slash->SetOwner(this);
+	//slash->Init();
+	//AddSkill(::move(slash));
+	SkillBuilder[SkillID::ID_Slash]();
 }
 
 Player::~Player()
@@ -95,9 +96,11 @@ void Player::Init()
 
 void Player::Update()
 {
+	//if (_pause) return;
 	Super::Update();
 
-	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
+	float deltaTime = TimeManager::GetInstance()->GetAdjustDeltaTime();
+	if (deltaTime == 0) return;
 
 	_sumTime += deltaTime;
 	UseSkill(deltaTime);
@@ -213,7 +216,7 @@ void Player::UpdateAnimation()
 	}
 	else
 	{
-		_animationTime += TimeManager::GetInstance()->GetDeltaTime();
+		_animationTime += TimeManager::GetInstance()->GetAdjustDeltaTime();
 		if (_animationTime >= GetFlipbookDuration())
 		{
 			OnAnimationFinished();
@@ -286,7 +289,7 @@ void Player::TakeEXP(int32 exp)
 
 void Player::LevelUP()
 {
-	//TODO
+	_pause = true;
 	_level++;
 	TimeManager::GetInstance()->SetTimeScale(0.f);
 

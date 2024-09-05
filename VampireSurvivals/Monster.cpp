@@ -50,7 +50,8 @@ void Monster::Update()
 		return;
 	}
 
-	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
+	float deltaTime = TimeManager::GetInstance()->GetAdjustDeltaTime();
+	if (deltaTime == 0) return;
 
 	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 	Vec2 playerPos = scene->GetPlayerPos();

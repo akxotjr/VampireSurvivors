@@ -1,6 +1,11 @@
 #pragma once
 #include "FlipbookActor.h"
 #include "Skill.h"
+#include "Slash.h"
+#include "Iceburst.h"
+#include "Lightning.h"
+#include "Suriken.h"
+#include "ForceField.h"
 
 class Flipbook;
 class Sprite;
@@ -60,15 +65,25 @@ public:
 	void LevelUP();
 	void SkillLevelUP(SkillID id, SelectSkillPanel* panel);
 	pair<int32, int32> RandomSkill();
-	void GenerateSkillButton(int32 id, Vec2 pos, SelectSkillPanel* panel);
+	//void GenerateSkillButton(int32 id, Vec2 pos, SelectSkillPanel* panel);
 
 	float GetHPRate() { return _stat.HP / _stat.MaxHP; }
 	float GetEXPRate() { return (float)_exp / (float)_maxExp; }
 
 	vector<pair<SkillID, int32>>& GetSkillIDnSkillLevel() { return _skillIDnLevel; }
 
+	template <typename Ty>
+	void CreateSkill()
+	{
+		unique_ptr<Ty> skill = make_unique<Ty>();
+		skill->SetOwner(this);
+		skill->Init();
+		AddSkill(::move(skill));
+	}
+
 private:
 	PlayerState	_state = PlayerState::Idle;
+	bool		_pause = false;
 	bool		_isAnimationPlaying = false;
 	float		_animationTime = 0.0f;
 
@@ -84,8 +99,15 @@ private:
 	int32		_maxExp = 50;
 	int32		_level = 1;
 
-	// skillpool 에서 고를 수 있는 skill을 1, 각 i번째 비트는 skill_id가 i임을 의미
-	// 켜져있는 i번째 비트가 의미하는것은 skill_id가 i인 스킬을 획득했다는것
+	std::array<std::function<void(void)>, static_cast<size_t>(SkillID::ID_Count)> SkillBuilder = {
+		[this]() { CreateSkill<Slash>(); },
+		[this]() { CreateSkill<Iceburst>(); },
+		[this]() { CreateSkill<Lightning>(); },
+		[this]() { CreateSkill<Suriken>(); },
+		[this]() { CreateSkill<ForceField>(); },
+	};
+
+
 
 
 	Stat		_stat = {};
@@ -95,6 +117,8 @@ private:
 	Flipbook*	_flipbookMove[Dir::DIR_COUNT] = {};
 	Flipbook*	_flipbookHurt[Dir::DIR_COUNT] = {};
 	Flipbook*	_flipbookDeath[Dir::DIR_COUNT] = {};
+
+
 
 	vector<unique_ptr<Skill>> _skills;
 	vector<pair<SkillID, int32>> _skillIDnLevel;

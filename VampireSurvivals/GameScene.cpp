@@ -1439,7 +1439,7 @@ Vec2 GameScene::MonsterRandomPos()
 }
 void GameScene::HandleWave()
 {
-	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
+	float deltaTime = TimeManager::GetInstance()->GetAdjustDeltaTime();
 	_sumTime += deltaTime;
 	_spawnSumTime += deltaTime;
 

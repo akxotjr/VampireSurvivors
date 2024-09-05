@@ -15,7 +15,7 @@ void TimeManager::Update()
 	::QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&currentCount));
 
 	_deltaTime = (currentCount - _prevCount) / static_cast<float>(_frequency);
-	_deltaTime *= _timeScale;
+	_adjustDeltaTime = _deltaTime * _timeScale;
 	_prevCount = currentCount;
 
 	_frameCount++;

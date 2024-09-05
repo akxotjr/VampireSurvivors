@@ -79,11 +79,9 @@ void Cyclops::Init()
 
 void Cyclops::Update()
 {
-	
-
 	if (_isPlayerInRange)
 	{
-		float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
+		float deltaTime = TimeManager::GetInstance()->GetAdjustDeltaTime();
 		_sumTime += deltaTime;
 		_skill->Use(deltaTime);
 		if (_sumTime >= _coolTime)

@@ -51,7 +51,7 @@ void FlipbookActor::Update()
 		return;
 	}
 
-	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
+	float deltaTime = TimeManager::GetInstance()->GetAdjustDeltaTime();
 
 	_sumTime += deltaTime;
 

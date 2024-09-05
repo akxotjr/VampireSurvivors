@@ -20,8 +20,8 @@ void DamageText::Init()
 
 void DamageText::Update()
 {
-	float deltaTime = TimeManager::GetInstance()->GetDeltaTime();
-
+	float deltaTime = TimeManager::GetInstance()->GetAdjustDeltaTime();
+	if (deltaTime == 0.f) return;
 	_elapsedTime += deltaTime;
 	if (_elapsedTime >= _lifetime)
 	{
