@@ -26,9 +26,13 @@ public:
 		return _actors[LAYER_MONSTER];
 	}
 
-public:
+	void SetFinished() { _finished = true; }
 
+public:
 	vector<unique_ptr<Actor>>	_actors[LAYER_MAXCOUNT];
 	vector<unique_ptr<UI>>		_uis;
+
+protected:
+	bool _finished = false;
 };
 

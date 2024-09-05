@@ -26,17 +26,17 @@ void Scene::Update()
 	for (auto& actors : _actors)
 		for (auto& actor : actors)
 		{
-			if (actor == nullptr)
+			if (actor.get() == nullptr || _finished)
 			{
-				continue;
+				return;
 			}
 			actor->Update();
 		}
 	for (auto& ui : _uis)
 	{
-		if (ui == nullptr)
+		if (ui.get() == nullptr || _finished)
 		{
-			continue;
+			return;
 		}
 		ui->Update();
 

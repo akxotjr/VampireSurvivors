@@ -15,5 +15,6 @@ public:
 	virtual void Render(HDC hdc);
 
 	void AtkUpgradeButton();
+	void GotoLobbyScene();
 };
 

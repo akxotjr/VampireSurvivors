@@ -23,6 +23,7 @@
 #include "ResourceManager.h"
 #include "Panel.h"
 #include "Status.h"
+#include "Button.h"
 
 GameScene::GameScene()
 {
@@ -1383,6 +1384,15 @@ void GameScene::Init()
 
 	ResourceManager::GetInstance()->LoadTexture(L"LevelToken", L"UI\\Skill_UI\\Skill_Level_Token.bmp");
 	ResourceManager::GetInstance()->CreateSprite(L"LevelToken", ResourceManager::GetInstance()->GetTexture(L"LevelToken"));
+
+	ResourceManager::GetInstance()->LoadTexture(L"SettingsButtonDefault", L"UI\\SettingsButton_Default.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"SettingsButtonDefault", ResourceManager::GetInstance()->GetTexture(L"SettingsButtonDefault"));
+	ResourceManager::GetInstance()->LoadTexture(L"SettingsButtonClicked", L"UI\\SettingsButton_Clicked.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"SettingsButtonClicked", ResourceManager::GetInstance()->GetTexture(L"SettingsButtonClicked"));
+
+	ResourceManager::GetInstance()->LoadTexture(L"CoinBar", L"UI\\CoinBar.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"CoinBar", ResourceManager::GetInstance()->GetTexture(L"CoinBar"));
+
 #pragma endregion
 
 	{
@@ -1399,7 +1409,26 @@ void GameScene::Init()
 		unique_ptr<Status> ingamestatus = make_unique<Status>();
 		AddUI(::move(ingamestatus));
 	}
+	{
+		Sprite* buttonDefault = ResourceManager::GetInstance()->GetSprite(L"SettingsButtonDefault");
+		Sprite* buttonClicked = ResourceManager::GetInstance()->GetSprite(L"SettingsButtonClicked");
+		unique_ptr<Button> button = make_unique<Button>();
+		button->SetPos({913, 0});
+		button->SetSprite(buttonDefault, BS_Default);
+		button->SetSprite(buttonClicked, BS_Clicked);
+		button->SetSprite(buttonClicked, BS_Pressed);
+		//button->AddOnClickDelegate();
 
+		AddUI(::move(button));
+	}
+	{
+		Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"CoinBar");
+		unique_ptr<UI> bar = make_unique<UI>();
+		bar->SetPos({ 817, 0 });
+		bar->SetSprite(sprite);
+
+		AddUI(::move(bar));
+	}
 	Super::Init();
 }
 

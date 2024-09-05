@@ -55,6 +55,9 @@ void SceneManager::ChangeScene(SceneType sceneType)
 		newScene = make_unique<TitleScene>();
 		break;
 	}
+	
+	if(_scene != nullptr)
+		_scene->SetFinished();
 
 	_scene = ::move(newScene);
 	_sceneType = sceneType;

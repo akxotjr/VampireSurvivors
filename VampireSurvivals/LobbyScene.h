@@ -13,6 +13,7 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 
-
+	void GotoStatUpgradeScene();
+	void GotoGameScene();
 };
 

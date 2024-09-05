@@ -44,6 +44,5 @@ void TitleScene::Render(HDC hdc)
 
 void TitleScene::GoToLobbyScene()
 {
-	int a = 0;
-	SceneManager::GetInstance()->ChangeScene(SceneType::GameScene);
+	SceneManager::GetInstance()->ChangeScene(SceneType::LobbyScene);
 }
