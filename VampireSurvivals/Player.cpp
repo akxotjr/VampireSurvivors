@@ -16,11 +16,11 @@
 #include "Monster.h"
 #include "Slash.h"
 #include "Skill.h"
-#include "Iceburst.h"
-#include "GravityCannon.h"
-#include "ForceField.h"
-#include "Lightning.h"
-#include "Suriken.h"
+//#include "Iceburst.h"
+//#include "GravityCannon.h"
+//#include "ForceField.h"
+//#include "Lightning.h"
+//#include "Suriken.h"
 #include "Experience.h"
 #include "SelectSkillPanel.h"
 #include "Button.h"
@@ -359,49 +359,7 @@ void Player::SkillLevelUP(SkillID id, SelectSkillPanel* panel)
 
 	if (!flag)
 	{
-		switch (id)
-		{
-		case 0:
-		{
-			unique_ptr<Slash> slash = make_unique<Slash>();
-			slash->SetOwner(this);
-			slash->Init();
-			AddSkill(::move(slash));
-		}
-			break;
-		case 1:
-		{
-			unique_ptr<Iceburst> iceburst = make_unique<Iceburst>();
-			iceburst->SetOwner(this);
-			iceburst->Init();
-			AddSkill(::move(iceburst));
-		}
-			break;
-		case 2:
-		{
-			unique_ptr<Lightning> lightning = make_unique<Lightning>();
-			lightning->SetOwner(this);
-			lightning->Init();
-			AddSkill(::move(lightning));
-		}
-			break;
-		case 3:
-		{
-			unique_ptr<Suriken> suriken = make_unique<Suriken>();
-			suriken->SetOwner(this);
-			suriken->Init();
-			AddSkill(::move(suriken));
-		}
-			break;
-		case 4:
-		{
-			unique_ptr<ForceField> forcefield = make_unique<ForceField>();
-			forcefield->SetOwner(this);
-			forcefield->Init();
-			AddSkill(::move(forcefield));
-		}
-			break;
-		}
+		SkillBuilder[id]();
 	}
 	panel->SetFinished();
 
