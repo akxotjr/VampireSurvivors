@@ -29,7 +29,7 @@ public:
 
 	virtual void SkillLevelUP() 
 	{ 
-		if (_skillLevel > 5) return;
+		if (_skillLevel >= 5) return;
 		_skillLevel++; 
 		_atkCoef += 0.1f;
 		SetDamage();

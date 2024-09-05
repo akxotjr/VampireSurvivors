@@ -355,9 +355,6 @@ void Player::RandomSkill()
 			buttonCnt++;
 		}
 	}
-	
-
-
 	scene->AddUI(::move(ssp));
 }
 
