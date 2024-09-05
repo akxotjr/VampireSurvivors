@@ -59,8 +59,6 @@ void Status::Init()
 
 void Status::Update()
 {
-	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-	_player = scene->GetPlayer();
 
 	float hpRate = _player->GetHPRate();
 	float expRate = _player->GetEXPRate();

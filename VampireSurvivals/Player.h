@@ -1,18 +1,11 @@
 #pragma once
 #include "FlipbookActor.h"
 #include "Skill.h"
-#include "Slash.h"
-#include "Iceburst.h"
-#include "Lightning.h"
-#include "Suriken.h"
-#include "ForceField.h"
 
 class Flipbook;
 class Sprite;
 class Actor;
 class SelectSkillPanel;
-
-
 
 enum class PlayerState
 {
@@ -66,18 +59,8 @@ public:
 	void TakeEXP(int32 exp);
 	void LevelUP();
 	void SkillLevelUP(SkillID id, SelectSkillPanel* panel);
-	void RandomSkill();
-	void GenerateSkillButton(SkillID id, Vec2 pos, SelectSkillPanel* panel);
-
-
-	template <typename Ty>
-	void CreateSkill()
-	{
-		unique_ptr<Ty> skill = make_unique<Ty>();
-		skill->SetOwner(this);
-		skill->Init();
-		AddSkill(::move(skill));
-	}
+	pair<int32, int32> RandomSkill();
+	void GenerateSkillButton(int32 id, Vec2 pos, SelectSkillPanel* panel);
 
 	float GetHPRate() { return _stat.HP / _stat.MaxHP; }
 	float GetEXPRate() { return (float)_exp / (float)_maxExp; }
@@ -116,14 +99,5 @@ private:
 	vector<unique_ptr<Skill>> _skills;
 	vector<pair<SkillID, int32>> _skillIDnLevel;
 	vector<wstring> _skillNames = { L"slash", L"iceburst", L"lightning", L"suriken", L"forcefiled" };
-
-
-	std::array<std::function<void(void)>, SkillID::ID_Count> SkillBuilder = {
-		[this]() { CreateSkill<Slash>(); },
-		[this]() { CreateSkill<Iceburst>(); },
-		[this]() { CreateSkill<Lightning>(); },
-		[this]() { CreateSkill<Suriken>(); },
-		[this]() { CreateSkill<ForceField>(); },
-	};
 };
 

@@ -16,11 +16,11 @@
 #include "Monster.h"
 #include "Slash.h"
 #include "Skill.h"
-//#include "Iceburst.h"
-//#include "GravityCannon.h"
-//#include "ForceField.h"
-//#include "Lightning.h"
-//#include "Suriken.h"
+#include "Iceburst.h"
+#include "GravityCannon.h"
+#include "ForceField.h"
+#include "Lightning.h"
+#include "Suriken.h"
 #include "Experience.h"
 #include "SelectSkillPanel.h"
 #include "Button.h"
@@ -81,11 +81,6 @@ Player::Player()
 	slash->SetOwner(this);
 	slash->Init();
 	AddSkill(::move(slash));
-
-	//unique_ptr<Iceburst> iceburst = make_unique<Iceburst>();
-	//iceburst->SetOwner(this);
-	//iceburst->Init();
-	//AddSkill(::move(iceburst));
 }
 
 Player::~Player()
@@ -221,10 +216,6 @@ void Player::UpdateAnimation()
 		_animationTime += TimeManager::GetInstance()->GetDeltaTime();
 		if (_animationTime >= GetFlipbookDuration())
 		{
-			if (_state == PlayerState::Attack)
-			{
-				int a = 0;
-			}
 			OnAnimationFinished();
 		}
 	}
@@ -298,10 +289,15 @@ void Player::LevelUP()
 	//TODO
 	_level++;
 	TimeManager::GetInstance()->SetTimeScale(0.f);
-	RandomSkill();
+
+	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	unique_ptr<SelectSkillPanel> ssp = make_unique<SelectSkillPanel>();
+	ssp->Init();
+
+	scene->AddUI(::move(ssp));
 }
 
-void Player::RandomSkill()
+pair<int32, int32> Player::RandomSkill()
 {
 	int32 possibleSkills = (1 << 5) - 1;
 	int32 selectedSkills = 0;
@@ -341,55 +337,14 @@ void Player::RandomSkill()
 		}
 	}
 
-	int32 buttonCnt = 0;
-	vector<Vec2> pos = { {245, 360}, {480, 360}, {715, 360} };
-
-	unique_ptr<SelectSkillPanel> ssp = make_unique<SelectSkillPanel>();
-	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-
-	for (int32 i = 0; i < 5; i++)
-	{
-		if (selectedSkills & (1 << i))
-		{
-			GenerateSkillButton(static_cast<SkillID>(i), pos[buttonCnt], ssp.get());
-			buttonCnt++;
-		}
-	}
-	scene->AddUI(::move(ssp));
+	return make_pair(selectedSkills, count);
 }
 
-void Player::GenerateSkillButton(SkillID id, Vec2 pos, SelectSkillPanel* panel)
-{
-	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-	Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"SelectSkillButton");
-	unique_ptr<Button> button = make_unique<Button>();
-	button->SetSprite(sprite, BS_Default);
-	button->SetSprite(sprite, BS_Clicked);
-	button->SetSprite(sprite, BS_Pressed);
-	button->SetPos({ pos.x, pos.y });
-	button->SetSize(sprite->GetSize());
-	button->SetText(_skillNames[id]);
-	button->AddOnClickDelegate(this, &Player::SkillLevelUP, id, panel);
-	button->Init();
 
-	panel->AddChild(::move(button));
-
-		//scene->AddUI(::move(panel));
-}
 
 void Player::SkillLevelUP(SkillID id, SelectSkillPanel* panel)
 {
 	bool flag = false;
-	//for (auto& skill : _skills)
-	//{
-	//	if (skill->GetSkillID() == id)
-	//	{
-	//		skill->SkillLevelUP();
-	//		
-	//		flag = true;
-	//		break;
-	//	}
-	//}
 	for (int32 i = 0; i < _skills.size(); i++)
 	{
 		if (_skills[i]->GetSkillID() == id)
@@ -404,12 +359,51 @@ void Player::SkillLevelUP(SkillID id, SelectSkillPanel* panel)
 
 	if (!flag)
 	{
-		SkillBuilder[id]();
+		switch (id)
+		{
+		case 0:
+		{
+			unique_ptr<Slash> slash = make_unique<Slash>();
+			slash->SetOwner(this);
+			slash->Init();
+			AddSkill(::move(slash));
+		}
+			break;
+		case 1:
+		{
+			unique_ptr<Iceburst> iceburst = make_unique<Iceburst>();
+			iceburst->SetOwner(this);
+			iceburst->Init();
+			AddSkill(::move(iceburst));
+		}
+			break;
+		case 2:
+		{
+			unique_ptr<Lightning> lightning = make_unique<Lightning>();
+			lightning->SetOwner(this);
+			lightning->Init();
+			AddSkill(::move(lightning));
+		}
+			break;
+		case 3:
+		{
+			unique_ptr<Suriken> suriken = make_unique<Suriken>();
+			suriken->SetOwner(this);
+			suriken->Init();
+			AddSkill(::move(suriken));
+		}
+			break;
+		case 4:
+		{
+			unique_ptr<ForceField> forcefield = make_unique<ForceField>();
+			forcefield->SetOwner(this);
+			forcefield->Init();
+			AddSkill(::move(forcefield));
+		}
+			break;
+		}
 	}
 	panel->SetFinished();
-	//GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-	//panel->RemoveAllChild();
-	//scene->RemoveUI(panel);
 
 	TimeManager::GetInstance()->SetTimeScale(1.f);
 }

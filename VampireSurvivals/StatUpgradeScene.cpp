@@ -8,13 +8,13 @@
 
 StatUpgradeScene::StatUpgradeScene()
 {
-	ResourceManager::GetInstance()->LoadTexture(L"Stat-Upgrade", L"UI\\Stat-Upgrade.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"Stat-Upgrade", L"UI\\Stat-Upgrade02.bmp");
 
 	{
 		Sprite* sprite = ResourceManager::GetInstance()->CreateSprite(L"Stat-Upgrade", ResourceManager::GetInstance()->GetTexture(L"Stat-Upgrade"));
 		unique_ptr<UI> background = make_unique<UI>();
 		background->SetSprite(sprite);
-		background->SetPos(Vec2(sprite->GetSize().x, sprite->GetSize().y));
+		background->SetPos({0,0});
 
 		AddUI(::move(background));
 	}

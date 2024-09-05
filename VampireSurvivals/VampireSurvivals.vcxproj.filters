@@ -251,6 +251,9 @@
     <ClInclude Include="Status.h">
       <Filter>소스 파일\06. UI\Contents</Filter>
     </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>소스 파일\02. Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="VampireSurvivals.rc">
@@ -430,6 +433,9 @@
     </ClCompile>
     <ClCompile Include="Status.cpp">
       <Filter>소스 파일\06. UI\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>소스 파일\02. Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
