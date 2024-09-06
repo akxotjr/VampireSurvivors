@@ -11,6 +11,7 @@ class Flipbook;
 class Sprite;
 class Actor;
 class SelectSkillPanel;
+class CameraComponent;
 
 enum class PlayerState
 {
@@ -107,9 +108,6 @@ private:
 		[this]() { CreateSkill<ForceField>(); },
 	};
 
-
-
-
 	Stat		_stat = {};
 
 	Flipbook*	_flipbookIdle[Dir::DIR_COUNT] = {};	
@@ -117,8 +115,6 @@ private:
 	Flipbook*	_flipbookMove[Dir::DIR_COUNT] = {};
 	Flipbook*	_flipbookHurt[Dir::DIR_COUNT] = {};
 	Flipbook*	_flipbookDeath[Dir::DIR_COUNT] = {};
-
-
 
 	vector<unique_ptr<Skill>> _skills;
 	vector<pair<SkillID, int32>> _skillIDnLevel;

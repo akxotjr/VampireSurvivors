@@ -39,17 +39,31 @@ void Iceburst::Use(float deltaTime)
 	if (_sumTime >= _coolTime)
 	{
 		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-		//const vector<Actor*>& monsters = scene->GetMonsters();
+		const vector<unique_ptr<Actor>>& monsters = scene->GetMonsters();
 
-		Vec2 pos;
-		//if (monsters.empty())
-		//{
-			pos = { 300,300 };
-		//}
-		//else
-		//{
-		//	pos = monsters.front()->GetPos() + Vec2(0, -16);
-		//}
+		Vec2 pos = {};
+		if (monsters.empty())
+		{
+			return;
+		}
+		else
+		{
+			Vec2 playerPos = GetOwner()->GetPos();
+			float minDist = 99999.f;
+			for (auto& monster : monsters)
+			{
+				Vec2 monsterPos = monster.get()->GetPos();
+
+				Vec2 dist = playerPos - monsterPos;
+				if (minDist > dist.Length())
+				{
+					minDist = dist.Length();
+					pos = monsterPos;
+				}
+			}
+
+			pos += Vec2(0, -16);
+		}
 
 		unique_ptr<FlipbookActor> iceburst = make_unique<FlipbookActor>();
 		iceburst->SetFlipbook(_flipbook);

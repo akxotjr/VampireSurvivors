@@ -14,13 +14,6 @@
 #include "BoxCollider.h"
 #include "SphereCollider.h"
 #include "Monster.h"
-//#include "Slash.h"
-//#include "Skill.h"
-//#include "Iceburst.h"
-//#include "GravityCannon.h"
-//#include "ForceField.h"
-//#include "Lightning.h"
-//#include "Suriken.h"
 #include "Experience.h"
 #include "SelectSkillPanel.h"
 #include "Button.h"
@@ -61,6 +54,7 @@ Player::Player()
 
 	unique_ptr<CameraComponent> camera = make_unique<CameraComponent>();
 	camera->SetOwner(this);
+	//_cmr = camera.get();
 	AddComponent(::move(camera));
 
 	unique_ptr<SphereCollider> collider = make_unique<SphereCollider>();
@@ -128,6 +122,7 @@ void Player::Update()
 	UpdateAnimation();
 
 	UpdateSkill();
+	//_cmr->Update();
 }
 
 void Player::Render(HDC hdc)
@@ -148,7 +143,6 @@ void Player::SetState(PlayerState state)
 	if (!_isAnimationPlaying)
 	{
 		_state = state;
-		UpdateAnimation();
 	}
 }
 
@@ -328,7 +322,7 @@ pair<int32, int32> Player::RandomSkill()
 
 	int32 count = 0; 
 	
-	while (count < 3)
+	while (count < 3 && possibleSkills > 0)
 	{
 		int32 i = dist(gen);
 

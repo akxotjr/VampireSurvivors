@@ -97,6 +97,8 @@ void Scene::RemoveUI(UI* ui)
 		_uis.end());
 }
 
+// todo 
+// gamescene으로 이동
 Vec2 Scene::GetPlayerPos()
 {
 	if (_actors[LAYER_PLAYER].empty())

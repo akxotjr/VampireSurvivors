@@ -18,8 +18,6 @@ enum class MonsterGrade
 	Boss
 };
 
-
-
 struct MonsterInfo
 {
 	MonsterID id = MonsterID::ID_None;
@@ -58,11 +56,11 @@ public:
 
 	int32 GetDamage()
 	{
-		return _stat.AttackPower;
+		return _info.stat.AttackPower;
 	}
 
-	void SetGrade(MonsterGrade grade) { _grade = grade; }
-	MonsterGrade GetGrade() { return _grade; }
+	void SetGrade(MonsterGrade grade) { _info.grade = grade; }
+	MonsterGrade GetGrade() { return _info.grade; }
 
 	void SetOnAttackAnimationFinishedCallback(::function<void()> callback)
 	{
@@ -75,7 +73,7 @@ public:
 
 protected:
 	MonsterState	_state = MonsterState::Idle;
-	MonsterGrade	_grade = MonsterGrade::Normal;
+	//MonsterGrade	_grade = MonsterGrade::Normal;
 	bool			_isAnimationPlaying = false;
 	float			_animationTime = 0.0f;
 
@@ -84,7 +82,7 @@ protected:
 	float			_coolTime = 2.f;
 	float			_sumTime = 0.f;
 
-	Stat			_stat;
+	//Stat			_stat;
 
 	MonsterInfo		_info = {};
 

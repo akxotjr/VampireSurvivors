@@ -14,19 +14,6 @@
 
 Monster::Monster()
 {
-	_stat = { 100, 100, 10 };
-
-	//unique_ptr<SphereCollider> collider = make_unique<SphereCollider>();
-	//collider->SetOwner(this);
-	//collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
-	//collider->ResetCollisionFlag();
-	//collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
-	//collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER_SKILL);
-	//collider->SetRadius(20);
-	////collider->SetShowDebug(true);
-
-	//CollisionManager::GetInstance()->AddCollider(collider.get());
-	//AddComponent(::move(collider));
 }
 
 Monster::~Monster()
@@ -151,16 +138,6 @@ void Monster::OnAnimationFinished()
 		exp->SetPos(_pos);
 		exp->SetEXP(30);
 
-		//unique_ptr<SphereCollider> collider = make_unique<SphereCollider>();
-		//collider->SetOwner(exp.get());
-		//collider->SetCollisionLayer(CLT_EXP);
-		//collider->ResetCollisionFlag();
-		//collider->AddCollisionFlagLayer(CLT_PLAYER);
-		//collider->SetRadius(10);
-
-		//CollisionManager::GetInstance()->AddCollider(collider.get());
-		//exp->AddComponent(::move(collider));
-
 		scene->AddActor(::move(exp));
 
 		scene->RemoveActor(this);
@@ -184,9 +161,9 @@ void Monster::OnComponentEndOverlap(Collider* collider, Collider* other)
 
 bool Monster::TakeDamage(float damage)
 {
-	_stat.HP -= damage;
+	_info.stat.HP -= damage;
 
-	if (_stat.HP > 0)
+	if (_info.stat.HP > 0)
 		return false;
 	return true;
 }

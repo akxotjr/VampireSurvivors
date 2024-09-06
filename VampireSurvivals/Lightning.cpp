@@ -38,17 +38,27 @@ void Lightning::Use(float deltaTime)
 	if (_sumTime >= _coolTime)
 	{
 		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-		//const vector<Actor*>& monsters = scene->GetMonsters();
+		const vector<unique_ptr<Actor>>& monsters = scene->GetMonsters();
 
 		Vec2 pos;
-		//if (monsters.empty())
-		//{
-		pos = { 300,300 };
-		//}
-		//else
-		//{
-		//	pos = monsters.front()->GetPos() + Vec2(0, -16);
-		//}
+		if (monsters.empty())
+		{
+			return;
+		}
+		else
+		{
+			float maxHP = 0.f;
+			for (auto& monster : monsters)
+			{
+				Vec2 monsterPos = monster.get()->GetPos();
+				float curHP = dynamic_cast<Monster*>(monster.get())->GetInfo().stat.HP;
+				if (maxHP > curHP)
+				{
+					maxHP = curHP;
+					pos = monsterPos;
+				}
+			}
+		}
 
 		unique_ptr<FlipbookActor> lightning = make_unique<FlipbookActor>();
 		lightning->SetFlipbook(_flipbook);

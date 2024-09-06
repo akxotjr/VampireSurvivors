@@ -41,6 +41,11 @@ public:
 		return dynamic_cast<Player*>(_actors[LAYER_PLAYER].front().get());
 	}
 
+	vector<unique_ptr<Actor>>& GetMonsters() 
+	{
+		return _actors[LAYER_MONSTER];
+	}
+
 protected:
 	float _sumTime = 0.f;
 	float _spawnCoolTime = 2.f;
