@@ -3,7 +3,6 @@
 
 struct Tile
 {
-	// TODO
 	int32 value = 0;
 };
 

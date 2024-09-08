@@ -77,3 +77,16 @@ HFONT ResourceManager::LoadFont(const wstring& key, const wstring& name, const w
 
 	return _fonts[key];
 }
+
+Tilemap* ResourceManager::LoadTilemap(const wstring& key, const wstring& path)
+{
+	if (_tilemaps.find(key) != _tilemaps.end()) return _tilemaps[key].get();
+
+	fs::path fullPath = _resourcePath / path;
+
+	unique_ptr<Tilemap> tilemap = make_unique<Tilemap>();
+	tilemap->LoadFile(fullPath);
+	_tilemaps[key] = ::move(tilemap);
+
+	return _tilemaps[key].get();
+}

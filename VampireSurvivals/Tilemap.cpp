@@ -15,7 +15,21 @@ Tilemap::~Tilemap()
 
 void Tilemap::LoadFile(const wstring& path)
 {
+	ifstream ifs(path);
+	string line;
+	
+	while (::getline(ifs, line))
+	{
+		vector<Tile> row;
+		stringstream ss(line);
+		string token;
 
+		while (::getline(ss, token, ','))
+		{
+			row.push_back((Tile)::stoi(token));
+		}
+		_tiles.push_back(row);
+	}
 }
 
 void Tilemap::SaveFile(const wstring& path)

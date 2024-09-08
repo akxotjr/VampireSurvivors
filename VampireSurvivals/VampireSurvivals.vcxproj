@@ -164,6 +164,7 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Lightning.h" />
     <ClInclude Include="LobbyScene.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Ogre.h" />
@@ -226,6 +227,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Lightning.cpp" />
     <ClCompile Include="LobbyScene.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Ogre.cpp" />

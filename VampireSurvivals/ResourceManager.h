@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "Sprite.h"
 #include "Flipbook.h"
+#include "Tilemap.h"
 // TODO : Sound
 
 class ResourceManager
@@ -37,6 +38,9 @@ public:
 	HFONT LoadFont(const wstring& key, const wstring& name, const wstring& path, int32 fontSize);
 	HFONT GetFont(const wstring& key) { return _fonts[key]; }
 
+	Tilemap* LoadTilemap(const wstring& key, const wstring& path);
+	Tilemap* GetTilemap(const wstring& key) { return _tilemaps[key].get(); }
+
 private:
 	ResourceManager() = default;
 
@@ -54,7 +58,7 @@ private:
 	unordered_map<wstring, unique_ptr<Texture>>		_textures;
 	unordered_map<wstring, unique_ptr<Sprite>>		_sprites;
 	unordered_map<wstring, unique_ptr<Flipbook>>	_flipbooks;
-	//unordered_map<wstring, unique_ptr<Tilemap>>		_tilemaps;
+	unordered_map<wstring, unique_ptr<Tilemap>>		_tilemaps;
 	unordered_map<wstring, HFONT>					_fonts;
 };
 

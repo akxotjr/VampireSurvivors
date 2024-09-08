@@ -10,11 +10,11 @@ TilemapActor::~TilemapActor()
 {
 }
 
-void TilemapActor::BeginPlay()
+void TilemapActor::Init()
 {
 }
 
-void TilemapActor::Tick()
+void TilemapActor::Update()
 {
 }
 

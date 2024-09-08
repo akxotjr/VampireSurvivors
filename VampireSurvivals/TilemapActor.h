@@ -3,8 +3,8 @@
 
 enum TILE_SIZE
 {
-	TILE_SIZEX = 32,
-	TILE_SIZEY = 32,
+	TILE_SIZEX = 16,
+	TILE_SIZEY = 16,
 };
 
 class Tilemap;
@@ -16,8 +16,8 @@ public:
 	TilemapActor();
 	virtual ~TilemapActor();
 
-	virtual void BeginPlay();
-	virtual void Tick();
+	virtual void Init();
+	virtual void Update();
 	virtual void Render(HDC hdc);
 
 protected:

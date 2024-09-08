@@ -24,6 +24,7 @@
 #include "Panel.h"
 #include "Status.h"
 #include "Button.h"
+#include "Map.h"
 
 GameScene::GameScene()
 {
@@ -1329,7 +1330,8 @@ void GameScene::Init()
 #pragma endregion
 #pragma region Background
 	ResourceManager::GetInstance()->LoadTexture(L"Tilemap03", L"Tilemap\\Tilemap03.bmp");
-
+	//ResourceManager::GetInstance()->LoadTexture(L"Tilemap01", L"Tilemap\\Tilemap01.bmp");
+	ResourceManager::GetInstance()->LoadTilemap(L"Tilemap01", L"Tilemap\\Tilemap01.txt");
 #pragma endregion
 #pragma region Font
 	ResourceManager::GetInstance()->LoadFont(L"DamageText20", L"m3x6", L"Font\\m3x6.ttf", 20);
@@ -1428,6 +1430,12 @@ void GameScene::Init()
 		bar->SetSprite(sprite);
 
 		AddUI(::move(bar));
+	}
+
+	//test
+	{
+		unique_ptr<Map> map = make_unique<Map>();
+		
 	}
 	Super::Init();
 }
