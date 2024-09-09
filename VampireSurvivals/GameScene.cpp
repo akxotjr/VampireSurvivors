@@ -1330,7 +1330,11 @@ void GameScene::Init()
 #pragma endregion
 #pragma region Background
 	ResourceManager::GetInstance()->LoadTexture(L"Tilemap03", L"Tilemap\\Tilemap03.bmp");
-	//ResourceManager::GetInstance()->LoadTexture(L"Tilemap01", L"Tilemap\\Tilemap01.bmp");
+
+	ResourceManager::GetInstance()->LoadTexture(L"Tilemap01", L"Tilemap\\Tilemap01.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"Tilemap01", ResourceManager::GetInstance()->GetTexture(L"Tilemap01"));
+
+
 	ResourceManager::GetInstance()->LoadTilemap(L"Tilemap01", L"Tilemap\\Tilemap01.txt");
 #pragma endregion
 #pragma region Font
@@ -1404,8 +1408,12 @@ void GameScene::Init()
 	}
 	{
 		// Background
-		unique_ptr<Background> background = make_unique<Background>();
-		AddActor(::move(background));
+		//unique_ptr<Background> background = make_unique<Background>();
+		//AddActor(::move(background));
+		Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"Tilemap01");
+		unique_ptr<Map> map = make_unique<Map>();
+		map->SetSprite(sprite);
+		AddActor(::move(map));
 	}
 	{
 		unique_ptr<Status> ingamestatus = make_unique<Status>();

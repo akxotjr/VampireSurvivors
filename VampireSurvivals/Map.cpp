@@ -18,12 +18,15 @@ Map::~Map()
 
 void Map::Init()
 {
+	Super::Init();
 }
 
 void Map::Update()
 {
+	Super::Update();
 }
 
 void Map::Render(HDC hdc)
 {
+	Super::Render(hdc);
 }
