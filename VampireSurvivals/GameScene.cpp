@@ -1403,7 +1403,7 @@ void GameScene::Init()
 
 	{
 		unique_ptr<Player> player = make_unique<Player>();
-		player->SetPos({ GWinSizeX / 2, GWinSizeY / 2 });
+		player->SetPos({ GWinSizeX, GWinSizeY });
 		AddActor(::move(player));
 	}
 	{
@@ -1440,11 +1440,7 @@ void GameScene::Init()
 		AddUI(::move(bar));
 	}
 
-	//test
-	{
-		unique_ptr<Map> map = make_unique<Map>();
-		
-	}
+	
 	Super::Init();
 }
 
