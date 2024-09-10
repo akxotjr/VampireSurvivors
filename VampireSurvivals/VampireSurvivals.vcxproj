@@ -151,6 +151,7 @@
     <ClInclude Include="Defines.h" />
     <ClInclude Include="DevScene.h" />
     <ClInclude Include="Enums.h" />
+    <ClInclude Include="EventManager.h" />
     <ClInclude Include="Experience.h" />
     <ClInclude Include="Flipbook.h" />
     <ClInclude Include="FlipbookActor.h" />
@@ -215,6 +216,7 @@
     <ClCompile Include="Cyclops.cpp" />
     <ClCompile Include="DamageText.cpp" />
     <ClCompile Include="DevScene.cpp" />
+    <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="Experience.cpp" />
     <ClCompile Include="Flipbook.cpp" />
     <ClCompile Include="FlipbookActor.cpp" />

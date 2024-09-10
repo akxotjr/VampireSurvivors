@@ -358,7 +358,10 @@ void Player::SkillLevelUP(SkillID id, SelectSkillPanel* panel)
 	{
 		SkillBuilder[id]();
 	}
-	panel->SetFinished();
+	EventManager::GetInstance()->AddEvent([panel]() {
+		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+		scene->RemoveUI(panel);
+		});
 
 	TimeManager::GetInstance()->SetTimeScale(1.f);
 }

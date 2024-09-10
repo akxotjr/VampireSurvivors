@@ -257,6 +257,9 @@
     <ClInclude Include="Map.h">
       <Filter>소스 파일\03. Object\Contents</Filter>
     </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>소스 파일\01. Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="VampireSurvivals.rc">
@@ -442,6 +445,9 @@
     </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>소스 파일\03. Object\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>소스 파일\01. Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "framework.h"
 #include "VampireSurvivors.h"
+#include "EventManager.h"
 
 #define MAX_LOADSTRING 100
 
@@ -50,10 +51,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         {
             uint64 now = ::GetTickCount64();
 
-           // if (now - prevTick >= 0.5f)
+            if (now - prevTick >= 1.f)
             {
                 game.Update();
                 game.Render();
+
+                EventManager::GetInstance()->Update();
 
                 prevTick = now;
             }

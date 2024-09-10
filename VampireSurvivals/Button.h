@@ -1,5 +1,6 @@
 #pragma once
 #include "UI.h"
+#include "EventManager.h"
 
 class Sprite;
 
@@ -48,7 +49,11 @@ public:
 	{
 		_onClick = [owner, func]()
 			{
-				(owner->*func)();
+				EventManager::GetInstance()->AddEvent([owner, func]()
+					{
+						// 실제 멤버 함수 호출
+						(owner->*func)();
+					});
 			};
 	}
 

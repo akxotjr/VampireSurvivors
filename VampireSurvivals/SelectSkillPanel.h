@@ -17,7 +17,6 @@ public:
 
 	void RemoveAllChild();
 
-	void SetFinished() { _finished = true; }
 	void SetButtonCnt(int32 count) { _buttonCount = count; }
 
 private:

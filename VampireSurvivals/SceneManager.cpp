@@ -34,7 +34,6 @@ void SceneManager::ChangeScene(SceneType sceneType)
 {
 	if (_sceneType == sceneType) return;
 
-	//Scene* newScene = nullptr;
 	unique_ptr<Scene> newScene = nullptr;
 
 	switch (sceneType)

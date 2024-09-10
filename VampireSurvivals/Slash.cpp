@@ -14,6 +14,7 @@
 #include "Player.h"
 #include "Monster.h"
 #include "DamageText.h"
+#include "EventManager.h"
 
 Slash::Slash()
 {
@@ -157,6 +158,10 @@ void Slash::Use(float deltaTime)
 				{
 					CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>(collider.get()));
 				}
+
+				//EventManager::GetInstance()->AddEvent([gamescene, it]() {
+				//	gamescene->RemoveActor(*it);
+				//	});
 
 				gamescene->RemoveActor(*it);
 				it = _skillObjects.erase(it);

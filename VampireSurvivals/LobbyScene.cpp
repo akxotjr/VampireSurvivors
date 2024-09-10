@@ -8,6 +8,7 @@
 #include "SpriteActor.h"
 #include "UI.h"
 #include "Button.h"
+#include "EventManager.h"
 
 
 LobbyScene::LobbyScene()
@@ -94,6 +95,8 @@ void LobbyScene::Render(HDC hdc)
 
 void LobbyScene::GotoStatUpgradeScene()
 {
+	//EventManager::GetInstance()->AddEvent(SceneManager::GetInstance()->ChangeScene(SceneType::StatUpgradeScene));
+
 	SceneManager::GetInstance()->ChangeScene(SceneType::StatUpgradeScene);
 }
 

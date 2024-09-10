@@ -12,8 +12,6 @@ public:
 	virtual void Update() {}
 	virtual void Render(HDC hdc) {}
 
-	//weak_ptr<Actor> GetOwner() { return _owner; }
-	//void SetOwner(weak_ptr<Actor> owner) { _owner = owner; }
 	void SetOwner(Actor* owner) { _owner = owner; }
 	Actor* GetOwner() { return _owner; }
 
@@ -22,7 +20,6 @@ public:
 
 protected:
 	COMPONENT_TYPE _type;
-	//weak_ptr<Actor> _owner;
 	Actor* _owner;
 };
 
