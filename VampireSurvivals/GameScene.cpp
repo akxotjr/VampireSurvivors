@@ -1554,4 +1554,14 @@ void GameScene::HandleWave()
 	}
 }
 
+bool GameScene::CanGo(Vec2 pos)
+{
+	Map* mp = dynamic_cast<Map*>(_actors[LAYER_BACKGROUND].front().get());
+	if (mp == nullptr) return false;
+	Vec2Int nextPos = mp->WrapPos(mp->ConvertTilePos({ (int)pos.x, (int)pos.y }));
+
+	if (mp->GetTilemap()->GetTileAt(nextPos) == 0) return true;
+	else return false;
+}
+
 

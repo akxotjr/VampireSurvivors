@@ -16,9 +16,9 @@ public:
 	virtual void Render(HDC hdc) override;
 
 	Vec2Int WrapPos(Vec2Int pos);
-	void DrawTile(Vec2Int pos);
-
 	Vec2Int ConvertTilePos(Vec2Int pos);
+
+	Tilemap* GetTilemap() { return _tilemap; }
 
 protected:
 	Tilemap*	_tilemap = nullptr;

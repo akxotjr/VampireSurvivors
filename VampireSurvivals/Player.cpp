@@ -116,8 +116,16 @@ void Player::Update()
 	}
 	else
 	{
-		SetState(PlayerState::Move);
-		_pos += dir * _speed;
+		//SetState(PlayerState::Move);
+		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+
+		Vec2 nextPos = dir * _speed;
+		if (scene->CanGo(nextPos))
+		{
+			_pos += nextPos;
+			SetState(PlayerState::Move);
+		}
+		//_pos += dir * _speed;
 	}
 	UpdateAnimation();
 

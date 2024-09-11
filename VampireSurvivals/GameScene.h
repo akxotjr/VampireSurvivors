@@ -46,6 +46,8 @@ public:
 		return _actors[LAYER_MONSTER];
 	}
 
+	bool CanGo(Vec2 pos);
+
 protected:
 	float _sumTime = 0.f;
 	float _spawnCoolTime = 2.f;
