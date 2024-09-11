@@ -20,13 +20,20 @@ public:
 
 	Tilemap* GetTilemap() { return _tilemap; }
 
+	void DrawTile(HDC hdc, Vec2Int screenPos, Vec2Int pos);
+
+	Vec2 GetOffset() { return _offset; }
+	Vec2Int GetPlaneOffset(Vec2 pos);
+
 protected:
 	Tilemap*	_tilemap = nullptr;
 	//Sprite*		_sprite = nullptr;
 	int32		_tileSize = 16;
 	Vec2Int		_mapTileSize = {};
-	Vec2Int		_viewTileSize = {};
+	Vec2Int		_screenTileSize = {};
 
 	Vec2Int		_startTilePos = {};
+
+	Vec2		_offset = {};
 };
 

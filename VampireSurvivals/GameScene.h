@@ -46,7 +46,7 @@ public:
 		return _actors[LAYER_MONSTER];
 	}
 
-	bool CanGo(Vec2 playerPos, Vec2 dir);
+	bool CanGo(Vec2 dir);
 
 protected:
 	float _sumTime = 0.f;

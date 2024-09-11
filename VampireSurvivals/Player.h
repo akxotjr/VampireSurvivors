@@ -100,6 +100,9 @@ private:
 	int32		_maxExp = 50;
 	int32		_level = 1;
 
+
+	CameraComponent* _cmr;
+
 	std::array<std::function<void(void)>, static_cast<size_t>(SkillID::ID_Count)> SkillBuilder = {
 		[this]() { CreateSkill<Slash>(); },
 		[this]() { CreateSkill<Iceburst>(); },

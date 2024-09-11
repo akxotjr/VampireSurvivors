@@ -54,7 +54,7 @@ Player::Player()
 
 	unique_ptr<CameraComponent> camera = make_unique<CameraComponent>();
 	camera->SetOwner(this);
-	//_cmr = camera.get();
+	_cmr = camera.get();
 	AddComponent(::move(camera));
 
 	unique_ptr<SphereCollider> collider = make_unique<SphereCollider>();
@@ -116,31 +116,29 @@ void Player::Update()
 	}
 	else
 	{
-		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-
-		if (scene->CanGo(_pos, dir))
-		{
-			_pos += dir * _speed;
-			SetState(PlayerState::Move);
-		}
+		_pos += dir * _speed;
+		SetState(PlayerState::Move);
 	}
 	UpdateAnimation();
 
 	UpdateSkill();
-	//_cmr->Update();
+	_cmr->Update();
 }
 
 void Player::Render(HDC hdc)
 {
+
+
 	Super::Render(hdc);
 	Utils::DrawHP(hdc, Vec2(480, 340), 30, 5, _stat.HP / _stat.MaxHP);
+	Utils::DrawRect(hdc, { 480, 360 }, 16, 16);
+	//Vec2 pos = { 10, 50 };
+	//for (auto& skill : _skills)
+	//{
+	//	TextOut(hdc, pos.x, pos.y, _skillNames[skill->GetSkillID()].c_str(), _skillNames[skill->GetSkillID()].length());
+	//	pos.y += 15;
+	//}
 
-	Vec2 pos = { 10, 50 };
-	for (auto& skill : _skills)
-	{
-		TextOut(hdc, pos.x, pos.y, _skillNames[skill->GetSkillID()].c_str(), _skillNames[skill->GetSkillID()].length());
-		pos.y += 15;
-	}
 }
 
 void Player::SetState(PlayerState state)
@@ -177,11 +175,13 @@ Vec2 Player::UpdateDir()
 		_dir = Dir::DIR_LEFT;
 	}
 
-	dir.Normalize();
-
-
-
-	return dir;
+	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	if (scene->CanGo(dir))
+	{
+		dir.Normalize();
+		return dir;
+	}
+	return { 0,0 };
 }
 
 void Player::UpdateAnimation()

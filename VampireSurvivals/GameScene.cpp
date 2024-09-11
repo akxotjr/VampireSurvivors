@@ -1404,7 +1404,7 @@ void GameScene::Init()
 
 	{
 		unique_ptr<Player> player = make_unique<Player>();
-		player->SetPos({ GWinSizeX, GWinSizeY });
+		player->SetPos({ GWinSizeX, GWinSizeY - 8 });
 		AddActor(::move(player));
 	}
 	{
@@ -1414,6 +1414,7 @@ void GameScene::Init()
 		Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"Tilemap01");
 		unique_ptr<Map> map = make_unique<Map>();
 		map->SetSprite(sprite);
+		map->SetLayer(LAYER_BACKGROUND);
 		AddActor(::move(map));
 	}
 	{
@@ -1555,44 +1556,62 @@ void GameScene::HandleWave()
 	}
 }
 
-bool GameScene::CanGo(Vec2 playerPos, Vec2 dir)
+bool GameScene::CanGo(Vec2 dir)
 {
 	Map* mp = dynamic_cast<Map*>(_actors[LAYER_BACKGROUND].front().get());
 	if (mp == nullptr) return false;
 
+	const Vec2 offset = mp->GetOffset();
 	const int32 tileSize = mp->GetTilemap()->GetTileSize();
-	Vec2Int nextPos = mp->WrapPos(mp->ConvertTilePos({ (int)playerPos.x + (int)(dir.x * tileSize), (int)playerPos.y + (int)(dir.y * tileSize) }));
 
-	// 대각선 이동일 경우 양쪽 좌표를 확인
-	if (dir.x != 0 && dir.y != 0)
+	const Vec2 playerPos = GetPlayerPos();
+	Vec2Int planeOffset;
+	if (playerPos.x < 0)
 	{
-		Vec2Int nextPosX = mp->WrapPos(mp->ConvertTilePos({ (int)playerPos.x + (int)(dir.x * tileSize), (int)playerPos.y }));
-		Vec2Int nextPosY = mp->WrapPos(mp->ConvertTilePos({ (int)playerPos.x, (int)playerPos.y + (int)(dir.y * tileSize) }));
-
-		// 둘 중 하나라도 충돌하면 이동 불가
-		if (mp->GetTilemap()->GetTileAt(nextPosX)->value != 0 || mp->GetTilemap()->GetTileAt(nextPosY)->value != 0)
-			return false;
+		planeOffset.x = 1;
 	}
+	if (playerPos.y < 0)
+		planeOffset.y = 1;
+
+	
+	//Vec2Int planeOffset = mp->GetPlaneOffset(playerPos);
+	Vec2Int playerTilePos = mp->ConvertTilePos({ (int)(playerPos.x), (int)(playerPos.y)});
+
+	Vec2Int nextPos = mp->WrapPos(playerTilePos + Vec2Int((int)dir.x, (int)dir.y) - planeOffset);
+
+
+	//Vec2Int nextPos = mp->WrapPos(mp->ConvertTilePos({ (int)(playerPos.x + dir.x * tileSize - offset.x), (int)(playerPos.y + dir.y * tileSize - offset.y)}));
+
+	//// 대각선 이동일 경우 양쪽 좌표를 확인
+	//if (dir.x != 0 && dir.y != 0)
+	//{
+	//	Vec2Int nextPosX = mp->WrapPos(mp->ConvertTilePos({ (int)playerPos.x + (int)(dir.x * tileSize), (int)playerPos.y }));
+	//	Vec2Int nextPosY = mp->WrapPos(mp->ConvertTilePos({ (int)playerPos.x, (int)playerPos.y + (int)(dir.y * tileSize) }));
+
+	//	// 둘 중 하나라도 충돌하면 이동 불가
+	//	if (mp->GetTilemap()->GetTileAt(nextPosX)->value != 0 || mp->GetTilemap()->GetTileAt(nextPosY)->value != 0)
+	//		return false;
+	//}
 
 	// 직선 이동 시, 플레이어 크기를 고려하여 양쪽 방향 타일도 체크
-	if (dir.x == 0)  // 위/아래로 이동
-	{
-		Vec2Int nextLeft = mp->WrapPos(mp->ConvertTilePos({ (int)playerPos.x - (int)(tileSize / 2), (int)playerPos.y + (int)(dir.y * tileSize) }));
-		Vec2Int nextRight = mp->WrapPos(mp->ConvertTilePos({ (int)playerPos.x + (int)(tileSize / 2), (int)playerPos.y + (int)(dir.y * tileSize) }));
+	//if (dir.x == 0)  // 위/아래로 이동
+	//{
+	//	Vec2Int nextLeft = mp->WrapPos(mp->ConvertTilePos({ (int)playerPos.x - (int)dir.x * tileSize / 2, (int)playerPos.y + (int)dir.x * tileSize }));
+	//	Vec2Int nextRight = mp->WrapPos(mp->ConvertTilePos({ (int)playerPos.x + (int)dir.x * tileSize / 2, (int)playerPos.y + (int)dir.x * tileSize }));
 
-		if (mp->GetTilemap()->GetTileAt(nextLeft)->value != 0 || mp->GetTilemap()->GetTileAt(nextRight)->value != 0)
-			return false;
-	}
-	else if (dir.y == 0)  // 좌/우로 이동
-	{
-		Vec2Int nextUp = mp->WrapPos(mp->ConvertTilePos({ (int)playerPos.x + (int)(dir.x * tileSize), (int)playerPos.y - (int)(tileSize / 2) }));
-		Vec2Int nextDown = mp->WrapPos(mp->ConvertTilePos({ (int)playerPos.x + (int)(dir.x * tileSize), (int)playerPos.y + (int)(tileSize / 2) }));
+	//	if (mp->GetTilemap()->GetTileAt(nextLeft)->value != 0 || mp->GetTilemap()->GetTileAt(nextRight)->value != 0)
+	//		return false;
+	//}
+	//else if (dir.y == 0)  // 좌/우로 이동
+	//{
+	//	Vec2Int nextUp = mp->WrapPos(mp->ConvertTilePos({ (int)playerPos.x + (int)dir.x * tileSize, (int)playerPos.y - (int)dir.x * tileSize / 2 }));
+	//	Vec2Int nextDown = mp->WrapPos(mp->ConvertTilePos({ (int)playerPos.x + (int)dir.x * tileSize, (int)playerPos.y + (int)dir.x * tileSize / 2 }));
 
-		if (mp->GetTilemap()->GetTileAt(nextUp)->value != 0 || mp->GetTilemap()->GetTileAt(nextDown)->value != 0)
-			return false;
-	}
+	//	if (mp->GetTilemap()->GetTileAt(nextUp)->value != 0 || mp->GetTilemap()->GetTileAt(nextDown)->value != 0)
+	//		return false;
+	//}
 
-	// 원래 타일 충돌 체크
+	//// 원래 타일 충돌 체크
 	if (mp->GetTilemap()->GetTileAt(nextPos)->value == 0)
 		return true;
 
