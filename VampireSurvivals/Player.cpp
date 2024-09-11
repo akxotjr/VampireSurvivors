@@ -116,16 +116,13 @@ void Player::Update()
 	}
 	else
 	{
-		//SetState(PlayerState::Move);
 		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 
-		Vec2 nextPos = dir * _speed;
-		if (scene->CanGo(nextPos))
+		if (scene->CanGo(_pos, dir))
 		{
-			_pos += nextPos;
+			_pos += dir * _speed;
 			SetState(PlayerState::Move);
 		}
-		//_pos += dir * _speed;
 	}
 	UpdateAnimation();
 
@@ -181,6 +178,9 @@ Vec2 Player::UpdateDir()
 	}
 
 	dir.Normalize();
+
+
+
 	return dir;
 }
 

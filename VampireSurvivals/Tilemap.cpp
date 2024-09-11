@@ -17,6 +17,11 @@ void Tilemap::LoadFile(const wstring& path)
 {
 	ifstream ifs(path);
 	string line;
+
+	//ifs >> _mapSize.x >> _mapSize.y;
+	//SetMapSize(_mapSize);
+	_mapSize = { 120, 90 };
+	
 	
 	while (::getline(ifs, line))
 	{
@@ -26,10 +31,13 @@ void Tilemap::LoadFile(const wstring& path)
 
 		while (::getline(ss, token, ','))
 		{
-			row.push_back((Tile)::stoi(token));
+			/*Tile tile(::stoi(token));*/
+			row.push_back(Tile{::stoi(token)});
 		}
 		_tiles.push_back(row);
 	}
+
+
 }
 
 void Tilemap::SaveFile(const wstring& path)

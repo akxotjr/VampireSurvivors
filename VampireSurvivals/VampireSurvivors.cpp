@@ -51,7 +51,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         {
             uint64 now = ::GetTickCount64();
 
-            if (now - prevTick >= 1.f)
+            /*if (now - prevTick >= 1.f)*/
             {
                 game.Update();
                 game.Render();

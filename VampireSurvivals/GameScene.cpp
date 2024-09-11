@@ -25,6 +25,7 @@
 #include "Status.h"
 #include "Button.h"
 #include "Map.h"
+#include "Tilemap.h"
 
 GameScene::GameScene()
 {
@@ -1448,7 +1449,7 @@ void GameScene::Update()
 {
 	Super::Update();
 
-	HandleWave();
+	//HandleWave();
 
 	CollisionManager::GetInstance()->Update();
 }
@@ -1554,14 +1555,50 @@ void GameScene::HandleWave()
 	}
 }
 
-bool GameScene::CanGo(Vec2 pos)
+bool GameScene::CanGo(Vec2 playerPos, Vec2 dir)
 {
 	Map* mp = dynamic_cast<Map*>(_actors[LAYER_BACKGROUND].front().get());
 	if (mp == nullptr) return false;
-	Vec2Int nextPos = mp->WrapPos(mp->ConvertTilePos({ (int)pos.x, (int)pos.y }));
 
-	if (mp->GetTilemap()->GetTileAt(nextPos) == 0) return true;
-	else return false;
+	const int32 tileSize = mp->GetTilemap()->GetTileSize();
+	Vec2Int nextPos = mp->WrapPos(mp->ConvertTilePos({ (int)playerPos.x + (int)(dir.x * tileSize), (int)playerPos.y + (int)(dir.y * tileSize) }));
+
+	// 대각선 이동일 경우 양쪽 좌표를 확인
+	if (dir.x != 0 && dir.y != 0)
+	{
+		Vec2Int nextPosX = mp->WrapPos(mp->ConvertTilePos({ (int)playerPos.x + (int)(dir.x * tileSize), (int)playerPos.y }));
+		Vec2Int nextPosY = mp->WrapPos(mp->ConvertTilePos({ (int)playerPos.x, (int)playerPos.y + (int)(dir.y * tileSize) }));
+
+		// 둘 중 하나라도 충돌하면 이동 불가
+		if (mp->GetTilemap()->GetTileAt(nextPosX)->value != 0 || mp->GetTilemap()->GetTileAt(nextPosY)->value != 0)
+			return false;
+	}
+
+	// 직선 이동 시, 플레이어 크기를 고려하여 양쪽 방향 타일도 체크
+	if (dir.x == 0)  // 위/아래로 이동
+	{
+		Vec2Int nextLeft = mp->WrapPos(mp->ConvertTilePos({ (int)playerPos.x - (int)(tileSize / 2), (int)playerPos.y + (int)(dir.y * tileSize) }));
+		Vec2Int nextRight = mp->WrapPos(mp->ConvertTilePos({ (int)playerPos.x + (int)(tileSize / 2), (int)playerPos.y + (int)(dir.y * tileSize) }));
+
+		if (mp->GetTilemap()->GetTileAt(nextLeft)->value != 0 || mp->GetTilemap()->GetTileAt(nextRight)->value != 0)
+			return false;
+	}
+	else if (dir.y == 0)  // 좌/우로 이동
+	{
+		Vec2Int nextUp = mp->WrapPos(mp->ConvertTilePos({ (int)playerPos.x + (int)(dir.x * tileSize), (int)playerPos.y - (int)(tileSize / 2) }));
+		Vec2Int nextDown = mp->WrapPos(mp->ConvertTilePos({ (int)playerPos.x + (int)(dir.x * tileSize), (int)playerPos.y + (int)(tileSize / 2) }));
+
+		if (mp->GetTilemap()->GetTileAt(nextUp)->value != 0 || mp->GetTilemap()->GetTileAt(nextDown)->value != 0)
+			return false;
+	}
+
+	// 원래 타일 충돌 체크
+	if (mp->GetTilemap()->GetTileAt(nextPos)->value == 0)
+		return true;
+
+	return false;
 }
+
+
 
 
