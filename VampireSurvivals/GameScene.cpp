@@ -1409,8 +1409,6 @@ void GameScene::Init()
 	}
 	{
 		// Background
-		//unique_ptr<Background> background = make_unique<Background>();
-		//AddActor(::move(background));
 		Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"Tilemap01");
 		unique_ptr<Map> map = make_unique<Map>();
 		map->SetSprite(sprite);
