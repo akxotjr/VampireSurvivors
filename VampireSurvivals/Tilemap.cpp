@@ -5,23 +5,16 @@
 
 Tilemap::Tilemap()
 {
-
 }
 
 Tilemap::~Tilemap()
 {
-
 }
 
 void Tilemap::LoadFile(const wstring& path)
 {
 	ifstream ifs(path);
 	string line;
-
-	//ifs >> _mapSize.x >> _mapSize.y;
-	//SetMapSize(_mapSize);
-	_mapSize = { 120, 90 };
-	
 	
 	while (::getline(ifs, line))
 	{
@@ -31,13 +24,13 @@ void Tilemap::LoadFile(const wstring& path)
 
 		while (::getline(ss, token, ','))
 		{
-			/*Tile tile(::stoi(token));*/
 			row.push_back(Tile{::stoi(token)});
 		}
 		_tiles.push_back(row);
 	}
 
-
+	_mapSize.x = _tiles[0].size();
+	_mapSize.y = _tiles.size();
 }
 
 void Tilemap::SaveFile(const wstring& path)
@@ -66,9 +59,4 @@ void Tilemap::SetMapSize(Vec2Int size)
 			_tiles[y][x] = Tile{ 0 };
 		}
 	}
-}
-
-void Tilemap::SetTileSize(int32 size)
-{
-	_tileSize = size;
 }

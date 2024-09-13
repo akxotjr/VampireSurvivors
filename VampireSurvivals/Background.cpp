@@ -6,8 +6,6 @@
 
 Background::Background()
 {
-
-	
 }
 
 Background::~Background()
@@ -19,11 +17,11 @@ void Background::Init()
 	Super::Init();
 	SetLayer(LAYER_TYPE::LAYER_BACKGROUND);
 
-	Sprite* sprite = ResourceManager::GetInstance()->CreateSprite(L"Tilemap03", ResourceManager::GetInstance()->GetTexture(L"Tilemap03"));
-	SetSprite(sprite);
-
-	const Vec2Int& size = sprite->GetSize();
+	if (_sprite == nullptr) return;
+	const Vec2Int& size = _sprite->GetSize();
 	SetPos(Vec2(size.x / 2, size.y / 2));
+
+	_mapTileSize = ConvertTilePos(size);
 }
 
 void Background::Update()
@@ -33,24 +31,30 @@ void Background::Update()
 
 void Background::Render(HDC hdc)
 {
-    Vec2 cameraPos = SceneManager::GetInstance()->GetCameraPos();
-    const Vec2Int& size = _sprite->GetSize();
+	Super::Render(hdc);
+}
 
-    float startX = -fmod(cameraPos.x, size.x);
-    float startY = -fmod(cameraPos.y, size.y);
-
-    int tilesX = (GWinSizeX / size.x) + 2;
-    int tilesY = (GWinSizeY / size.y) + 2;
-
-    for (int y = 0; y < tilesY; y++)
+Vec2Int Background::WrapPos(Vec2Int pos)
+{
+    Vec2Int wpos;
+    while (pos.x < 0)
     {
-        for (int x = 0; x < tilesX; x++)
-        {
-            int drawX = startX + x * size.x;
-            int drawY = startY + y * size.y;
-
-            BitBlt(hdc, drawX, drawY, size.x, size.y, _sprite->GetDC(), 0, 0, SRCCOPY);
-        }
+        pos.x += _mapTileSize.x;
     }
+    while (pos.y < 0)
+    {
+        pos.y += _mapTileSize.y;
+    }
+
+    wpos.x = pos.x % _mapTileSize.x;
+    wpos.y = pos.y % _mapTileSize.y;
+    return wpos;
+}
+
+Vec2Int Background::ConvertTilePos(Vec2Int pos)
+{
+    pos.x /= Tile_Size;
+    pos.y /= Tile_Size;
+    return pos;
 }
 

@@ -66,15 +66,9 @@ Player::Player()
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER_ATK_RANGE);
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_EXP);
 	collider->SetRadius(20);
-	//collider->SetShowDebug(true);
 	CollisionManager::GetInstance()->AddCollider(collider.get());
 	AddComponent(::move(collider));
 
-
-	//unique_ptr<Slash> slash = make_unique<Slash>();
-	//slash->SetOwner(this);
-	//slash->Init();
-	//AddSkill(::move(slash));
 	SkillBuilder[SkillID::ID_Slash]();
 }
 
@@ -127,17 +121,8 @@ void Player::Update()
 
 void Player::Render(HDC hdc)
 {
-
-
 	Super::Render(hdc);
 	Utils::DrawHP(hdc, Vec2(480, 340), 30, 5, _stat.HP / _stat.MaxHP);
-	Utils::DrawRect(hdc, { 480, 360 }, 16, 16);
-	//Vec2 pos = { 10, 50 };
-	//for (auto& skill : _skills)
-	//{
-	//	TextOut(hdc, pos.x, pos.y, _skillNames[skill->GetSkillID()].c_str(), _skillNames[skill->GetSkillID()].length());
-	//	pos.y += 15;
-	//}
 
 }
 

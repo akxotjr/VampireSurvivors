@@ -150,6 +150,7 @@
     <ClInclude Include="DamageText.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="DevScene.h" />
+    <ClInclude Include="Dragon.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="Experience.h" />
@@ -162,10 +163,10 @@
     <ClInclude Include="Goblin.h" />
     <ClInclude Include="GravityCannon.h" />
     <ClInclude Include="Iceburst.h" />
+    <ClInclude Include="InfiniteBackground.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Lightning.h" />
     <ClInclude Include="LobbyScene.h" />
-    <ClInclude Include="Map.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Ogre.h" />
@@ -216,6 +217,7 @@
     <ClCompile Include="Cyclops.cpp" />
     <ClCompile Include="DamageText.cpp" />
     <ClCompile Include="DevScene.cpp" />
+    <ClCompile Include="Dragon.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="Experience.cpp" />
     <ClCompile Include="Flipbook.cpp" />
@@ -226,10 +228,10 @@
     <ClCompile Include="Goblin.cpp" />
     <ClCompile Include="GravityCannon.cpp" />
     <ClCompile Include="Iceburst.cpp" />
+    <ClCompile Include="InfiniteBackground.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Lightning.cpp" />
     <ClCompile Include="LobbyScene.cpp" />
-    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Ogre.cpp" />

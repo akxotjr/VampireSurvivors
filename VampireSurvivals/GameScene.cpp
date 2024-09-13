@@ -12,6 +12,7 @@
 #include "FlipbookActor.h"
 #include "Player.h"
 #include "Background.h"
+#include "InfiniteBackground.h"
 #include "Monster.h"
 #include "Collider.h"
 #include "BoxCollider.h"
@@ -24,8 +25,8 @@
 #include "Panel.h"
 #include "Status.h"
 #include "Button.h"
-#include "Map.h"
 #include "Tilemap.h"
+
 
 GameScene::GameScene()
 {
@@ -1322,6 +1323,142 @@ void GameScene::Init()
 		fb->SetInfo({ texture, L"FB_OwlbearDeathRight", {16, 16}, 0, 0, 0, 0.5f });
 	}
 #pragma endregion
+#pragma region Dragon
+	// Load Texture
+
+// Idle
+	ResourceManager::GetInstance()->LoadTexture(L"DragonIdleUp", L"Monsters\\Dragon\\Dragon_Idle_Up.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"DragonIdleDown", L"Monsters\\Dragon\\Dragon_Idle_Down.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"DragonIdleLeft", L"Monsters\\Dragon\\Dragon_Idle_Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"DragonIdleRight", L"Monsters\\Dragon\\Dragon_Idle_Right.bmp");
+	// Attack									  
+	ResourceManager::GetInstance()->LoadTexture(L"DragonAttackUp", L"Monsters\\Dragon\\Dragon_Attack_Up.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"DragonAttackDown", L"Monsters\\Dragon\\Dragon_Attack_Down.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"DragonAttackLeft", L"Monsters\\Dragon\\Dragon_Attack_Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"DragonAttackRight", L"Monsters\\Dragon\\Dragon_Attack_Right.bmp");
+	// Move										  
+	ResourceManager::GetInstance()->LoadTexture(L"DragonMoveUp", L"Monsters\\Dragon\\Dragon_Move_Up.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"DragonMoveDown", L"Monsters\\Dragon\\Dragon_Move_Down.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"DragonMoveLeft", L"Monsters\\Dragon\\Dragon_Move_Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"DragonMoveRight", L"Monsters\\Dragon\\Dragon_Move_Right.bmp");
+	// Hurt										  
+	ResourceManager::GetInstance()->LoadTexture(L"DragonHurtUp", L"Monsters\\Dragon\\Dragon_Hurt_Up.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"DragonHurtDown", L"Monsters\\Dragon\\Dragon_Hurt_Down.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"DragonHurtLeft", L"Monsters\\Dragon\\Dragon_Hurt_Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"DragonHurtRight", L"Monsters\\Dragon\\Dragon_Hurt_Right.bmp");
+	// Death									  
+	ResourceManager::GetInstance()->LoadTexture(L"DragonDeathUp", L"Monsters\\Dragon\\Dragon_Death_Up.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"DragonDeathDown", L"Monsters\\Dragon\\Dragon_Death_Down.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"DragonDeathLeft", L"Monsters\\Dragon\\Dragon_Death_Left.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"DragonDeathRight", L"Monsters\\Dragon\\Dragon_Death_Right.bmp");
+
+	// Create Flipbook
+	// Idle
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonIdleUp");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonIdleUp");
+		fb->SetInfo({ texture, L"FB_DragonIdleUp", {64, 64}, 0, 3, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonIdleDown");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonIdleDown");
+		fb->SetInfo({ texture, L"FB_DragonIdleDown", {64, 64}, 0, 3, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonIdleLeft");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonIdleLeft");
+		fb->SetInfo({ texture, L"FB_DragonIdleLeft", {64, 64}, 0, 3, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonIdleRight");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonIdleRight");
+		fb->SetInfo({ texture, L"FB_DragonIdleRight", {64, 64}, 0, 3, 0, 0.5f });
+	}
+	// Attack
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonAttackUp");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonAttackUp");
+		fb->SetInfo({ texture, L"FB_DragonAttackUp", {128, 128}, 0, 4, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonAttackDown");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonAttackDown");
+		fb->SetInfo({ texture, L"FB_DragonAttackDown", {128, 128}, 0, 4, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonAttackLeft");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonAttackLeft");
+		fb->SetInfo({ texture, L"FB_DragonAttackLeft", {128, 128}, 0, 4, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonAttackRight");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonAttackRight");
+		fb->SetInfo({ texture, L"FB_DragonAttackRight", {128, 128}, 0, 4, 0, 0.5f });
+	}
+	// Move
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonMoveUp");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonMoveUp");
+		fb->SetInfo({ texture, L"FB_DragonMoveUp", {64, 64}, 0, 3, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonMoveDown");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonMoveDown");
+		fb->SetInfo({ texture, L"FB_DragonMoveDown", {64, 64}, 0, 3, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonMoveLeft");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonMoveLeft");
+		fb->SetInfo({ texture, L"FB_DragonMoveLeft", {64, 64}, 0, 3, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonMoveRight");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonMoveRight");
+		fb->SetInfo({ texture, L"FB_DragonMoveRight", {64, 64}, 0, 3, 0, 0.5f });
+	}
+	// Hurt
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonHurtUp");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonHurtUp");
+		fb->SetInfo({ texture, L"FB_DragonHurtUp", {64, 64}, 0, 1, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonHurtDown");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonHurtDown");
+		fb->SetInfo({ texture, L"FB_DragonHurtDown", {64, 64}, 0, 1, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonHurtLeft");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonHurtLeft");
+		fb->SetInfo({ texture, L"FB_DragonHurtLeft", {64, 64}, 0, 1, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonHurtRight");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonHurtRight");
+		fb->SetInfo({ texture, L"FB_DragonHurtRight", {64, 64}, 0, 1, 0, 0.5f });
+	}
+	// Death
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonDeathUp");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonDeathUp");
+		fb->SetInfo({ texture, L"FB_DragonDeathUp", {64, 64}, 0, 0, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonDeathDown");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonDeathDown");
+		fb->SetInfo({ texture, L"FB_DragonDeathDown", {64, 64}, 0, 0, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonDeathLeft");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonDeathLeft");
+		fb->SetInfo({ texture, L"FB_DragonDeathLeft", {64, 64}, 0, 0, 0, 0.5f });
+	}
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonDeathRight");
+		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonDeathRight");
+		fb->SetInfo({ texture, L"FB_DragonDeathRight", {16, 16}, 0, 0, 0, 0.5f });
+	}
+#pragma endregion
 
 #pragma endregion	
 #pragma region Item
@@ -1330,13 +1467,15 @@ void GameScene::Init()
 	ResourceManager::GetInstance()->LoadTexture(L"EXP03", L"Items\\EXP03.bmp");
 #pragma endregion
 #pragma region Background
-	ResourceManager::GetInstance()->LoadTexture(L"Tilemap03", L"Tilemap\\Tilemap03.bmp");
+	ResourceManager::GetInstance()->LoadTexture(L"FieldMap_Image", L"Tilemap\\FieldMap_Image.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"FieldMap_Image", ResourceManager::GetInstance()->GetTexture(L"FieldMap_Image"));
+	ResourceManager::GetInstance()->LoadTilemap(L"FieldMap_Info", L"Tilemap\\FieldMap_Info.txt");
 
-	ResourceManager::GetInstance()->LoadTexture(L"Tilemap01", L"Tilemap\\Tilemap01.bmp");
-	ResourceManager::GetInstance()->CreateSprite(L"Tilemap01", ResourceManager::GetInstance()->GetTexture(L"Tilemap01"));
-
-
-	ResourceManager::GetInstance()->LoadTilemap(L"Tilemap01", L"Tilemap\\Tilemap01.txt");
+	ResourceManager::GetInstance()->LoadTexture(L"BossMap_Image", L"Tilemap\\BossMap_Image.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"BossMap_Image", ResourceManager::GetInstance()->GetTexture(L"BossMap_Image"));
+	//ResourceManager::GetInstance()->LoadTilemap(L"BossMap_Info", L"Tilemap\\BossMap_Info.bmp");
+	
+	
 #pragma endregion
 #pragma region Font
 	ResourceManager::GetInstance()->LoadFont(L"DamageText20", L"m3x6", L"Font\\m3x6.ttf", 20);
@@ -1409,11 +1548,14 @@ void GameScene::Init()
 	}
 	{
 		// Background
-		Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"Tilemap01");
-		unique_ptr<Map> map = make_unique<Map>();
-		map->SetSprite(sprite);
-		map->SetLayer(LAYER_BACKGROUND);
-		AddActor(::move(map));
+		Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"FieldMap_Image");
+		Tilemap* tm = ResourceManager::GetInstance()->GetTilemap(L"FieldMap_Info");
+
+		unique_ptr<InfiniteBackground> bg = make_unique<InfiniteBackground>();
+		bg->SetSprite(sprite);
+		bg->SetTilemap(tm);
+		AddActor(::move(bg));
+		
 	}
 	{
 		unique_ptr<Status> ingamestatus = make_unique<Status>();
@@ -1556,11 +1698,9 @@ void GameScene::HandleWave()
 
 bool GameScene::CanGo(Vec2 dir)
 {
-	Map* mp = dynamic_cast<Map*>(_actors[LAYER_BACKGROUND].front().get());
-	if (mp == nullptr) return false;
+	Background* bg = dynamic_cast<Background*>(_actors[LAYER_BACKGROUND].front().get());
+	if (bg == nullptr) return false;
 
-	const Vec2 offset = mp->GetOffset();
-	const int32 tileSize = mp->GetTilemap()->GetTileSize();
 
 	const Vec2 playerPos = GetPlayerPos();
 	Vec2Int planeOffset;
@@ -1573,9 +1713,9 @@ bool GameScene::CanGo(Vec2 dir)
 
 	
 	//Vec2Int planeOffset = mp->GetPlaneOffset(playerPos);
-	Vec2Int playerTilePos = mp->ConvertTilePos({ (int)(playerPos.x), (int)(playerPos.y)});
+	Vec2Int playerTilePos = bg->ConvertTilePos({ (int)(playerPos.x), (int)(playerPos.y)});
 
-	Vec2Int nextPos = mp->WrapPos(playerTilePos + Vec2Int((int)dir.x, (int)dir.y) - planeOffset);
+	Vec2Int nextPos = bg->WrapPos(playerTilePos + Vec2Int((int)dir.x, (int)dir.y) - planeOffset);
 
 
 	//Vec2Int nextPos = mp->WrapPos(mp->ConvertTilePos({ (int)(playerPos.x + dir.x * tileSize - offset.x), (int)(playerPos.y + dir.y * tileSize - offset.y)}));
@@ -1610,7 +1750,7 @@ bool GameScene::CanGo(Vec2 dir)
 	//}
 
 	//// 원래 타일 충돌 체크
-	if (mp->GetTilemap()->GetTileAt(nextPos)->value == 0)
+	if (bg->GetTilemap()->GetTileAt(nextPos)->value == 0)
 		return true;
 
 	return false;
