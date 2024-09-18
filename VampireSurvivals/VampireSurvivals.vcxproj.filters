@@ -260,7 +260,15 @@
     <ClInclude Include="InfiniteBackground.h">
       <Filter>소스 파일\03. Object\Contents</Filter>
     </ClInclude>
-    <ClInclude Include="Dragon.h" />
+    <ClInclude Include="Dragon.h">
+      <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>소스 파일\04. Resources\Paper2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>소스 파일\06. UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="VampireSurvivals.rc">
@@ -451,7 +459,13 @@
       <Filter>소스 파일\03. Object\Contents</Filter>
     </ClCompile>
     <ClCompile Include="Dragon.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>소스 파일\04. Resources\Paper2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>소스 파일\06. UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

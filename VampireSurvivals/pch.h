@@ -23,6 +23,7 @@
 #include <memory>
 #include <functional>
 #include <array>
+#include <ctype.h>
 
 // C++20
 #include <format>

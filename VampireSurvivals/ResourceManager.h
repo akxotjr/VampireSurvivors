@@ -4,6 +4,7 @@
 #include "Sprite.h"
 #include "Flipbook.h"
 #include "Tilemap.h"
+#include "Font.h"
 // TODO : Sound
 
 class ResourceManager
@@ -29,14 +30,14 @@ public:
 	Texture* LoadTexture(const wstring& key, const wstring& path, uint32 transparent = RGB(0, 0, 0));
 	Texture* GetTexture(const wstring& key) { return _textures[key].get(); }
 
-	Sprite* CreateSprite(const wstring& key, Texture*, int32 x = 0, int32 y = 0, int32 cx = 0, int32 cy = 0);
+	Sprite* CreateSprite(const wstring& key, Texture* texture, int32 x = 0, int32 y = 0, int32 cx = 0, int32 cy = 0);
 	Sprite* GetSprite(const wstring& key) { return _sprites[key].get(); }
 
 	Flipbook* CreateFlipbook(const wstring& key);
 	Flipbook* GetFlipbook(const wstring& key) { return _flipbooks[key].get(); }
 
-	HFONT LoadFont(const wstring& key, const wstring& name, const wstring& path, int32 fontSize);
-	HFONT GetFont(const wstring& key) { return _fonts[key]; }
+	Font* CreateFont(const wstring& key);
+	Font* GetFont(const wstring& key) { return _fonts[key].get(); }
 
 	Tilemap* LoadTilemap(const wstring& key, const wstring& path);
 	Tilemap* GetTilemap(const wstring& key) { return _tilemaps[key].get(); }
@@ -59,6 +60,7 @@ private:
 	unordered_map<wstring, unique_ptr<Sprite>>		_sprites;
 	unordered_map<wstring, unique_ptr<Flipbook>>	_flipbooks;
 	unordered_map<wstring, unique_ptr<Tilemap>>		_tilemaps;
-	unordered_map<wstring, HFONT>					_fonts;
+	//unordered_map<wstring, HFONT>					_fonts;
+	unordered_map<wstring, unique_ptr<Font>>		_fonts;
 };
 

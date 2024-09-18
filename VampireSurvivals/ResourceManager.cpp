@@ -50,32 +50,15 @@ Flipbook* ResourceManager::CreateFlipbook(const wstring& key)
 	return _flipbooks[key].get();
 }
 
-HFONT ResourceManager::LoadFont(const wstring& key, const wstring& name, const wstring& path, int32 fontSize)
+Font* ResourceManager::CreateFont(const wstring& key)
 {
 	if (_fonts.find(key) != _fonts.end())
-		return _fonts[key];
+		return _fonts[key].get();
 
-	fs::path fullPath = _resourcePath / path;
+	unique_ptr<Font> font = make_unique<Font>();
+	_fonts[key] = ::move(font);
 
-	HFONT hfont = {};
-
-	if (AddFontResource(fullPath.c_str()) > 0)
-	{
-		// 폰트 생성 (추가한 폰트의 이름을 사용)
-		hfont = CreateFont(
-			fontSize, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
-			DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
-			DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, name.c_str()
-		);
-
-		if (!hfont) {
-			MessageBox(NULL, L"폰트 생성에 실패했습니다.", L"Error", MB_OK);
-		}
-	}
-
-	_fonts[key] = hfont;
-
-	return _fonts[key];
+	return _fonts[key].get();
 }
 
 Tilemap* ResourceManager::LoadTilemap(const wstring& key, const wstring& path)

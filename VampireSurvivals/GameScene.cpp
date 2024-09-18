@@ -1473,7 +1473,7 @@ void GameScene::Init()
 
 	ResourceManager::GetInstance()->LoadTexture(L"BossMap_Image", L"Tilemap\\BossMap_Image.bmp");
 	ResourceManager::GetInstance()->CreateSprite(L"BossMap_Image", ResourceManager::GetInstance()->GetTexture(L"BossMap_Image"));
-	//ResourceManager::GetInstance()->LoadTilemap(L"BossMap_Info", L"Tilemap\\BossMap_Info.bmp");
+	ResourceManager::GetInstance()->LoadTilemap(L"BossMap_Info", L"Tilemap\\BossMap_Info.txt");
 	
 	
 #pragma endregion
@@ -1543,7 +1543,7 @@ void GameScene::Init()
 
 	{
 		unique_ptr<Player> player = make_unique<Player>();
-		player->SetPos({ GWinSizeX, GWinSizeY - 8 });
+		player->SetPos({ GWinSizeX / 2, GWinSizeY / 2 });
 		AddActor(::move(player));
 	}
 	{
@@ -1557,6 +1557,15 @@ void GameScene::Init()
 		AddActor(::move(bg));
 		
 	}
+	//{
+	//	Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"BossMap_Image");
+	//	Tilemap* tm = ResourceManager::GetInstance()->GetTilemap(L"BossMap_Info");
+
+	//	unique_ptr<Background> bg = make_unique<Background>();
+	//	bg->SetSprite(sprite);
+	//	bg->SetTilemap(tm);
+	//	AddActor(::move(bg));
+	//}
 	{
 		unique_ptr<Status> ingamestatus = make_unique<Status>();
 		AddUI(::move(ingamestatus));
