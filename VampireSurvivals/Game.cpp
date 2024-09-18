@@ -32,8 +32,8 @@ void Game::Init(HWND hwnd)
 	SceneManager::GetInstance()->Init();
 	EventManager::GetInstance()->Init();
 
-	//ResourceManager::GetInstance()->Init(hwnd, fs::path(L"C:\\Users\\UserK\\Desktop\\Project_VampireSurvivors\\VampireSurvivors\\Resources"));
-	ResourceManager::GetInstance()->Init(hwnd, fs::path(L"C:\\Users\\matae\\source\\repos\\akxotjr\\VampireSurvivals\\VampireSurvivals\\Resources"));
+	ResourceManager::GetInstance()->Init(hwnd, fs::path(L"C:\\Users\\UserK\\Desktop\\Project_VampireSurvivors\\VampireSurvivors\\Resources"));
+	//ResourceManager::GetInstance()->Init(hwnd, fs::path(L"C:\\Users\\matae\\source\\repos\\akxotjr\\VampireSurvivals\\VampireSurvivals\\Resources"));
 	SceneManager::GetInstance()->ChangeScene(SceneType::TitleScene);
 }
 

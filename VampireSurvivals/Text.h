@@ -14,7 +14,7 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 
-	void SetLetters(const wstring& letters) { _letters = letters; }
+	void SetLetters(const string& letters) { _letters = letters; }
 	void SetFont(Font* font) { _font = font; }
 
 protected:

@@ -1478,7 +1478,8 @@ void GameScene::Init()
 	
 #pragma endregion
 #pragma region Font
-	ResourceManager::GetInstance()->LoadFont(L"DamageText20", L"m3x6", L"Font\\m3x6.ttf", 20);
+	//ResourceManager::GetInstance()->LoadFont(L"DamageText20", L"m3x6", L"Font\\m3x6.ttf", 20);
+	ResourceManager::GetInstance()->CreateFontW
 #pragma endregion
 #pragma region UI
 	ResourceManager::GetInstance()->LoadTexture(L"SelectSkillButton", L"UI\\SelectSkillButton.bmp");
