@@ -160,7 +160,7 @@ Vec2 Player::UpdateDir()
 		_dir = Dir::DIR_LEFT;
 	}
 
-	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 	if (scene->CanGo(dir))
 	{
 		dir.Normalize();
@@ -231,7 +231,7 @@ void Player::OnComponentBeginOverlap(Collider* collider, Collider* other)
 {
 	if (other->GetCollisionLayer() == CLT_MONSTER)
 	{
-		Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
+		Monster* monster = static_cast<Monster*>(other->GetOwner());
 		if (!TakeDamage(monster->GetDamage()))
 			SetState(PlayerState::Hurt);
 		else
@@ -280,7 +280,7 @@ void Player::LevelUP()
 	_level++;
 	TimeManager::GetInstance()->SetTimeScale(0.f);
 
-	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 	unique_ptr<SelectSkillPanel> ssp = make_unique<SelectSkillPanel>();
 	ssp->Init();
 
@@ -352,7 +352,7 @@ void Player::SkillLevelUP(SkillID id, SelectSkillPanel* panel)
 		SkillBuilder[id]();
 	}
 	EventManager::GetInstance()->AddEvent([panel]() {
-		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+		GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 		scene->RemoveUI(panel);
 		});
 

@@ -37,7 +37,7 @@ void Suriken::Init()
 void Suriken::Use(float deltaTime)
 {
 	_sumTime += deltaTime;
-	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 
 	if (_sumTime >= _coolTime)
 	{
@@ -68,7 +68,7 @@ void Suriken::Use(float deltaTime)
 			
 
 			suriken->SetSkill2MonsterCallback([this, scene](Collider* other) {
-				Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
+				Monster* monster = static_cast<Monster*>(other->GetOwner());
 				if (monster)
 				{
 					if (monster->TakeDamage(GetDamage()))
@@ -101,7 +101,7 @@ void Suriken::Use(float deltaTime)
 			vector<unique_ptr<Component>>& colliders = it.first->GetColliders();
 			for (auto& collider : colliders)
 			{
-				CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>(collider.get()));
+				CollisionManager::GetInstance()->RemoveCollider(static_cast<Collider*>(collider.get()));
 			}
 			scene->RemoveActor(it.first);
 		}
@@ -115,7 +115,7 @@ void Suriken::Use(float deltaTime)
 
 void Suriken::SetDamage()
 {
-	Player* player = dynamic_cast<Player*>(GetOwner());
+	Player* player = static_cast<Player*>(GetOwner());
 	float atk = player->GetAttackPower();
 
 	_damage = atk * _atkCoef;

@@ -50,7 +50,7 @@ Flipbook* ResourceManager::CreateFlipbook(const wstring& key)
 	return _flipbooks[key].get();
 }
 
-Font* ResourceManager::CreateFont(const wstring& key)
+Font* ResourceManager::CreateTextFont(const wstring& key)
 {
 	if (_fonts.find(key) != _fonts.end())
 		return _fonts[key].get();

@@ -43,11 +43,11 @@ void Experience::Update()
 	Super::Update();
 	if (_takenEXP)
 	{
-		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+		GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 		vector<unique_ptr<Component>>& colliders = GetColliders();
 		for (auto& collider : colliders)
 		{
-			CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>(collider.get()));
+			CollisionManager::GetInstance()->RemoveCollider(static_cast<Collider*>(collider.get()));
 		}
 
 		scene->RemoveActor(this);
@@ -64,7 +64,7 @@ void Experience::OnComponentBeginOverlap(Collider* collider, Collider* other)
 {
 	if (other->GetCollisionLayer() == CLT_PLAYER)
 	{
-		Player* player = dynamic_cast<Player*>(other->GetOwner());
+		Player* player = static_cast<Player*>(other->GetOwner());
 		if (player == nullptr) return;
 
 		player->TakeEXP(GetEXP());

@@ -39,70 +39,6 @@ GameScene::~GameScene()
 void GameScene::Init()
 {
 #pragma region Player
-	// Load Soldier Texture
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierIdleRight", L"Soldier\\Soldier-Idle-Right.bmp");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierIdleLeft", L"Soldier\\Soldier-Idle-Left.bmp");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierMoveRight", L"Soldier\\Soldier-Walk-Right.bmp");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierMoveLeft", L"Soldier\\Soldier-Walk-Left.bmp");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierAttackRight", L"Soldier\\Soldier-Attack03-Right.bmp");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierAttackLeft", L"Soldier\\Soldier-Attack03-Left.bmp");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierHurtRight", L"Soldier\\Soldier-Hurt-Right.bmp");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierHurtLeft", L"Soldier\\Soldier-Hurt-Left.bmp");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierDeathRight", L"Soldier\\Soldier-Death-Right.bmp");
-	ResourceManager::GetInstance()->LoadTexture(L"SoldierDeathLeft", L"Soldier\\Soldier-Death-Left.bmp");
-
-	// Create Soldier Flipbook
-	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierIdleRight");
-		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierIdleRight");
-		fb->SetInfo({ texture, L"FB_SoldierIdleRight", {100, 100}, 0, 5, 0, 0.5f });
-	}
-	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierIdleLeft");
-		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierIdleLeft");
-		fb->SetInfo({ texture, L"FB_SoldierIdleLeft", {100, 100}, 0, 5, 0, 0.5f });
-	}
-	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierMoveRight");
-		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierMoveRight");
-		fb->SetInfo({ texture, L"FB_SoldierMoveRight", {100, 100}, 0, 6, 0, 0.5f });
-	}
-	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierMoveLeft");
-		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierMoveLeft");
-		fb->SetInfo({ texture, L"FB_SoldierMoveLeft", {100, 100}, 0, 6, 0, 0.5f });
-	}
-	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierAttackRight");
-		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierAttackRight");
-		fb->SetInfo({ texture, L"FB_SoldierAttackRight", {100, 100}, 0, 8, 0, 0.5f });
-	}
-	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierAttackLeft");
-		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierAttackLeft");
-		fb->SetInfo({ texture, L"FB_SoldierAttackLeft", {100, 100}, 0, 8, 0, 0.5f });
-	}
-	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierHurtRight");
-		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierHurtRight");
-		fb->SetInfo({ texture, L"FB_SoldierHurtRight", {100, 100}, 0, 3, 0, 0.5f });
-	}
-	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierHurtLeft");
-		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierHurtLeft");
-		fb->SetInfo({ texture, L"FB_SoldierHurtLeft", {100, 100}, 0, 3, 0, 0.5f });
-	}
-	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierDeathRight");
-		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierDeathRight");
-		fb->SetInfo({ texture, L"FB_SoldierDeathRight", {100, 100}, 0, 3, 0, 0.5f });
-	}
-	{
-		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"SoldierDeathLeft");
-		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_SoldierDeathLeft");
-		fb->SetInfo({ texture, L"FB_SoldierDeathLeft", {100, 100}, 0, 3, 0, 0.5f });
-	}
-
 
 	ResourceManager::GetInstance()->LoadTexture(L"SwashbucklerIdleUp", L"Player\\Swashbuckler\\Swashbuckler_Idle_Up.bmp");
 	ResourceManager::GetInstance()->LoadTexture(L"SwashbucklerIdleDown", L"Player\\Swashbuckler\\Swashbuckler_Idle_Down.bmp");
@@ -1479,7 +1415,12 @@ void GameScene::Init()
 #pragma endregion
 #pragma region Font
 	//ResourceManager::GetInstance()->LoadFont(L"DamageText20", L"m3x6", L"Font\\m3x6.ttf", 20);
-	ResourceManager::GetInstance()->CreateFontW
+	ResourceManager::GetInstance()->LoadTexture(L"TextFont01_12x20", L"Font\\TextFont01_12x20.bmp");
+	{
+		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"TextFont01_12x20");
+		Font* font = ResourceManager::GetInstance()->CreateTextFont(L"TextFont01_12x20");
+		font->SetInfo({ texture, {12, 20} });
+	}
 #pragma endregion
 #pragma region UI
 	ResourceManager::GetInstance()->LoadTexture(L"SelectSkillButton", L"UI\\SelectSkillButton.bmp");
@@ -1540,6 +1481,10 @@ void GameScene::Init()
 	ResourceManager::GetInstance()->LoadTexture(L"CoinBar", L"UI\\CoinBar.bmp");
 	ResourceManager::GetInstance()->CreateSprite(L"CoinBar", ResourceManager::GetInstance()->GetTexture(L"CoinBar"));
 
+
+	ResourceManager::GetInstance()->LoadTexture(L"OptionsPanel", L"UI\\InGame_OptionsPanel.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"OptionsPanel", ResourceManager::GetInstance()->GetTexture(L"OptionsPanel"));
+
 #pragma endregion
 
 	{
@@ -1579,7 +1524,16 @@ void GameScene::Init()
 		button->SetSprite(buttonDefault, BS_Default);
 		button->SetSprite(buttonClicked, BS_Clicked);
 		button->SetSprite(buttonClicked, BS_Pressed);
-		//button->AddOnClickDelegate();
+		button->AddOnClickDelegate([this]() {
+			Sprite* sprite = ResourceManager::GetInstance()->GetSprite(L"OptionsPanel");
+			unique_ptr<Panel> panel = make_unique<Panel>();
+			panel->SetSprite(sprite);
+			panel->SetPos({ 380, 260 });
+			panel->Init();
+			AddUI(::move(panel));
+
+			// TODO - append button
+			});
 
 		AddUI(::move(button));
 	}
@@ -1630,6 +1584,7 @@ Vec2 GameScene::MonsterRandomPos()
 
 	return monsterPos;
 }
+
 void GameScene::HandleWave()
 {
 	float deltaTime = TimeManager::GetInstance()->GetAdjustDeltaTime();
@@ -1767,5 +1722,5 @@ bool GameScene::CanGo(Vec2 dir)
 }
 
 
-
+// TODO ChangeMap
 

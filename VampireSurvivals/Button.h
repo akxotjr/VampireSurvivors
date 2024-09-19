@@ -44,6 +44,15 @@ protected:
 	wstring _text;
 
 public:
+
+	void AddOnClickDelegate(std::function<void(void)> func)
+	{
+		_onClick = [func]()
+			{
+				EventManager::GetInstance()->AddEvent(func);
+			};
+	}
+
 	template<typename T>
 	void AddOnClickDelegate(T* owner, void(T::* func)())
 	{
@@ -51,7 +60,6 @@ public:
 			{
 				EventManager::GetInstance()->AddEvent([owner, func]()
 					{
-						// 실제 멤버 함수 호출
 						(owner->*func)();
 					});
 			};

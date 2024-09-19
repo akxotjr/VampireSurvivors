@@ -105,12 +105,12 @@ void Slash::Use(float deltaTime)
 			slash->AddComponent(::move(collider));
 
 
-			GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+			GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 
 			slash->SetSkill2MonsterCallback([this, scene](Collider* other) {
 				if (other->GetCollisionLayer() == CLT_MONSTER)
 				{
-					Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
+					Monster* monster = static_cast<Monster*>(other->GetOwner());
 					if (monster)
 					{
 						if (monster->TakeDamage(GetDamage()))
@@ -151,12 +151,12 @@ void Slash::Use(float deltaTime)
 				pos.y > playerPos.y + GWinSizeY / 2 + 32 ||
 				pos.y < playerPos.y - GWinSizeY / 2 - 32)
 			{
-				GameScene* gamescene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+				GameScene* gamescene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 				
 				vector<unique_ptr<Component>>& colliders = (*it)->GetColliders();
 				for (auto& collider : colliders)
 				{
-					CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>(collider.get()));
+					CollisionManager::GetInstance()->RemoveCollider(static_cast<Collider*>(collider.get()));
 				}
 
 				//EventManager::GetInstance()->AddEvent([gamescene, it]() {
@@ -179,7 +179,7 @@ void Slash::Use(float deltaTime)
 
 void Slash::SetDamage()
 {
-	Player* player = dynamic_cast<Player*>(GetOwner());
+	Player* player = static_cast<Player*>(GetOwner());
 	float atk = player->GetAttackPower();
 
 	_damage = atk * _atkCoef;

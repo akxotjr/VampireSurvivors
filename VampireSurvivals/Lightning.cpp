@@ -37,7 +37,7 @@ void Lightning::Use(float deltaTime)
 	_sumTime += deltaTime;
 	if (_sumTime >= _coolTime)
 	{
-		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+		GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 		const vector<unique_ptr<Actor>>& monsters = scene->GetMonsters();
 
 		Vec2 pos;
@@ -51,7 +51,7 @@ void Lightning::Use(float deltaTime)
 			for (auto& monster : monsters)
 			{
 				Vec2 monsterPos = monster.get()->GetPos();
-				float curHP = dynamic_cast<Monster*>(monster.get())->GetInfo().stat.HP;
+				float curHP = static_cast<Monster*>(monster.get())->GetInfo().stat.HP;
 				if (maxHP > curHP)
 				{
 					maxHP = curHP;
@@ -85,7 +85,7 @@ void Lightning::Use(float deltaTime)
 
 
 		lightning->SetSkill2MonsterCallback([this, scene](Collider* other) {
-			Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
+			Monster* monster = static_cast<Monster*>(other->GetOwner());
 			if (monster)
 			{
 				if (monster->TakeDamage(GetDamage()))
@@ -114,7 +114,7 @@ void Lightning::Use(float deltaTime)
 
 void Lightning::SetDamage()
 {
-	Player* player = dynamic_cast<Player*>(GetOwner());
+	Player* player = static_cast<Player*>(GetOwner());
 	float atk = player->GetAttackPower();
 
 	_damage = atk * _atkCoef;

@@ -43,10 +43,10 @@ void FlipbookActor::Update()
 		vector<unique_ptr<Component>>& colliders = GetColliders();
 		for (auto& collider : colliders)
 		{
-			CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>(collider.get()));
+			CollisionManager::GetInstance()->RemoveCollider(static_cast<Collider*>(collider.get()));
 		}
 
-		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+		GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 		scene->RemoveActor(this);
 		return;
 	}

@@ -45,7 +45,7 @@ void ForceField::Use(float deltaTime)
 {
 	if (_createdForceField == false)
 	{
-		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+		GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 
 		unique_ptr<SpriteActor> forcefield = make_unique<SpriteActor>();
 		forcefield->SetSprite(_sprites[0]);
@@ -65,7 +65,7 @@ void ForceField::Use(float deltaTime)
 		
 
 		forcefield->SetSkill2MonsterCallback([this, scene](Collider* other) {
-			Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
+			Monster* monster = static_cast<Monster*>(other->GetOwner());
 			if (monster)
 			{
 				if (monster->TakeDamage(GetDamage()))
@@ -96,7 +96,7 @@ void ForceField::Use(float deltaTime)
 
 void ForceField::SetDamage()
 {
-	Player* player = dynamic_cast<Player*>(GetOwner());
+	Player* player = static_cast<Player*>(GetOwner());
 	float atk = player->GetAttackPower();
 
 	_damage = atk * _atkCoef;
@@ -107,7 +107,7 @@ void ForceField::SkillLevelUP()
 	Super::SkillLevelUP();
 	_radius += 10;
 
-	SpriteActor* forcefield = dynamic_cast<SpriteActor*>(_skillObjects.front());
+	SpriteActor* forcefield = static_cast<SpriteActor*>(_skillObjects.front());
 	forcefield->SetSprite(_sprites[_skillLevel - 1]);
 }
 
