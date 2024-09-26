@@ -48,6 +48,9 @@ public:
 
 	bool CanGo(Vec2 dir);
 
+
+	void Timer();
+
 protected:
 	float _sumTime = 0.f;
 	float _spawnCoolTime = 2.f;

@@ -11,12 +11,12 @@
 #include "Scene.h"
 #include "GameScene.h"
 #include "SceneManager.h"
+#include "EventManager.h"
 
 Experience::Experience()
 {
 	SetLayer(LAYER_LOOT);
-	Sprite* sprite = ResourceManager::GetInstance()->CreateSprite(L"EXP01", ResourceManager::GetInstance()->GetTexture(L"EXP01"));
-	SetSprite(sprite);
+	_sprite = ResourceManager::GetInstance()->GetSprite(L"EXP01");
 
 	unique_ptr<SphereCollider> collider = make_unique<SphereCollider>();
 	collider->SetOwner(this);
@@ -41,18 +41,21 @@ void Experience::Init()
 void Experience::Update()
 {
 	Super::Update();
-	if (_takenEXP)
-	{
-		GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-		vector<unique_ptr<Component>>& colliders = GetColliders();
-		for (auto& collider : colliders)
-		{
-			CollisionManager::GetInstance()->RemoveCollider(static_cast<Collider*>(collider.get()));
-		}
+	//if (_takenEXP)
+	//{
+	//	GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	//	vector<unique_ptr<Component>>& colliders = GetColliders();
+	//	for (auto& collider : colliders)
+	//	{
+	//		CollisionManager::GetInstance()->RemoveCollider(static_cast<Collider*>(collider.get()));
+	//	}
 
-		scene->RemoveActor(this);
-		return;
-	}
+	//	//scene->RemoveActor(this);
+	//	EventManager::GetInstance()->AddEvent([scene, this]() {
+	//		scene->RemoveActor(this);
+	//		});
+	//	return;
+	//}
 }
 
 void Experience::Render(HDC hdc)
@@ -68,10 +71,17 @@ void Experience::OnComponentBeginOverlap(Collider* collider, Collider* other)
 		if (player == nullptr) return;
 
 		player->TakeEXP(GetEXP());
-		_takenEXP = true;
+
+		//CollisionManager::GetInstance()->RemoveCollider(collider);
+
 	}
 }
 
 void Experience::OnComponentEndOverlap(Collider* collider, Collider* other)
 {
+	GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	EventManager::GetInstance()->AddEvent([scene, this, collider]() {
+		CollisionManager::GetInstance()->RemoveCollider(collider);
+		scene->RemoveActor(this);
+		});
 }

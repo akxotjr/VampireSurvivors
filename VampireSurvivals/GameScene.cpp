@@ -26,6 +26,7 @@
 #include "Status.h"
 #include "Button.h"
 #include "Tilemap.h"
+#include "Text.h"
 
 
 GameScene::GameScene()
@@ -1256,7 +1257,7 @@ void GameScene::Init()
 	{
 		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearDeathRight");
 		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearDeathRight");
-		fb->SetInfo({ texture, L"FB_OwlbearDeathRight", {16, 16}, 0, 0, 0, 0.5f });
+		fb->SetInfo({ texture, L"FB_OwlbearDeathRight", {64, 64}, 0, 0, 0, 0.5f });
 	}
 #pragma endregion
 #pragma region Dragon
@@ -1401,6 +1402,10 @@ void GameScene::Init()
 	ResourceManager::GetInstance()->LoadTexture(L"EXP01", L"Items\\EXP01.bmp");
 	ResourceManager::GetInstance()->LoadTexture(L"EXP02", L"Items\\EXP02.bmp");
 	ResourceManager::GetInstance()->LoadTexture(L"EXP03", L"Items\\EXP03.bmp");
+
+	ResourceManager::GetInstance()->CreateSprite(L"EXP01", ResourceManager::GetInstance()->GetTexture(L"EXP01"));
+	ResourceManager::GetInstance()->CreateSprite(L"EXP02", ResourceManager::GetInstance()->GetTexture(L"EXP02"));
+	ResourceManager::GetInstance()->CreateSprite(L"EXP03", ResourceManager::GetInstance()->GetTexture(L"EXP03"));
 #pragma endregion
 #pragma region Background
 	ResourceManager::GetInstance()->LoadTexture(L"FieldMap_Image", L"Tilemap\\FieldMap_Image.bmp");
@@ -1485,6 +1490,16 @@ void GameScene::Init()
 	ResourceManager::GetInstance()->LoadTexture(L"OptionsPanel", L"UI\\InGame_OptionsPanel.bmp");
 	ResourceManager::GetInstance()->CreateSprite(L"OptionsPanel", ResourceManager::GetInstance()->GetTexture(L"OptionsPanel"));
 
+	ResourceManager::GetInstance()->LoadTexture(L"OptionsHomeButtonDefault", L"UI\\InGame_HomeButton_Default.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"OptionsHomeButtonDefault", ResourceManager::GetInstance()->GetTexture(L"OptionsHomeButtonDefault"));
+	ResourceManager::GetInstance()->LoadTexture(L"OptionsHomeButtonClicked", L"UI\\InGame_HomeButton_Clicked.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"OptionsHomeButtonClicked", ResourceManager::GetInstance()->GetTexture(L"OptionsHomeButtonClicked"));
+
+	ResourceManager::GetInstance()->LoadTexture(L"OptionsResumeButtonDefault", L"UI\\InGame_ResumeButton_Default.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"OptionsResumeButtonDefault", ResourceManager::GetInstance()->GetTexture(L"OptionsResumeButtonDefault"));
+	ResourceManager::GetInstance()->LoadTexture(L"OptionsResumeButtonClicked", L"UI\\InGame_ResumeButton_Clicked.bmp");
+	ResourceManager::GetInstance()->CreateSprite(L"OptionsResumeButtonClicked", ResourceManager::GetInstance()->GetTexture(L"OptionsResumeButtonClicked"));
+
 #pragma endregion
 
 	{
@@ -1530,6 +1545,27 @@ void GameScene::Init()
 			panel->SetSprite(sprite);
 			panel->SetPos({ 380, 260 });
 			panel->Init();
+
+
+			{
+				Sprite* b_default = ResourceManager::GetInstance()->GetSprite(L"OptionsHomeButtonDefault");
+				Sprite* b_clicked = ResourceManager::GetInstance()->GetSprite(L"OptionsHomeButtonClicked");
+
+				unique_ptr<Button> button = make_unique<Button>();
+				button->SetSprite(b_default, ButtonState::BS_Default);
+				button->SetSprite(b_clicked, ButtonState::BS_Clicked);
+				button->SetSprite(b_clicked, ButtonState::BS_Pressed);
+				// TODO 위치 다시설정
+				button->SetPos({430, 410});
+				button->AddOnClickDelegate([](){
+					SceneManager::GetInstance()->ChangeScene(SceneType::LobbyScene);
+					});
+				button->Init();
+
+				panel->AddChild(::move(button));
+
+			}
+
 			AddUI(::move(panel));
 
 			// TODO - append button
@@ -1554,7 +1590,7 @@ void GameScene::Update()
 {
 	Super::Update();
 
-	//HandleWave();
+	HandleWave();
 
 	CollisionManager::GetInstance()->Update();
 }
@@ -1721,6 +1757,19 @@ bool GameScene::CanGo(Vec2 dir)
 	return false;
 }
 
+void GameScene::Timer()
+{
+	//int32 minute = (int32)_sumTime / 60;
+	//int32 second = (int32)_sumTime % 60;
 
-// TODO ChangeMap
+	//Font* font = ResourceManager::GetInstance()->GetTextFont(L"TextFont01_12x20");
+
+	//unique_ptr<Text> text = make_unique<Text>();
+	//text->SetFont(font);
+	//text->SetPos({ 468, 10 });
+
+	//text->SetLetters("1");
+
+	//AddUI(::move(text));
+}
 

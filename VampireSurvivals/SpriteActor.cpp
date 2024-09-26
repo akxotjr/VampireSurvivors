@@ -39,8 +39,8 @@ void SpriteActor::Render(HDC hdc)
 		_sprite->GetDC(),
 		_sprite->GetPos().x,
 		_sprite->GetPos().y,
-		_sprite->GetSize().x,
-		_sprite->GetSize().y,
+		size.x,
+		size.y,
 		_sprite->GetTransparent());
 
 }

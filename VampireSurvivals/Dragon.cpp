@@ -69,7 +69,7 @@ void Dragon::Update()
 
 	if (_sumTime >= _coolTime)
 	{
-		// Random Pattern : Dash or FireBreath
+		
 	}
 	
 }
@@ -81,14 +81,24 @@ void Dragon::Render(HDC hdc)
 
 void Dragon::Dash()
 {
-	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 	Vec2 playerPos = scene->GetPlayerPos();
 
 	Vec2 dir = playerPos - _pos;
-	
+	dir.Normalize();
+
+
 }
 
 void Dragon::FireBreath()
 {
 
+}
+
+void Dragon::ExecutePattern()
+{
+	_onPattern = true;
+
+	// random pattern
+	Dash();
 }

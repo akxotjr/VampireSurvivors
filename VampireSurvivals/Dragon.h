@@ -16,8 +16,9 @@ public:
 	void Dash();
 	void FireBreath();
 
+	void ExecutePattern();
 
 protected:
-
+	bool _onPattern = false;
 };
 
