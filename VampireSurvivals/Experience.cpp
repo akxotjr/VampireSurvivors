@@ -73,15 +73,15 @@ void Experience::OnComponentBeginOverlap(Collider* collider, Collider* other)
 		player->TakeEXP(GetEXP());
 
 		//CollisionManager::GetInstance()->RemoveCollider(collider);
-
+		GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+		EventManager::GetInstance()->AddEvent([scene, this, collider]() {
+			CollisionManager::GetInstance()->RemoveCollider(collider);
+			scene->RemoveActor(this);
+			});
 	}
 }
 
 void Experience::OnComponentEndOverlap(Collider* collider, Collider* other)
 {
-	GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-	EventManager::GetInstance()->AddEvent([scene, this, collider]() {
-		CollisionManager::GetInstance()->RemoveCollider(collider);
-		scene->RemoveActor(this);
-		});
+
 }

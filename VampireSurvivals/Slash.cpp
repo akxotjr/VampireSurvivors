@@ -141,39 +141,39 @@ void Slash::Use(float deltaTime)
 	}
 
 	{
-		auto it = _skillObjects.begin();
-		while (it != _skillObjects.end())
+		for (auto& skillObject : _skillObjects)
 		{
-			Vec2 pos = (*it)->GetPos();
+			Vec2 pos = skillObject->GetPos();
 			Vec2 playerPos = GetOwner()->GetPos();
+
 			if (pos.x > playerPos.x + GWinSizeX / 2 + 32 ||
 				pos.x < playerPos.x - GWinSizeX / 2 - 32 ||
 				pos.y > playerPos.y + GWinSizeY / 2 + 32 ||
 				pos.y < playerPos.y - GWinSizeY / 2 - 32)
 			{
-				GameScene* gamescene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-				
-				vector<unique_ptr<Component>>& colliders = (*it)->GetColliders();
+				GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+
+				vector<unique_ptr<Component>>& colliders = skillObject->GetColliders();
 				for (auto& collider : colliders)
 				{
-					CollisionManager::GetInstance()->RemoveCollider(static_cast<Collider*>(collider.get()));
+					Collider* col = static_cast<Collider*>(collider.get());
+					EventManager::GetInstance()->AddEvent([col]() {
+						CollisionManager::GetInstance()->RemoveCollider(col);
+						});
 				}
 
-				//EventManager::GetInstance()->AddEvent([gamescene, it]() {
-				//	gamescene->RemoveActor(*it);
-				//	});
-
-				gamescene->RemoveActor(*it);
-				it = _skillObjects.erase(it);
-				continue;
+				EventManager::GetInstance()->AddEvent([scene, skillObject, this]() {
+					RemoveSkillObject(skillObject);
+					scene->RemoveActor(skillObject);
+					});
 			}
 			else
 			{
-				Vec2 dir = (*it)->GetDir();
-				(*it)->SetPos(pos + dir * _moveSpeed);
+				Vec2 dir = skillObject->GetDir();
+				skillObject->SetPos(pos + dir * _moveSpeed);
 			}
-			++it;
 		}
+
 	}
 }
 

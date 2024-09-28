@@ -9,6 +9,7 @@
 #include "Component.h"
 #include "Collider.h"
 #include "CollisionManager.h"
+#include "EventManager.h"
 
 FlipbookActor::FlipbookActor()
 {
@@ -31,9 +32,6 @@ void FlipbookActor::Update()
 
 	const FlipbookInfo& info = _flipbook->GetInfo();
 
-	if (info.name == L"FB_GravityCannon")
-		int a = 0;
-
 	if (info.loop == false && _idx == info.end)
 	{
 		if (_animationFinishedCallback)
@@ -47,7 +45,10 @@ void FlipbookActor::Update()
 		}
 
 		GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-		scene->RemoveActor(this);
+		//scene->RemoveActor(this);
+		EventManager::GetInstance()->AddEvent([scene, this]() {
+			scene->RemoveActor(this);
+			});
 		return;
 	}
 
@@ -63,8 +64,6 @@ void FlipbookActor::Update()
 		_sumTime = 0.f;
 		_idx = (_idx + 1) % frameCount;
 	}
-
-	int a = 0;
 }
 
 void FlipbookActor::Render(HDC hdc)

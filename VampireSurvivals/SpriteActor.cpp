@@ -28,6 +28,11 @@ void SpriteActor::Render(HDC hdc)
 
 	if (_sprite == nullptr) return;
 
+	if (_sprite->GetTexture() == nullptr)
+	{
+		int a = 0;
+	}
+
 	Vec2Int size = _sprite->GetSize();
 	Vec2 cameraPos = SceneManager::GetInstance()->GetCameraPos();
 
