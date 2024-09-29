@@ -27,7 +27,7 @@ void InfiniteBackground::Render(HDC hdc)
 {
     Vec2 cameraPos = SceneManager::GetInstance()->GetCameraPos();
 
-    GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+    GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
     Vec2 playerPos = scene->GetPlayerPos();
 
     Vec2 startPosF = { playerPos.x - GWinSizeX / 2, playerPos.y - GWinSizeY / 2 };

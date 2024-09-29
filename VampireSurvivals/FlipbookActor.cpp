@@ -34,18 +34,13 @@ void FlipbookActor::Update()
 
 	if (info.loop == false && _idx == info.end)
 	{
-		if (_animationFinishedCallback)
-		{
-			_animationFinishedCallback();
-		}
 		vector<unique_ptr<Component>>& colliders = GetColliders();
 		for (auto& collider : colliders)
 		{
-			CollisionManager::GetInstance()->RemoveCollider(static_cast<Collider*>(collider.get()));
+			CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>(collider.get()));
 		}
 
-		GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
-		//scene->RemoveActor(this);
+		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 		EventManager::GetInstance()->AddEvent([scene, this]() {
 			scene->RemoveActor(this);
 			});

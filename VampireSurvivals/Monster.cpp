@@ -41,7 +41,7 @@ void Monster::Update()
 	float deltaTime = TimeManager::GetInstance()->GetAdjustDeltaTime();
 	if (deltaTime == 0) return;
 
-	GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 	Vec2 playerPos = scene->GetPlayerPos();
 
 	_destPos = playerPos;
@@ -127,12 +127,12 @@ void Monster::OnAnimationFinished()
 	}
 	if (_state == MonsterState::Death)
 	{
-		GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 
 		vector<unique_ptr<Component>>& colliders = GetColliders();
 		for (auto& collider : colliders)
 		{
-			CollisionManager::GetInstance()->RemoveCollider(static_cast<Collider*>(collider.get()));
+			CollisionManager::GetInstance()->RemoveCollider(dynamic_cast<Collider*>(collider.get()));
 		}
 
 		unique_ptr<Experience> exp = make_unique<Experience>();

@@ -24,6 +24,7 @@
 #include <functional>
 #include <array>
 #include <ctype.h>
+#include <assert.h>
 
 // C++20
 #include <format>

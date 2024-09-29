@@ -69,7 +69,7 @@ Player::Player()
 	CollisionManager::GetInstance()->AddCollider(collider.get());
 	AddComponent(::move(collider));
 
-	SkillBuilder[SkillID::ID_Slash]();
+	SkillBuilder[SkillID::ID_Iceburst]();
 }
 
 Player::~Player()

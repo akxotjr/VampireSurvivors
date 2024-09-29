@@ -81,7 +81,7 @@ void Dragon::Render(HDC hdc)
 
 void Dragon::Dash()
 {
-	GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 	Vec2 playerPos = scene->GetPlayerPos();
 
 	Vec2 dir = playerPos - _pos;

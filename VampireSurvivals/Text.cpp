@@ -25,6 +25,7 @@ void Text::Update()
 void Text::Render(HDC hdc)
 {
 	const FontInfo& info = _font->GetInfo();
+	int32 idx = 0;
 	for (auto letter : _letters)
 	{
 		int32 row = 0;
@@ -32,7 +33,7 @@ void Text::Render(HDC hdc)
 		if (isdigit(letter))
 		{
 			col = FontIndex::Number;
-			row = letter;
+			row = letter - '0';
 		}
 		else if (isupper(letter))
 		{
@@ -51,7 +52,7 @@ void Text::Render(HDC hdc)
 
 		TransparentBlt(
 			hdc,
-			(int32)_pos.x,
+			(int32)_pos.x + idx * info.size.x,
 			(int32)_pos.y,
 			info.size.x,
 			info.size.y,

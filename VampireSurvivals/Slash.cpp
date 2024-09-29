@@ -72,6 +72,9 @@ void Slash::Use(float deltaTime)
 {
 	_sumTime += deltaTime;
 
+	GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+
+
 	if (_sumTime >= _coolTime)
 	{
 		Vec2 mousePos = {};
@@ -100,12 +103,8 @@ void Slash::Use(float deltaTime)
 			collider->SetCollisionFlag(CLT_MONSTER);
 			collider->SetOwner(slash.get());
 			collider->SetRadius(15);
-			//collider->SetShowDebug(true);
 			CollisionManager::GetInstance()->AddCollider(collider.get());
 			slash->AddComponent(::move(collider));
-
-
-			GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 
 			slash->SetSkill2MonsterCallback([this, scene](Collider* other) {
 				if (other->GetCollisionLayer() == CLT_MONSTER)
@@ -122,12 +121,12 @@ void Slash::Use(float deltaTime)
 							monster->SetState(MonsterState::Hurt);
 							const float damagevalue = GetDamage();
 
-							unique_ptr<DamageText> damagetext = make_unique<DamageText>();
-							damagetext->SetPos(monster->GetPos() + Vec2(10, -5));
-							damagetext->SetText(damagevalue);
-							damagetext->SetLayer(LAYER_DAMAGETEXT);
+							//unique_ptr<DamageText> damagetext = make_unique<DamageText>();
+							//damagetext->SetPos(monster->GetPos() + Vec2(10, -5));
+							//damagetext->SetText(damagevalue);
+							//damagetext->SetLayer(LAYER_DAMAGETEXT);
 
-							scene->AddActor(::move(damagetext));
+							//scene->AddActor(::move(damagetext));
 						}
 					}
 				}
@@ -151,21 +150,17 @@ void Slash::Use(float deltaTime)
 				pos.y > playerPos.y + GWinSizeY / 2 + 32 ||
 				pos.y < playerPos.y - GWinSizeY / 2 - 32)
 			{
-				GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 
 				vector<unique_ptr<Component>>& colliders = skillObject->GetColliders();
 				for (auto& collider : colliders)
 				{
-					Collider* col = static_cast<Collider*>(collider.get());
+					Collider* col = dynamic_cast<Collider*>(collider.get());
 					EventManager::GetInstance()->AddEvent([col]() {
 						CollisionManager::GetInstance()->RemoveCollider(col);
 						});
 				}
 
-				EventManager::GetInstance()->AddEvent([scene, skillObject, this]() {
-					RemoveSkillObject(skillObject);
-					scene->RemoveActor(skillObject);
-					});
+				_removeSkillObjects.push_back(skillObject);
 			}
 			else
 			{
@@ -173,13 +168,20 @@ void Slash::Use(float deltaTime)
 				skillObject->SetPos(pos + dir * _moveSpeed);
 			}
 		}
-
+		EventManager::GetInstance()->AddEvent([this, scene]() {
+			for (auto& it : _removeSkillObjects)
+			{
+				RemoveSkillObject(it);
+				scene->RemoveActor(it);
+			}
+			_removeSkillObjects.clear();
+			});
 	}
 }
 
 void Slash::SetDamage()
 {
-	Player* player = static_cast<Player*>(GetOwner());
+	Player* player = dynamic_cast<Player*>(GetOwner());
 	float atk = player->GetAttackPower();
 
 	_damage = atk * _atkCoef;

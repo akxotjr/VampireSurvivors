@@ -1590,6 +1590,7 @@ void GameScene::Update()
 {
 	Super::Update();
 
+	Timer();
 	HandleWave();
 
 	CollisionManager::GetInstance()->Update();
@@ -1759,17 +1760,18 @@ bool GameScene::CanGo(Vec2 dir)
 
 void GameScene::Timer()
 {
-	//int32 minute = (int32)_sumTime / 60;
-	//int32 second = (int32)_sumTime % 60;
+	int32 minute = (int32)_sumTime / 60;
+	int32 second = (int32)_sumTime % 60;
 
-	//Font* font = ResourceManager::GetInstance()->GetTextFont(L"TextFont01_12x20");
+	Font* font = ResourceManager::GetInstance()->GetTextFont(L"TextFont01_12x20");
 
-	//unique_ptr<Text> text = make_unique<Text>();
-	//text->SetFont(font);
-	//text->SetPos({ 468, 10 });
+	unique_ptr<Text> text = make_unique<Text>();
+	text->SetFont(font);
+	text->SetPos({ 468, 10 });
 
-	//text->SetLetters("1");
+	text->SetLetters(to_string(minute) + " " + to_string(second));
+	text->Init();
 
-	//AddUI(::move(text));
+	AddUI(::move(text));
 }
 

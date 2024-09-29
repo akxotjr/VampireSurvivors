@@ -67,13 +67,13 @@ void Experience::OnComponentBeginOverlap(Collider* collider, Collider* other)
 {
 	if (other->GetCollisionLayer() == CLT_PLAYER)
 	{
-		Player* player = static_cast<Player*>(other->GetOwner());
+		Player* player = dynamic_cast<Player*>(other->GetOwner());
 		if (player == nullptr) return;
 
 		player->TakeEXP(GetEXP());
 
 		//CollisionManager::GetInstance()->RemoveCollider(collider);
-		GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 		EventManager::GetInstance()->AddEvent([scene, this, collider]() {
 			CollisionManager::GetInstance()->RemoveCollider(collider);
 			scene->RemoveActor(this);

@@ -38,7 +38,7 @@ void Iceburst::Use(float deltaTime)
 	_sumTime += deltaTime;
 	if (_sumTime >= _coolTime)
 	{
-		GameScene* scene = static_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
+		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 		const vector<unique_ptr<Actor>>& monsters = scene->GetMonsters();
 
 		Vec2 pos = {};
@@ -84,7 +84,7 @@ void Iceburst::Use(float deltaTime)
 		AddSkillObject(iceburst.get());
 
 		iceburst->SetSkill2MonsterCallback([this, scene](Collider* other) {
-			Monster* monster = static_cast<Monster*>(other->GetOwner());
+			Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
 			if (monster)
 			{
 				if (monster->TakeDamage(GetDamage()))
@@ -92,14 +92,14 @@ void Iceburst::Use(float deltaTime)
 				else
 				{
 					monster->SetState(MonsterState::Hurt);
-					const float damagevalue = static_cast<int32>(GetDamage());
+					//const float damagevalue = dynamic_cast<int32>(GetDamage());
 
-					unique_ptr<DamageText> damagetext = make_unique<DamageText>();
-					damagetext->SetPos(monster->GetPos() + Vec2(10, 0));
-					damagetext->SetText(damagevalue);
-					damagetext->SetLayer(LAYER_DAMAGETEXT);
+					//unique_ptr<DamageText> damagetext = make_unique<DamageText>();
+					//damagetext->SetPos(monster->GetPos() + Vec2(10, 0));
+					//damagetext->SetText(damagevalue);
+					//damagetext->SetLayer(LAYER_DAMAGETEXT);
 
-					scene->AddActor(::move(damagetext));
+					//scene->AddActor(::move(damagetext));
 				}
 			}
 		});
