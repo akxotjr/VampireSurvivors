@@ -34,7 +34,7 @@ private:
 
 private:
 	static unique_ptr<EventManager> instance;
-
+public:
 	queue<Event> _eventQueue;
 };
 

@@ -40,7 +40,7 @@ void Lightning::Use(float deltaTime)
 		GameScene* scene = dynamic_cast<GameScene*>(SceneManager::GetInstance()->GetCurrentScene());
 		const vector<unique_ptr<Actor>>& monsters = scene->GetMonsters();
 
-		Vec2 pos;
+		Vec2 pos = {};
 		if (monsters.empty())
 		{
 			return;
@@ -71,15 +71,6 @@ void Lightning::Use(float deltaTime)
 		collider->SetCollisionFlag(CLT_MONSTER);
 		collider->SetOwner(lightning.get());
 		collider->SetRadius(20);
-		//collider->SetShowDebug(true);
-
-
-		//TODO
-		//lightning->SetAnimationFinishedCallback([&lightning, scene, &collider]() {
-		//	CollisionManager::GetInstance()->RemoveCollider(collider.get());
-		//	scene->RemoveActor(lightning.get());
-		//});
-
 		CollisionManager::GetInstance()->AddCollider(collider.get());
 		lightning->AddComponent(::move(collider));
 
@@ -94,14 +85,14 @@ void Lightning::Use(float deltaTime)
 				{
 					monster->SetState(MonsterState::Hurt);
 
-					const float damagevalue = static_cast<int32>(GetDamage());
+					//const float damagevalue = static_cast<int32>(GetDamage());
 
-					unique_ptr<DamageText> damagetext = make_unique<DamageText>();
-					damagetext->SetPos(monster->GetPos() + Vec2(10, 0));
-					damagetext->SetText(damagevalue);
-					damagetext->SetLayer(LAYER_DAMAGETEXT);
+					//unique_ptr<DamageText> damagetext = make_unique<DamageText>();
+					//damagetext->SetPos(monster->GetPos() + Vec2(10, 0));
+					//damagetext->SetText(damagevalue);
+					//damagetext->SetLayer(LAYER_DAMAGETEXT);
 
-					scene->AddActor(::move(damagetext));
+					//scene->AddActor(::move(damagetext));
 				}
 			}
 		});

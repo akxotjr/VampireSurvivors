@@ -36,8 +36,8 @@ public:
 	Flipbook* CreateFlipbook(const wstring& key);
 	Flipbook* GetFlipbook(const wstring& key) { return _flipbooks[key].get(); }
 
-	Font* CreateFont(const wstring& key);
-	Font* GetFont(const wstring& key) { return _fonts[key].get(); }
+	Font* CreateTextFont(const wstring& key);
+	Font* GetTextFont(const wstring& key) { return _fonts[key].get(); }
 
 	Tilemap* LoadTilemap(const wstring& key, const wstring& path);
 	Tilemap* GetTilemap(const wstring& key) { return _tilemaps[key].get(); }

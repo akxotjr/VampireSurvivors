@@ -11,6 +11,7 @@
 #include "SphereCollider.h"
 #include "Projectile.h"
 #include "Experience.h"
+#include "EventManager.h"
 
 Monster::Monster()
 {
@@ -140,7 +141,10 @@ void Monster::OnAnimationFinished()
 
 		scene->AddActor(::move(exp));
 
-		scene->RemoveActor(this);
+		//scene->RemoveActor(this);
+		EventManager::GetInstance()->AddEvent([scene, this]() {
+			scene->RemoveActor(this);
+			});
 		return;
 	}
 

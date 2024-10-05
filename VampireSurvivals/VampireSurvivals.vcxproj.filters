@@ -221,9 +221,6 @@
     <ClInclude Include="ForceField.h">
       <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
     </ClInclude>
-    <ClInclude Include="GravityCannon.h">
-      <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
-    </ClInclude>
     <ClInclude Include="Iceburst.h">
       <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
     </ClInclude>
@@ -414,9 +411,6 @@
       <Filter>소스 파일\03. Object\Contents\Monsters</Filter>
     </ClCompile>
     <ClCompile Include="ForceField.cpp">
-      <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
-    </ClCompile>
-    <ClCompile Include="GravityCannon.cpp">
       <Filter>소스 파일\05. Component\Skill\PlayerSkill</Filter>
     </ClCompile>
     <ClCompile Include="Iceburst.cpp">

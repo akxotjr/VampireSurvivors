@@ -74,14 +74,14 @@ void ForceField::Use(float deltaTime)
 				{
 					monster->SetState(MonsterState::Hurt);
 
-					const float damagevalue = static_cast<int32>(GetDamage());
+					//const float damagevalue = dynamic_cast<int32>(GetDamage());
 
-					unique_ptr<DamageText> damagetext = make_unique<DamageText>();
-					damagetext->SetPos(monster->GetPos() + Vec2(10, 0));
-					damagetext->SetText(damagevalue);
-					damagetext->SetLayer(LAYER_DAMAGETEXT);
+					//unique_ptr<DamageText> damagetext = make_unique<DamageText>();
+					//damagetext->SetPos(monster->GetPos() + Vec2(10, 0));
+					//damagetext->SetText(damagevalue);
+					//damagetext->SetLayer(LAYER_DAMAGETEXT);
 
-					scene->AddActor(::move(damagetext));
+					//scene->AddActor(::move(damagetext));
 				}
 			}
 		});
@@ -96,7 +96,7 @@ void ForceField::Use(float deltaTime)
 
 void ForceField::SetDamage()
 {
-	Player* player = dynamic_cast<Player*>(GetOwner());
+	Player* player = static_cast<Player*>(GetOwner());
 	float atk = player->GetAttackPower();
 
 	_damage = atk * _atkCoef;
@@ -107,7 +107,7 @@ void ForceField::SkillLevelUP()
 	Super::SkillLevelUP();
 	_radius += 10;
 
-	SpriteActor* forcefield = dynamic_cast<SpriteActor*>(_skillObjects.front());
+	SpriteActor* forcefield = static_cast<SpriteActor*>(_skillObjects.front());
 	forcefield->SetSprite(_sprites[_skillLevel - 1]);
 }
 

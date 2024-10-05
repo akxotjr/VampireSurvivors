@@ -162,7 +162,6 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Goblin.h" />
-    <ClInclude Include="GravityCannon.h" />
     <ClInclude Include="Iceburst.h" />
     <ClInclude Include="InfiniteBackground.h" />
     <ClInclude Include="InputManager.h" />
@@ -229,7 +228,6 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Goblin.cpp" />
-    <ClCompile Include="GravityCannon.cpp" />
     <ClCompile Include="Iceburst.cpp" />
     <ClCompile Include="InfiniteBackground.cpp" />
     <ClCompile Include="InputManager.cpp" />

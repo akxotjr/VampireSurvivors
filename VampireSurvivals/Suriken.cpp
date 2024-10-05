@@ -78,12 +78,12 @@ void Suriken::Use(float deltaTime)
 						monster->SetState(MonsterState::Hurt);
 						const float damagevalue = static_cast<int32>(GetDamage());
 
-						unique_ptr<DamageText> damagetext = make_unique<DamageText>();
-						damagetext->SetPos(monster->GetPos() + Vec2(10, 0));
-						damagetext->SetText(damagevalue);
-						damagetext->SetLayer(LAYER_DAMAGETEXT);
+						//unique_ptr<DamageText> damagetext = make_unique<DamageText>();
+						//damagetext->SetPos(monster->GetPos() + Vec2(10, 0));
+						//damagetext->SetText(damagevalue);
+						//damagetext->SetLayer(LAYER_DAMAGETEXT);
 
-						scene->AddActor(::move(damagetext));
+						//scene->AddActor(::move(damagetext));
 					}
 				}
 			});
