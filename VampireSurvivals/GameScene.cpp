@@ -776,7 +776,7 @@ void GameScene::Init()
 	{
 		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OgreDeathRight");
 		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OgreDeathRight");
-		fb->SetInfo({ texture, L"FB_OgreDeathRight", {16, 16}, 0, 0, 0, 0.5f });
+		fb->SetInfo({ texture, L"FB_OgreDeathRight", {64, 64}, 0, 0, 0, 0.5f });
 	}
 #pragma endregion
 #pragma region Orc
@@ -1184,7 +1184,7 @@ void GameScene::Init()
 	{
 		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"WolfRiderDeathRight");
 		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_WolfRiderDeathRight");
-		fb->SetInfo({ texture, L"FB_WolfRiderDeathRight", {16, 16}, 0, 0, 0, 0.5f });
+		fb->SetInfo({ texture, L"FB_WolfRiderDeathRight", {64, 64}, 0, 0, 0, 0.5f });
 	}
 #pragma endregion
 #pragma region Owlbear
@@ -1320,7 +1320,7 @@ void GameScene::Init()
 	{
 		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"OwlbearDeathRight");
 		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_OwlbearDeathRight");
-		fb->SetInfo({ texture, L"FB_OwlbearDeathRight", {16, 16}, 0, 0, 0, 0.5f });
+		fb->SetInfo({ texture, L"FB_OwlbearDeathRight", {64, 64}, 0, 0, 0, 0.5f });
 	}
 #pragma endregion
 #pragma region Dragon
@@ -1456,7 +1456,7 @@ void GameScene::Init()
 	{
 		Texture* texture = ResourceManager::GetInstance()->GetTexture(L"DragonDeathRight");
 		Flipbook* fb = ResourceManager::GetInstance()->CreateFlipbook(L"FB_DragonDeathRight");
-		fb->SetInfo({ texture, L"FB_DragonDeathRight", {16, 16}, 0, 0, 0, 0.5f });
+		fb->SetInfo({ texture, L"FB_DragonDeathRight", {64, 64}, 0, 0, 0, 0.5f });
 	}
 #pragma endregion
 
@@ -1479,7 +1479,7 @@ void GameScene::Init()
 #pragma endregion
 #pragma region Font
 	//ResourceManager::GetInstance()->LoadFont(L"DamageText20", L"m3x6", L"Font\\m3x6.ttf", 20);
-	ResourceManager::GetInstance()->CreateFontW
+	//ResourceManager::GetInstance()->CreateFontW
 #pragma endregion
 #pragma region UI
 	ResourceManager::GetInstance()->LoadTexture(L"SelectSkillButton", L"UI\\SelectSkillButton.bmp");
@@ -1600,7 +1600,7 @@ void GameScene::Update()
 {
 	Super::Update();
 
-	//HandleWave();
+	HandleWave();
 
 	CollisionManager::GetInstance()->Update();
 }
