@@ -69,7 +69,8 @@ void Dragon::Update()
 
 	if (_sumTime >= _coolTime)
 	{
-		
+
+		_sumTime = 0.f;
 	}
 	
 }
@@ -100,5 +101,4 @@ void Dragon::ExecutePattern()
 	_onPattern = true;
 
 	// random pattern
-	Dash();
 }

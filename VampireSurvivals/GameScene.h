@@ -49,7 +49,7 @@ public:
 	bool CanGo(Vec2 dir);
 
 
-	void Timer();
+	//void Timer();
 
 protected:
 	float _sumTime = 0.f;

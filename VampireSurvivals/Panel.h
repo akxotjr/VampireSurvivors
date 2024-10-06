@@ -17,6 +17,7 @@ public:
 	void		AddChild(unique_ptr<UI> ui);
 	void		RemoveChild(UI* ui);
 
+
 protected:
 	//vector<UI*> _children;
 	vector<unique_ptr<UI>>	_children;

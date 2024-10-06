@@ -27,6 +27,7 @@
 #include "Button.h"
 #include "Tilemap.h"
 #include "Text.h"
+#include "Timer.h"
 
 
 GameScene::GameScene()
@@ -1582,6 +1583,13 @@ void GameScene::Init()
 		AddUI(::move(bar));
 	}
 
+
+	// test
+	{
+		unique_ptr<Timer> timer = make_unique<Timer>();
+		AddUI(::move(timer));
+	}
+
 	
 	Super::Init();
 }
@@ -1590,7 +1598,7 @@ void GameScene::Update()
 {
 	Super::Update();
 
-	Timer();
+	//Timer();
 	HandleWave();
 
 	CollisionManager::GetInstance()->Update();
@@ -1758,20 +1766,20 @@ bool GameScene::CanGo(Vec2 dir)
 	return false;
 }
 
-void GameScene::Timer()
-{
-	int32 minute = (int32)_sumTime / 60;
-	int32 second = (int32)_sumTime % 60;
-
-	Font* font = ResourceManager::GetInstance()->GetTextFont(L"TextFont01_12x20");
-
-	unique_ptr<Text> text = make_unique<Text>();
-	text->SetFont(font);
-	text->SetPos({ 468, 10 });
-
-	text->SetLetters(to_string(minute) + " " + to_string(second));
-	text->Init();
-
-	AddUI(::move(text));
-}
+//void GameScene::Timer()
+//{
+//	int32 minute = (int32)_sumTime / 60;
+//	int32 second = (int32)_sumTime % 60;
+//
+//	Font* font = ResourceManager::GetInstance()->GetTextFont(L"TextFont01_12x20");
+//
+//	unique_ptr<Text> text = make_unique<Text>();
+//	text->SetFont(font);
+//	text->SetPos({ 468, 10 });
+//
+//	text->SetLetters(to_string(minute) + " " + to_string(second));
+//	text->Init();
+//
+//	AddUI(::move(text));
+//}
 
